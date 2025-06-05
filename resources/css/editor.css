@@ -1,0 +1,7 @@
+@import "trumbowyg/dist/ui/trumbowyg.min.css";
+
+/* Optional: custom tweaks */
+#editor {
+    min-height: 200px;
+    border-radius: 6px;
+}
