@@ -2,7 +2,7 @@
 ## About yvsou-cms
   
  
-**yvsou-cms** is a powerful content management system developed with Laravel. It features fine-grained permission control, dynamic directory structures, and is designed for extensibility and commercial readiness.  yvsou-cms is a newly redeveloped content management system built with Laravel, encompassing the core functionalities of the DSCloud Platform, which was originally launched in 2011 by Hangzhou Domain Zones Technology Co., Ltd.
+**yvsou-cms** is a powerful content management system developed with Laravel by Hangzhou Domain Zones Technology Co., Ltd. and Institute of Future Science and Technology G.K., Tokyo. It features fine-grained permission control, dynamic directory structures, and is designed for extensibility and commercial readiness.  yvsou-cms is a newly redeveloped content management system built with Laravel, encompassing the core functionalities of the DSCloud Platform, which was originally launched in 2011 by Hangzhou Domain Zones Technology Co., Ltd.
 
 ---
 
