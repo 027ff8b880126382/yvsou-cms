@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-08
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-08
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,10 +21,37 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
-<form method="POST" action="/install/step2">
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>yvsou-cms Installer - Step 2</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+</head>
+
+<body class="container py-5">
+  <h2>Step 2: Create Admin</h2>
+
+  <form method="POST" action="{{ route('install.createAdmin') }}">
     @csrf
-    <input name="db_name" placeholder="Database Name" required>
-    <input name="db_user" placeholder="DB Username" required>
-    <input name="db_pass" placeholder="DB Password">
-    <button type="submit">Save and Continue</button>
-</form>
+    <div class="mb-3">
+      <label>Database Host</label>
+      <input name="name" placeholder="Admin Name" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Email Address</label>
+      <input name="Email" placeholder="Email" required>
+    </div>
+
+    <div class="mb-3">
+      <label>Admin Password</label>
+      <input name="password" type="password" placeholder="Password" required>
+    </div>
+
+    <button type="submit">Create Admin</button>
+  </form>
+</body>
+
+</html>

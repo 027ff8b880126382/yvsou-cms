@@ -25,11 +25,11 @@
 use App\Http\Controllers\InstallController;
 
 Route::middleware('prevent.reinstall')->prefix('install')->name('install.')->group(function () {
- 
-    Route::get('/', [InstallController::class, 'welcome']);
-    Route::get('/envForm', [InstallController::class, 'envForm'])->name('envForm');;
-    Route::post('/saveEnv', [InstallController::class, 'saveEnv'])->name('saveEnv');;;
-    Route::post('/step3', [InstallController::class, 'createAdmin']);
-    Route::get('/done', [InstallController::class, 'done']);
 
+  Route::get('/', [InstallController::class, 'welcome']);
+  Route::get('/envForm', [InstallController::class, 'envForm'])->name('envForm');
+  Route::post('/saveEnv', [InstallController::class, 'saveEnv'])->name('saveEnv');
+  Route::post('/createAdmin', [InstallController::class, 'createAdmin'])->name('createAdmin');
+  Route::post('/saveCustomConfig', [InstallController::class, 'saveCustomConfig'])->name('saveCustomConfig');
+ 
 });

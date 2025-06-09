@@ -103,91 +103,68 @@ class InstallController extends Controller
 
     public function saveEnv(Request $request)
     {
+        /*
         $validated = $request->validate([
             'app_name' => 'required',
             'app_url' => 'required|url',
-          #  'default_lang' => 'required',
-          #  'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
             'db_host' => 'required',
             'db_port' => 'required',
             'db_name' => 'required',
             'db_user' => 'required',
             'db_pass' => 'nullable',
         ]);
-        //  logger("message", $validated['lang_set']);
-
-       # $langSet = $validated['lang_set']; // lang_set is already an array
 
 
-        $data = [
-            'APP_NAME' => $validated['app_name'],
-            'APP_ENV' => 'production',
-            'APP_DEBUG' => false,
-            'APP_URL' => $validated['app_url'],
-            'DEFAULT_LANGUAGE' => $validated['default_lang'],
-
-            'LANGUAGESET' => $langSet,  // Store the array directly
-            'DB_CONNECTION' => 'mysql',
-            'DB_HOST' => $validated['db_host'],
-            'DB_PORT' => $validated['db_port'],
-            'DB_DATABASE' => $validated['db_name'],
-            'DB_USERNAME' => $validated['db_user'],
-            'DB_PASSWORD' => $validated['db_pass']
-        ];
- 
         $env = File::get(base_path('env.example'));
-        $env = str_replace('DB_DATABASE=laravel', 'DB_DATABASE=' . $request->db_name, $env);
+        $env = str_replace('DB_DATABASE=yvsou_test', 'DB_DATABASE=' . $request->db_name, $env);
         $env = str_replace('DB_USERNAME=root', 'DB_USERNAME=' . $request->db_user, $env);
         $env = str_replace('DB_PASSWORD=', 'DB_PASSWORD=' . $request->db_pass, $env);
         File::put(base_path('.env'), $env);
-        Artisan::call('config:clear');
-        return redirect('/install/step3');
+        #Artisan::call('config:clear');
+        */
+        //
+        // $sql = file_get_contents(base_path('install.sql'));
+        // DB::unprepared($sql);
+
+        return view('install.step2');
     }
 
 
 
     public function saveCustomConfig(Request $request)
     {
+        /*
         $validated = $request->validate([
-          
+
             'default_lang' => 'required',
             'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
-         
+
         ]);
         //  logger("message", $validated['lang_set']);
 
-       # $langSet = $validated['lang_set']; // lang_set is already an array
+        # $langSet = $validated['lang_set']; // lang_set is already an array
 
         $langSet = "[jp,cn]";
         $data = [
-            
+
             'DEFAULT_LANGUAGE' => $validated['default_lang'],
 
             'LANGUAGESET' => $langSet,  // Store the array directly
-       
+
         ];
 
         $configPath = base_path('config');
         file_put_contents($configPath . '/yvsou_config.php', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         chmod($configPath . '/yvsou_config.php', 0644);
-
-     
+       */
+        return view('install.done');  
     }
 
 
-    public function runMigrations()
-    {
-        try {
-            Artisan::call('migrate', ['--force' => true]);
-        } catch (\Exception $e) {
-            return back()->withErrors(['db' => $e->getMessage()]);
-        }
-
-        return view('install.step3');
-    }
 
     public function createAdmin(Request $request)
     {
+        /*
         $model = \App\Models\User::class;
 
         $model::create([
@@ -195,14 +172,11 @@ class InstallController extends Controller
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+        */
+        #  File::put(storage_path('installed.lock'), now());
 
-        File::put(storage_path('installed.lock'), now());
 
-        return redirect('/install/done');
+        return view('install.step3');
     }
-
-    public function done()
-    {
-        return view('install.done');
-    }
+ 
 }

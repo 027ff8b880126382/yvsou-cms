@@ -38,7 +38,7 @@
         </div>
         <div class="mb-3">
             <label>URL Site</label>
-            <input type="text" name="app_url" class="form-control" value="localhost">
+            <input type="text" name="app_url" class="form-control" value="http://127.0.0.1:8000">
         </div>
         <div class="mb-3">
             <label>Database Host</label>

@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-08
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-08
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 --}}
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Installation Complete</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
@@ -30,25 +31,28 @@
         body {
             background: #f8fafc;
         }
+
         .card {
             max-width: 600px;
             margin: 4rem auto;
             border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
+
 <body>
     <div class="card p-4">
         <h2 class="mb-3 text-center">✅ Installation Complete</h2>
         <p class="text-center">Your yvsou-cms has been successfully installed.</p>
-        
+
         <div class="text-center mt-4">
             <a href="{{ url('/') }}" class="btn btn-success">Go to Homepage</a>
             <a href="{{ url('/login') }}" class="btn btn-primary">Login to Admin</a>
         </div>
 
-        <p class="mt-4 text-muted text-center small">For security, you may now delete the <code>/install</code> folder.</p>
+        <p class="mt-4 text-muted text-center small">For security , do not delete installer.lock file.</p>
     </div>
 </body>
+
 </html>
