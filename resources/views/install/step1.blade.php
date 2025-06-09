@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-08
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-08
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -23,15 +23,18 @@
 --}}
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>yvsou-cms Installer - Step 1</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
 </head>
+
 <body class="container py-5">
-    <h2>Step 1: Environment Setup</h2>
+    
 
     <form method="POST" action="{{ route('install.saveEnv') }}">
         @csrf
+         <h2>Step 1: Environment Setup</h2>
         <div class="mb-3">
             <label>App Name</label>
             <input type="text" name="app_name" class="form-control" value="yvsou-cms">
@@ -50,17 +53,39 @@
         </div>
         <div class="mb-3">
             <label>Database Name</label>
-            <input type="text" name="db_database" class="form-control">
+            <input type="text" name="db_name" class="form-control">
         </div>
         <div class="mb-3">
             <label>Database Username</label>
-            <input type="text" name="db_username" class="form-control">
+            <input type="text" name="db_user" class="form-control">
         </div>
         <div class="mb-3">
             <label>Database Password</label>
-            <input type="password" name="db_password" class="form-control">
+            <input type="password" name="db_pass" class="form-control">
         </div>
+
+        <h2>Step 2: Create Admin</h2>
+
+
+        <div class="mb-3">
+            <label>Admin account Name</label>
+            <input name="name" placeholder="Admin Name" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Email Address</label>
+            <input name="email" placeholder="email" required>
+        </div>
+
+        <div class="mb-3">
+            <label>Admin Password</label>
+            <input name="password" type="password" placeholder="Password" required>
+        </div>
+
+
+
         <button type="submit" class="btn btn-primary">Next Step</button>
     </form>
 </body>
+
 </html>

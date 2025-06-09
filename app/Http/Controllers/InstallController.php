@@ -101,82 +101,126 @@ class InstallController extends Controller
         return view('install.step1');
     }
 
+    public function createdbtables($newdb, $host, $user, $pass, $adminname, $adminemail, $adminpass)
+    {
+        try {
+            // Connect without specifying a database
+            $pdo = new \PDO("mysql:host=$host", $user, $pass);
+            $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
+
+            // Create new database if it doesn't exist
+            $pdo->exec("CREATE DATABASE IF NOT EXISTS `$newdb` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci");
+
+            // Switch to the new database
+            $pdo->exec("USE `$newdb`"); // ✅ CORRECTED LINE
+
+            // Read SQL from file
+            $sql = file_get_contents(base_path('install.sql'));
+
+            // Split and execute multiple statements (safely)
+            foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
+                if (!empty($stmt)) {
+                    $pdo->exec($stmt);
+                }
+            }
+            $stmt = $pdo->prepare("INSERT INTO users (name, email, password, role) VALUES (?, ?, ?, ?)");
+            $stmt->execute([$adminname, $adminemail, $adminpass, 'admin']);
+            echo "Database and tables created successfully.";
+        } catch (\PDOException $e) {
+            die("Error: " . $e->getMessage());
+        }
+    }
+
+
+
     public function saveEnv(Request $request)
     {
-        /*
+        logger("request", [$request->app_name]);
+        logger("request", [$request->app_url]);
+        logger("request", [$request->db_host]);
+        logger("request", [$request->db_port]);
+        logger("request", [$request->db_name]);
+        logger("request", [$request->db_user]);
+        logger("request", [$request->db_pass]);
+
+         logger("request", [$request->name]);
+          logger("request", [$request->email]);
+           logger("request", [$request->password]);
+
         $validated = $request->validate([
             'app_name' => 'required',
-            'app_url' => 'required|url',
+            'app_url' => 'required',
             'db_host' => 'required',
             'db_port' => 'required',
             'db_name' => 'required',
             'db_user' => 'required',
             'db_pass' => 'nullable',
-        ]);
 
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        logger("requestafter", [$validated]);
 
         $env = File::get(base_path('env.example'));
+        $env = str_replace('APP_NAME=yvsou-cms', 'APP_NAME=' . $request->app_name, $env);
+        $env = str_replace('APP_URL=http://127.0.0.1:8000', 'APP_URL=' . $request->app_url, $env);
+        $env = str_replace('DB_HOST=127.0.0.1', 'DB_HOST=' . $request->db_host, $env);
+        $env = str_replace('DB_PORT=3306', 'DB_PORT=' . $request->db_port, $env);
         $env = str_replace('DB_DATABASE=yvsou_test', 'DB_DATABASE=' . $request->db_name, $env);
         $env = str_replace('DB_USERNAME=root', 'DB_USERNAME=' . $request->db_user, $env);
         $env = str_replace('DB_PASSWORD=', 'DB_PASSWORD=' . $request->db_pass, $env);
+
+        $envkeystr = 'base64:' . base64_encode(random_bytes(32));
+        $env = str_replace('APP_KEY=', 'APP_KEY=' . $envkeystr, $env);
+
         File::put(base_path('.env'), $env);
         #Artisan::call('config:clear');
-        */
-        //
-        // $sql = file_get_contents(base_path('install.sql'));
-        // DB::unprepared($sql);
 
-        return view('install.step2');
+        $this->createdbtables($request->db_name, $request->db_host, $request->db_user, $request->db_pass, $request->name, $request->email, bcrypt($request->password));
+
+        return view('install.step3');
     }
 
 
 
     public function saveCustomConfig(Request $request)
     {
-        /*
-        $validated = $request->validate([
 
+        $validated = $request->validate([
+            'is_adminsp' => 'required',
             'default_lang' => 'required',
             'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
-
         ]);
         //  logger("message", $validated['lang_set']);
 
         # $langSet = $validated['lang_set']; // lang_set is already an array
 
-        $langSet = "[jp,cn]";
-        $data = [
 
-            'DEFAULT_LANGUAGE' => $validated['default_lang'],
 
-            'LANGUAGESET' => $langSet,  // Store the array directly
+        #  file_put_contents(config_path('yvsou_example_config.php'), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $cusconfig = File::get(base_path('yvsou_example_config.php'));
+        $cusconfig = str_replace("'DEFAULT_LANGUAGE' => 'ja'", "'DEFAULT_LANGUAGE' => '$request->default_lang'", $cusconfig);
 
-        ];
+        $languages = $request->input('lang_set', []);
 
-        $configPath = base_path('config');
-        file_put_contents($configPath . '/yvsou_config.php', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        chmod($configPath . '/yvsou_config.php', 0644);
-       */
-        return view('install.done');  
+        // Convert to JSON string
+        $jsonLanguages = json_encode($languages);
+
+        $cusconfig = str_replace("'LANGUAGESET' => ['en','zh','ja']", "'LANGUAGESET' => $jsonLanguages ", $cusconfig);
+        $adminstring = 'false';
+        if ($request->is_adminsp === 1)
+            $adminstring = 'true';
+
+        $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
+        File::put(config_path('yvsou_config.php'), contents: $cusconfig);
+        File::put(storage_path('installed.lock'), now());
+
+        return view('install.done');
     }
 
 
 
-    public function createAdmin(Request $request)
-    {
-        /*
-        $model = \App\Models\User::class;
-
-        $model::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
-        ]);
-        */
-        #  File::put(storage_path('installed.lock'), now());
 
 
-        return view('install.step3');
-    }
- 
 }

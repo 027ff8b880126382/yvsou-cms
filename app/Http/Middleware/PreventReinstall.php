@@ -31,8 +31,8 @@ class PreventReinstall
 {
     public function handle(Request $request, Closure $next)
     {
-        $installedConfigFlag = base_path('config/yvsou_config.php');
-        $installedFlag = base_path('storage/installed.lock');
+        $installedConfigFlag = config_path('yvsou_config.php');
+        $installedFlag = storage_path('installed.lock');
         $isInstallRoute = Str::startsWith($request->path(), 'install');
 
         if (file_exists($installedFlag) && file_exists($installedConfigFlag) && $isInstallRoute) {

@@ -19,27 +19,26 @@
 -- Table structure for table `account`
 --
 
-DROP TABLE IF EXISTS `account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `account` (
   `ID` bigint unsigned NOT NULL DEFAULT '0',
-  `username` varchar(156) CHARACTER SET utf8mb3 NOT NULL,
-  `name` varchar(156) CHARACTER SET utf8mb3 NOT NULL,
-  `RealName` varchar(256) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `sex` enum('M','F') CHARACTER SET utf8mb3 DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb3 NOT NULL,
-  `phone_number` varchar(16) CHARACTER SET utf8mb3 DEFAULT NULL,
+  `username` varchar(156) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `name` varchar(156) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `RealName` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `sex` enum('M','F') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `phone_number` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `birthdate` date DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `address` varchar(250) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `hobby` varchar(80) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `publickey` mediumtext CHARACTER SET utf8mb3,
-  `privateKey` mediumtext CHARACTER SET utf8mb3,
-  `signcert` mediumtext CHARACTER SET utf8mb3,
-  `confirmcode` varchar(32) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `IP` varchar(256) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `outIP` varchar(256) CHARACTER SET utf8mb3 DEFAULT NULL,
+  `address` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `hobby` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `publickey` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `privateKey` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `signcert` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
+  `confirmcode` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `IP` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `outIP` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `port` int DEFAULT NULL,
   `outPort` int DEFAULT NULL,
   `loginTime` datetime DEFAULT NULL,
@@ -48,18 +47,18 @@ CREATE TABLE IF NOT EXISTS `account` (
   `savingsRMB` float NOT NULL DEFAULT '0',
   `savingsUSD` float NOT NULL DEFAULT '0',
   `savingsSEM` bigint unsigned NOT NULL DEFAULT '0',
-  `weixin_openID` varchar(200) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `wactivekey` varchar(200) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `wxlogintoken` varchar(25) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `rsaactivekey` varchar(200) CHARACTER SET utf8mb3 DEFAULT NULL,
-  `prohibit` char(1) CHARACTER SET utf8mb3 DEFAULT NULL,
+  `weixin_openID` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `wactivekey` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `wxlogintoken` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `rsaactivekey` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
+  `prohibit` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
   `search_page_right` int NOT NULL DEFAULT '0',
   `IDcheck` tinyint(1) NOT NULL DEFAULT '0',
   `wx_binding` tinyint(1) NOT NULL DEFAULT '0',
   `user_registered` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_activation_key` varchar(255) CHARACTER SET utf8mb3 NOT NULL DEFAULT '  ',
+  `user_activation_key` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '  ',
   `user_status` int NOT NULL DEFAULT '0',
-  `pincode` char(6) CHARACTER SET utf8mb3 DEFAULT NULL
+  `pincode` char(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -67,12 +66,11 @@ CREATE TABLE IF NOT EXISTS `account` (
 -- Table structure for table `cache`
 --
 
-DROP TABLE IF EXISTS `cache`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `cache` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `value` mediumtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `value` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -82,12 +80,11 @@ CREATE TABLE IF NOT EXISTS `cache` (
 -- Table structure for table `cache_locks`
 --
 
-DROP TABLE IF EXISTS `cache_locks`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `cache_locks` (
-  `key` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `owner` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `key` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `owner` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `expiration` int NOT NULL,
   PRIMARY KEY (`key`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -97,7 +94,6 @@ CREATE TABLE IF NOT EXISTS `cache_locks` (
 -- Table structure for table `caches`
 --
 
-DROP TABLE IF EXISTS `caches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `caches` (
@@ -114,7 +110,6 @@ CREATE TABLE IF NOT EXISTS `caches` (
 -- Table structure for table `domain_attachments`
 --
 
-DROP TABLE IF EXISTS `domain_attachments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_attachments` (
@@ -136,7 +131,6 @@ CREATE TABLE IF NOT EXISTS `domain_attachments` (
 -- Table structure for table `domain_comments`
 --
 
-DROP TABLE IF EXISTS `domain_comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_comments` (
@@ -159,7 +153,6 @@ CREATE TABLE IF NOT EXISTS `domain_comments` (
 -- Table structure for table `domain_download_zips`
 --
 
-DROP TABLE IF EXISTS `domain_download_zips`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_download_zips` (
@@ -177,7 +170,6 @@ CREATE TABLE IF NOT EXISTS `domain_download_zips` (
 -- Table structure for table `domain_grant_groups`
 --
 
-DROP TABLE IF EXISTS `domain_grant_groups`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_grant_groups` (
@@ -190,7 +182,6 @@ CREATE TABLE IF NOT EXISTS `domain_grant_groups` (
 -- Table structure for table `domain_grant_users`
 --
 
-DROP TABLE IF EXISTS `domain_grant_users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_grant_users` (
@@ -204,7 +195,6 @@ CREATE TABLE IF NOT EXISTS `domain_grant_users` (
 -- Table structure for table `domain_id_manages`
 --
 
-DROP TABLE IF EXISTS `domain_id_manages`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_id_manages` (
@@ -219,7 +209,6 @@ CREATE TABLE IF NOT EXISTS `domain_id_manages` (
 -- Table structure for table `domain_managers`
 --
 
-DROP TABLE IF EXISTS `domain_managers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_managers` (
@@ -248,7 +237,6 @@ CREATE TABLE IF NOT EXISTS `domain_managers` (
 -- Table structure for table `domain_msg_casts`
 --
 
-DROP TABLE IF EXISTS `domain_msg_casts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_msg_casts` (
@@ -265,7 +253,6 @@ CREATE TABLE IF NOT EXISTS `domain_msg_casts` (
 -- Table structure for table `domain_msg_centers`
 --
 
-DROP TABLE IF EXISTS `domain_msg_centers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_msg_centers` (
@@ -288,7 +275,6 @@ CREATE TABLE IF NOT EXISTS `domain_msg_centers` (
 -- Table structure for table `domain_msg_reads`
 --
 
-DROP TABLE IF EXISTS `domain_msg_reads`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_msg_reads` (
@@ -303,7 +289,6 @@ CREATE TABLE IF NOT EXISTS `domain_msg_reads` (
 -- Table structure for table `domain_msg_templates`
 --
 
-DROP TABLE IF EXISTS `domain_msg_templates`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_msg_templates` (
@@ -319,7 +304,6 @@ CREATE TABLE IF NOT EXISTS `domain_msg_templates` (
 -- Table structure for table `domain_names`
 --
 
-DROP TABLE IF EXISTS `domain_names`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_names` (
@@ -336,7 +320,6 @@ CREATE TABLE IF NOT EXISTS `domain_names` (
 -- Table structure for table `domain_post_ids`
 --
 
-DROP TABLE IF EXISTS `domain_post_ids`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_post_ids` (
@@ -358,7 +341,6 @@ CREATE TABLE IF NOT EXISTS `domain_post_ids` (
 -- Table structure for table `domain_posts`
 --
 
-DROP TABLE IF EXISTS `domain_posts`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_posts` (
@@ -385,7 +367,6 @@ CREATE TABLE IF NOT EXISTS `domain_posts` (
 -- Table structure for table `domain_right_managers`
 --
 
-DROP TABLE IF EXISTS `domain_right_managers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_right_managers` (
@@ -402,7 +383,6 @@ CREATE TABLE IF NOT EXISTS `domain_right_managers` (
 -- Table structure for table `domain_search_dirs`
 --
 
-DROP TABLE IF EXISTS `domain_search_dirs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_search_dirs` (
@@ -416,12 +396,11 @@ CREATE TABLE IF NOT EXISTS `domain_search_dirs` (
 -- Table structure for table `domain_search_keys`
 --
 
-DROP TABLE IF EXISTS `domain_search_keys`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_search_keys` (
   `lang` int NOT NULL,
-  `keyword` varchar(500) CHARACTER SET utf8mb3 NOT NULL,
+  `keyword` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `numbers` decimal(32,0) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -430,7 +409,6 @@ CREATE TABLE IF NOT EXISTS `domain_search_keys` (
 -- Table structure for table `domain_tree_child_ids`
 --
 
-DROP TABLE IF EXISTS `domain_tree_child_ids`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_tree_child_ids` (
@@ -444,7 +422,6 @@ CREATE TABLE IF NOT EXISTS `domain_tree_child_ids` (
 -- Table structure for table `domain_trees`
 --
 
-DROP TABLE IF EXISTS `domain_trees`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_trees` (
@@ -461,7 +438,6 @@ CREATE TABLE IF NOT EXISTS `domain_trees` (
 -- Table structure for table `domain_unread_subs`
 --
 
-DROP TABLE IF EXISTS `domain_unread_subs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_unread_subs` (
@@ -476,7 +452,6 @@ CREATE TABLE IF NOT EXISTS `domain_unread_subs` (
 -- Table structure for table `domain_upload_attaches`
 --
 
-DROP TABLE IF EXISTS `domain_upload_attaches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_upload_attaches` (
@@ -496,7 +471,6 @@ CREATE TABLE IF NOT EXISTS `domain_upload_attaches` (
 -- Table structure for table `domain_upload_attachs`
 --
 
-DROP TABLE IF EXISTS `domain_upload_attachs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_upload_attachs` (
@@ -516,13 +490,12 @@ CREATE TABLE IF NOT EXISTS `domain_upload_attachs` (
 -- Table structure for table `domain_user_search_keys`
 --
 
-DROP TABLE IF EXISTS `domain_user_search_keys`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_user_search_keys` (
   `userid` int NOT NULL,
   `lang` int NOT NULL,
-  `keyword` varchar(500) CHARACTER SET utf8mb3 NOT NULL,
+  `keyword` varchar(500) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `numbers` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -531,7 +504,6 @@ CREATE TABLE IF NOT EXISTS `domain_user_search_keys` (
 -- Table structure for table `dscloud_msg_models`
 --
 
-DROP TABLE IF EXISTS `dscloud_msg_models`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `dscloud_msg_models` (
@@ -548,7 +520,6 @@ CREATE TABLE IF NOT EXISTS `dscloud_msg_models` (
 -- Table structure for table `dscloud_msg_type`
 --
 
-DROP TABLE IF EXISTS `dscloud_msg_type`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `dscloud_msg_type` (
@@ -563,7 +534,6 @@ CREATE TABLE IF NOT EXISTS `dscloud_msg_type` (
 -- Table structure for table `dscloud_msg_types`
 --
 
-DROP TABLE IF EXISTS `dscloud_msg_types`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `dscloud_msg_types` (
@@ -580,7 +550,6 @@ CREATE TABLE IF NOT EXISTS `dscloud_msg_types` (
 -- Table structure for table `dscloud_msgModel`
 --
 
-DROP TABLE IF EXISTS `dscloud_msgModel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `dscloud_msgModel` (
@@ -595,16 +564,15 @@ CREATE TABLE IF NOT EXISTS `dscloud_msgModel` (
 -- Table structure for table `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `failed_jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `failed_jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
   UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`)
@@ -615,7 +583,6 @@ CREATE TABLE IF NOT EXISTS `failed_jobs` (
 -- Table structure for table `group_emails`
 --
 
-DROP TABLE IF EXISTS `group_emails`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `group_emails` (
@@ -635,7 +602,6 @@ CREATE TABLE IF NOT EXISTS `group_emails` (
 -- Table structure for table `invite_friends`
 --
 
-DROP TABLE IF EXISTS `invite_friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `invite_friends` (
@@ -651,17 +617,16 @@ CREATE TABLE IF NOT EXISTS `invite_friends` (
 -- Table structure for table `job_batches`
 --
 
-DROP TABLE IF EXISTS `job_batches`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `job_batches` (
-  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `total_jobs` int NOT NULL,
   `pending_jobs` int NOT NULL,
   `failed_jobs` int NOT NULL,
-  `failed_job_ids` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `options` mediumtext COLLATE utf8mb4_unicode_ci,
+  `failed_job_ids` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `options` mediumtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `cancelled_at` int DEFAULT NULL,
   `created_at` int NOT NULL,
   `finished_at` int DEFAULT NULL,
@@ -673,13 +638,12 @@ CREATE TABLE IF NOT EXISTS `job_batches` (
 -- Table structure for table `jobs`
 --
 
-DROP TABLE IF EXISTS `jobs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `jobs` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `queue` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `attempts` tinyint unsigned NOT NULL,
   `reserved_at` int unsigned DEFAULT NULL,
   `available_at` int unsigned NOT NULL,
@@ -693,7 +657,6 @@ CREATE TABLE IF NOT EXISTS `jobs` (
 -- Table structure for table `logs`
 --
 
-DROP TABLE IF EXISTS `logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `logs` (
@@ -716,12 +679,11 @@ CREATE TABLE IF NOT EXISTS `logs` (
 -- Table structure for table `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `migrations` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -731,12 +693,11 @@ CREATE TABLE IF NOT EXISTS `migrations` (
 -- Table structure for table `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `password_reset_tokens`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -746,20 +707,19 @@ CREATE TABLE IF NOT EXISTS `password_reset_tokens` (
 -- Table structure for table `post_reversions`
 --
 
-DROP TABLE IF EXISTS `post_reversions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `post_reversions` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   `postid` bigint unsigned NOT NULL,
   `userid` bigint unsigned NOT NULL,
-  `post_title` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `post_title` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `version` int unsigned NOT NULL DEFAULT '1',
-  `base_content` longtext COLLATE utf8mb4_unicode_ci,
-  `diff` longtext COLLATE utf8mb4_unicode_ci,
-  `ip` varchar(45) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `base_content` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `diff` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ip` varchar(45) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `md5code` varchar(64) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `md5code` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `post_reversions_postid_foreign` (`postid`),
   KEY `post_reversions_userid_foreign` (`userid`),
@@ -772,7 +732,6 @@ CREATE TABLE IF NOT EXISTS `post_reversions` (
 -- Table structure for table `process_invite_friends`
 --
 
-DROP TABLE IF EXISTS `process_invite_friends`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `process_invite_friends` (
@@ -788,14 +747,13 @@ CREATE TABLE IF NOT EXISTS `process_invite_friends` (
 -- Table structure for table `shortcodes`
 --
 
-DROP TABLE IF EXISTS `shortcodes`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `shortcodes` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `view` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `callback` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `view` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `callback` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -807,14 +765,13 @@ CREATE TABLE IF NOT EXISTS `shortcodes` (
 -- Table structure for table `user_log`
 --
 
-DROP TABLE IF EXISTS `user_log`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `user_log` (
   `user_login` varchar(60) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `log_type` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `log_date` datetime NOT NULL,
-  `ip` varchar(64) CHARACTER SET latin1 NOT NULL,
+  `ip` varchar(64) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `blog_id` int NOT NULL,
   `content` varchar(568) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
   `where` varchar(20) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
@@ -827,7 +784,6 @@ CREATE TABLE IF NOT EXISTS `user_log` (
 -- Table structure for table `user_logs`
 --
 
-DROP TABLE IF EXISTS `user_logs`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `user_logs` (
@@ -849,20 +805,19 @@ CREATE TABLE IF NOT EXISTS `user_logs` (
 -- Table structure for table `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `users` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `alias_name` varchar(255) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `alias_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  `role` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `role` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `users_email_unique` (`email`),
   UNIQUE KEY `name_UNIQUE` (`name`),
@@ -879,4 +834,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-05 16:33:21
+-- Dump completed on 2025-06-10  5:21:22

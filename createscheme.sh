@@ -1,3 +1,2 @@
-mysqldump -u your_user -p --no-data your_database_name \
-  | sed 's/^CREATE TABLE /CREATE TABLE IF NOT EXISTS /' > install.sql
+mysqldump -u your_user -p --no-data --skip-add-drop-table your_database | sed 's/^CREATE TABLE /CREATE TABLE IF NOT EXISTS /' > install.sql
 
