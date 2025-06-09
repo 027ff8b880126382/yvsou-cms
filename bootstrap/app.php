@@ -31,8 +31,10 @@ $app = Application::configure(basePath: dirname(__DIR__))
         */
 
         // ✅ Route middleware (used by name in routes)
+    
         $middleware->alias([
             'role' => \App\Http\Middleware\CheckRole::class,
+            'prevent.reinstall' => PreventReinstall::class,
         ]);
 
     })
@@ -45,8 +47,7 @@ app()->booted(function () {
     // AppServiceProvider.php
 
     config(['app.pro' => file_exists(base_path('pro.version'))]);
-
-    app(Router::class)->aliasMiddleware('prevent.install', PreventReinstall::class);
 });
+
 
 return $app;

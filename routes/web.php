@@ -61,13 +61,13 @@ Route::middleware(['SetLocale'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
     // other routes...
 });
-*/
+ 
 Route::middleware('prevent.install')->group(function () {
-    Route::get('/install', [InstallController::class, 'form'])->name('install.form');
-    Route::post('/install', [InstallController::class, 'submit'])->name('install.submit');
+    Route::get('/install', [InstallController::class, 'welcome'])->name('install.welcome');
+   # Route::post('/install', [InstallController::class, 'submit'])->name('install.submit');
 });
 
-
+*/
 Route::middleware(['auth'])->get('/dashboard', function () {
     return view('admin.dashboard');
 })->name('dashboard'); // ← this "name" is required
@@ -95,5 +95,6 @@ require __DIR__ . '/post.php';
 require __DIR__ . '/group.php';
 require __DIR__ . '/toggle.php';
 require __DIR__ . '/error.php';
+require __DIR__ . '/ Installer.php';
 
 

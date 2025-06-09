@@ -26,17 +26,18 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Str;
 class PreventReinstall
 {
     public function handle(Request $request, Closure $next)
     {
-        $configFile = base_path('bootstrap/config/yvsou_config.php');
+        $installedConfigFlag = base_path('config/yvsou_config.php');
+        $installedFlag = base_path('storage/installed.lock');
+        $isInstallRoute = Str::startsWith($request->path(), 'install');
 
-        if (file_exists($configFile)) {
+        if (file_exists($installedFlag) && file_exists($installedConfigFlag) && $isInstallRoute) {
             return redirect('/')->with('message', '✅ Site already installed.');
         }
-
         return $next($request);
     }
 }

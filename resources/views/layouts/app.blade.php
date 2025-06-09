@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-04
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-04
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -55,9 +55,14 @@
 
 <body
     class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
-
-
+    @if (session('message'))
+        <div class="alert alert-success">
+            {{ session('message') }}
+        </div>
+    @endif
     @include('components.header')
+
+
 
     <div class="mt-8">
         <main class="min-h-screen py-6">
@@ -68,13 +73,7 @@
     @include('components.footer')
     <!-- Page-specific scripts -->
 
-    @if (session('message'))
-        <script>
-            window.onload = function () {
-                alert(@json(session('message')));
-            };
-        </script>
-    @endif
+
     @stack('scripts')
 </body>
 

@@ -1,6 +1,5 @@
 <?php
 
-
 return array(
     "DEFAULT_LANGUAGE" => "ja",
     "LANGUAGESET" => [

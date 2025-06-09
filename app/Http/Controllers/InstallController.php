@@ -24,37 +24,100 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 
 class InstallController extends Controller
 {
-    public function form()
+    function fixPermissions($dir)
     {
-        $path = base_path('config/yvsou_config.php');
-        if (file_exists($path)) {
-            return redirect('/')->with('message', 'Site already installed.');
-        }
+        if (!is_dir($dir))
+            return;
 
-        return view('install');
+        $items = scandir($dir);
+        foreach ($items as $item) {
+            if ($item === '.' || $item === '..')
+                continue;
+
+            $path = $dir . DIRECTORY_SEPARATOR . $item;
+            if (is_dir($path)) {
+                @chmod($path, 0775);
+                $this->fixPermissions($path); // recursive
+            } else {
+                @chmod($path, 0664);
+            }
+        }
+        @chmod($dir, 0775);
     }
 
-    public function submit(Request $request)
+
+
+
+    public function welcome()
+    {
+
+        return view('install.welcome');
+
+    }
+
+
+    public function envForm()
+    {
+
+        /* 
+        // Check storage structure
+        $dirs = [
+            'storage/app',
+            'storage/framework/cache',
+            'storage/framework/sessions',
+            'storage/framework/testing',
+            'storage/framework/views',
+            'storage/logs',
+        ];
+
+        foreach ($dirs as $dir) {
+            if (!is_dir($dir)) {
+                mkdir($dir, 0755, true);
+            }
+        }
+
+        $writableDirs = ['storage', 'bootstrap/cache'];
+        foreach ($writableDirs as $dir) {
+            fixPermissions($dir);
+            if (!is_writable($dir)) {
+                die("❌ '$dir' is not writable and could not be fixed. Please set permissions manually.");
+            }
+        }
+
+         
+
+        // Optionally clear old temp files
+        array_map('unlink', glob('storage/logs/*.log'));
+        array_map('unlink', glob('storage/framework/sessions/*'));
+        array_map('unlink', glob('storage/framework/views/*'));
+        */
+        return view('install.step1');
+    }
+
+    public function saveEnv(Request $request)
     {
         $validated = $request->validate([
             'app_name' => 'required',
             'app_url' => 'required|url',
-            'default_lang' => 'required',
-            'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
+          #  'default_lang' => 'required',
+          #  'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
             'db_host' => 'required',
             'db_port' => 'required',
             'db_name' => 'required',
             'db_user' => 'required',
             'db_pass' => 'nullable',
         ]);
-      //  logger("message", $validated['lang_set']);
+        //  logger("message", $validated['lang_set']);
 
-        $langSet = $validated['lang_set']; // lang_set is already an array
-       
+       # $langSet = $validated['lang_set']; // lang_set is already an array
+
 
         $data = [
             'APP_NAME' => $validated['app_name'],
@@ -71,15 +134,75 @@ class InstallController extends Controller
             'DB_USERNAME' => $validated['db_user'],
             'DB_PASSWORD' => $validated['db_pass']
         ];
+ 
+        $env = File::get(base_path('env.example'));
+        $env = str_replace('DB_DATABASE=laravel', 'DB_DATABASE=' . $request->db_name, $env);
+        $env = str_replace('DB_USERNAME=root', 'DB_USERNAME=' . $request->db_user, $env);
+        $env = str_replace('DB_PASSWORD=', 'DB_PASSWORD=' . $request->db_pass, $env);
+        File::put(base_path('.env'), $env);
+        Artisan::call('config:clear');
+        return redirect('/install/step3');
+    }
+
+
+
+    public function saveCustomConfig(Request $request)
+    {
+        $validated = $request->validate([
+          
+            'default_lang' => 'required',
+            'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
+         
+        ]);
+        //  logger("message", $validated['lang_set']);
+
+       # $langSet = $validated['lang_set']; // lang_set is already an array
+
+        $langSet = "[jp,cn]";
+        $data = [
+            
+            'DEFAULT_LANGUAGE' => $validated['default_lang'],
+
+            'LANGUAGESET' => $langSet,  // Store the array directly
+       
+        ];
 
         $configPath = base_path('config');
-        if (!is_dir($configPath)) {
-            mkdir($configPath, 0755, true);
-        }
-
         file_put_contents($configPath . '/yvsou_config.php', json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
         chmod($configPath . '/yvsou_config.php', 0644);
 
-        return redirect('/')->with('message', '✅ Site installed!');
+     
+    }
+
+
+    public function runMigrations()
+    {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+        } catch (\Exception $e) {
+            return back()->withErrors(['db' => $e->getMessage()]);
+        }
+
+        return view('install.step3');
+    }
+
+    public function createAdmin(Request $request)
+    {
+        $model = \App\Models\User::class;
+
+        $model::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
+        ]);
+
+        File::put(storage_path('installed.lock'), now());
+
+        return redirect('/install/done');
+    }
+
+    public function done()
+    {
+        return view('install.done');
     }
 }

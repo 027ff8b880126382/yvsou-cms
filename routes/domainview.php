@@ -62,43 +62,43 @@ Route::middleware(['auth'])->prefix('domainview')->name('domainview.')->group(fu
 
 
 
-  Route::post('setpub', [DomainViewController::class, 'setpub'])
-    ->name('setpub');
+  //Route::post('setpub', [DomainViewController::class, 'setpub'])
+  //  ->name('setpub');
 
   Route::patch('/setpub/{groupid}', [DomainViewController::class, 'setpub'])->name('setpub');
 
 
 
-  Route::post('setprivate', [DomainViewController::class, 'setprivate'])
-    ->name('setprivate');
+  //Route::post('setprivate', [DomainViewController::class, 'setprivate'])
+  //  ->name('setprivate');
 
   Route::patch('/setprivate/{groupid}', [DomainViewController::class, 'setprivate'])->name('setprivate');
 
 
 
-  Route::post('trash', [DomainViewController::class, 'trash'])
-    ->name('trash');
+ // Route::post('trash', [DomainViewController::class, 'trash'])
+ //   ->name('trash');
 
   Route::patch('/trash/{groupid}', [DomainViewController::class, 'trash'])->name('trash');
 
 
 
-  Route::post('untrash', [DomainViewController::class, 'untrash'])
-    ->name('untrash');
+ // Route::post('untrash', [DomainViewController::class, 'untrash'])
+ //   ->name('untrash');
 
   Route::patch('/{groupid}/untrash', [DomainViewController::class, 'untrash'])->name('untrash');
 
 
 
-  Route::post('auditcheck', [DomainViewController::class, 'auditcheck'])
-    ->name('auditcheck');
+  //Route::post('auditcheck', [DomainViewController::class, 'auditcheck'])
+  //  ->name('auditcheck');
 
   Route::patch('/{groupid}/auditcheck', [DomainViewController::class, 'auditcheck'])->name('auditcheck');
 
 
 
-  Route::post('audituncheck', [DomainViewController::class, 'audituncheck'])
-    ->name('audituncheck');
+  //Route::post('audituncheck', [DomainViewController::class, 'audituncheck'])
+  //  ->name('audituncheck');
 
   Route::patch('/{groupid}/audituncheck', [DomainViewController::class, 'audituncheck'])->name('audituncheck');
 

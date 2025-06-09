@@ -64,20 +64,20 @@ Route::middleware(['auth'])->prefix('post')->name('post.')->group(function () {
   Route::get('/copygroup/{groupid}/{pid}', [PostController::class, 'copygroup'])->name('copygroup');
   Route::get('/movelang/{groupid}/{pid}', [PostController::class, 'movelang'])->name('movelang');
 
-  Route::post('movegroupupdate', [PostController::class, 'movegroupupdate'])
-    ->name('movegroupupdate');
+  //Route::post('movegroupupdate', [PostController::class, 'movegroupupdate'])
+  //  ->name('movegroupupdate');
 
   Route::patch('/{groupid}/{pid}/movegroupupdate', [PostController::class, 'movegroupupdate'])->name('movegroupupdate');
 
 
-  Route::post('copygroupupdate', [PostController::class, 'copygroupupdate'])
-    ->name('copygroupupdate');
+  //Route::post('copygroupupdate', [PostController::class, 'copygroupupdate'])
+  //  ->name('copygroupupdate');
 
   Route::patch('/{groupid}/{pid}/copygroupupdate', [PostController::class, 'copygroupupdate'])->name('copygroupupdate');
 
 
-  Route::post('movelangupdate', [PostController::class, 'movelangupdate'])
-    ->name('movelangupdate');
+  #Route::post('movelangupdate', [PostController::class, 'movelangupdate'])
+  #  ->name('movelangupdate');
 
  
   Route::patch('/{groupid}/{pid}/movelangupdate', [PostController::class, 'movelangupdate'])->name('movelangupdate');
@@ -100,36 +100,36 @@ Route::middleware(['auth'])->prefix('post')->name('post.')->group(function () {
 
 
 
-  Route::post('destroy', [PostController::class, 'destroy'])
-    ->name('destroy');
+ // Route::post('destroy', [PostController::class, 'destroy'])
+ //   ->name('destroy');
 
   Route::delete('/{groupid}/{pid}', [PostController::class, 'destroy'])->name('destroy');
 
 
 
-  Route::post('trash', [PostController::class, 'trash'])
-    ->name('trash');
+  //Route::post('trash', [PostController::class, 'trash'])
+  //  ->name('trash');
 
   Route::patch('/{groupid}/{pid}/trash', [PostController::class, 'trash'])->name('trash');
 
 
 
-  Route::post('untrash', [PostController::class, 'untrash'])
-    ->name('untrash');
+  //Route::post('untrash', [PostController::class, 'untrash'])
+  //  ->name('untrash');
 
   Route::patch('/{groupid}/{pid}/untrash', [PostController::class, 'untrash'])->name('untrash');
 
 
 
-  Route::post('auditcheck', [PostController::class, 'auditcheck'])
-    ->name('auditcheck');
+  //Route::post('auditcheck', [PostController::class, 'auditcheck'])
+  //  ->name('auditcheck');
 
   Route::patch('/{groupid}/{pid}/auditcheck', [PostController::class, 'auditcheck'])->name('auditcheck');
 
 
 
-  Route::post('audituncheck', [PostController::class, 'audituncheck'])
-    ->name('audituncheck');
+  //Route::post('audituncheck', [PostController::class, 'audituncheck'])
+  //  ->name('audituncheck');
 
   Route::patch('/{groupid}/{pid}/audituncheck', [PostController::class, 'audituncheck'])->name('audituncheck');
 
