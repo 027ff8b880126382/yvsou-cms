@@ -47,9 +47,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+         
 
         // app(LocaleService::class)->setLocaleFromCookie();
-        ConstantService::$adminHasAllRights = config('yvsou_config.ADMINHASRIGHTS');
+        ConstantService::$adminHasAllRights = config('yvsou_config.ADMINHASRIGHTS') ?? false;
 
         View::composer('*', function ($view) {
             $localeService = app(LocaleService::class);

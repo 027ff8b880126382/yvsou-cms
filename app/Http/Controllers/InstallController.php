@@ -28,6 +28,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
+use Dotenv\Dotenv;
 
 class InstallController extends Controller
 {
@@ -66,38 +67,12 @@ class InstallController extends Controller
     public function envForm()
     {
 
-        /* 
-        // Check storage structure
-        $dirs = [
-            'storage/app',
-            'storage/framework/cache',
-            'storage/framework/sessions',
-            'storage/framework/testing',
-            'storage/framework/views',
-            'storage/logs',
-        ];
-
-        foreach ($dirs as $dir) {
-            if (!is_dir($dir)) {
-                mkdir($dir, 0755, true);
-            }
-        }
-
-        $writableDirs = ['storage', 'bootstrap/cache'];
-        foreach ($writableDirs as $dir) {
-            fixPermissions($dir);
-            if (!is_writable($dir)) {
-                die("❌ '$dir' is not writable and could not be fixed. Please set permissions manually.");
-            }
-        }
-
-         
 
         // Optionally clear old temp files
-        array_map('unlink', glob('storage/logs/*.log'));
-        array_map('unlink', glob('storage/framework/sessions/*'));
-        array_map('unlink', glob('storage/framework/views/*'));
-        */
+        array_map('unlink', glob('../storage/logs/*.log'));
+        array_map('unlink', glob('../storage/framework/sessions/*'));
+        array_map('unlink', glob('../storage/framework/views/*'));
+
         return view('install.step1');
     }
 
@@ -143,9 +118,9 @@ class InstallController extends Controller
         logger("request", [$request->db_user]);
         logger("request", [$request->db_pass]);
 
-         logger("request", [$request->name]);
-          logger("request", [$request->email]);
-           logger("request", [$request->password]);
+        logger("request", [$request->name]);
+        logger("request", [$request->email]);
+        logger("request", [$request->password]);
 
         $validated = $request->validate([
             'app_name' => 'required',
@@ -183,6 +158,37 @@ class InstallController extends Controller
     }
 
 
+    public function reloadall()
+    {
+
+        // Reload .env
+        $dotenv = Dotenv::createImmutable(base_path());
+        $dotenv->load();
+
+        // Rebuild config repository
+        app()->forgetInstance('config');
+        $config = new \Illuminate\Config\Repository;
+
+        foreach (glob(config_path('*.php')) as $file) {
+            $name = basename($file, '.php');
+            $config->set($name, require $file);
+        }
+
+        app()->instance('config', $config);
+
+        \DB::purge(); // clears all DB connections
+
+        // Optionally reset default connection manually
+        config(['database.default' => env('DB_CONNECTION', 'mysql')]);
+
+        \DB::reconnect(); // reconnect with new config
+
+        $sessionPath = storage_path('framework/sessions');
+        foreach (glob("$sessionPath/*") as $file) {
+            unlink($file);
+        }
+
+    }
 
     public function saveCustomConfig(Request $request)
     {
@@ -215,7 +221,7 @@ class InstallController extends Controller
         $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
         File::put(config_path('yvsou_config.php'), contents: $cusconfig);
         File::put(storage_path('installed.lock'), now());
-
+        $this->reloadall();
         return view('install.done');
     }
 

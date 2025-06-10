@@ -51,7 +51,7 @@
             <a href="{{ url('/login') }}" class="btn btn-primary">Login to Admin</a>
         </div>
 
-        <p class="mt-4 text-muted text-center small">For security , do not delete installer.lock file.</p>
+        <p class="mt-4 text-muted text-center small">For security , do not delete installed.lock file.</p>
     </div>
 </body>
 
