@@ -21,11 +21,18 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
-@extends('layouts.app')
 
-@section('title', 'Welcome Installer')
+<!DOCTYPE html>
+<html lang="en">
 
-@section('content')
+<head>
+    <meta charset="UTF-8" />
+    <title>Laravel Install Wizard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-8">
     <div class="container mx-auto py-12 text-center">
         <h1 class="text-4xl font-bold mb-6">Welcome to yvsou-cms Installer</h1>
         <p class="text-lg mb-8">This installer will guide you through the setup of your new yvsou-cms site.</p>
@@ -40,4 +47,7 @@
             Start Installation
         </a>
     </div>
-@endsection
+
+</body>
+
+</html>
