@@ -34,7 +34,7 @@
 
     <form method="POST" action="{{ route('install.saveEnv') }}">
         @csrf
-         <h2>Step 1: Environment Setup</h2>
+         <h2> 1: Environment Setup</h2>
         <div class="mb-3">
             <label>App Name</label>
             <input type="text" name="app_name" class="form-control" value="yvsou-cms">
@@ -64,7 +64,7 @@
             <input type="password" name="db_pass" class="form-control">
         </div>
 
-        <h2>Step 2: Create Admin</h2>
+        <h2> 2: Create Admin</h2>
 
 
         <div class="mb-3">
@@ -82,9 +82,49 @@
             <input name="password" type="password" placeholder="Password" required>
         </div>
 
+<h2> 3: Cunstom Config</h2>
 
+<div class="mb-3">
+      <label>Admin Super Power ? </label>
 
-        <button type="submit" class="btn btn-primary">Next Step</button>
+      <label for="is_adminsp" class="flex items-center cursor-pointer">
+       
+        <div class="relative">
+          <input id="is_adminsp" type="checkbox" name="is_adminsp" value="1" class="sr-only peer">
+          <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-green-500"></div>
+          <div
+            class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-full">
+          </div>
+        </div>
+
+      </label>
+
+    </div>
+     
+    <div class="mb-3">
+
+      <label for="language" class="block text-sm font-medium text-gray-700 mb-1">🌐 Choose default Language</label>
+      <select name="default_lang" id="default_lang"
+        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
+        <option value="en">🇺🇸 English</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="fr">🇫🇷 Français</option>
+      </select>
+    </div>
+
+     
+    <div class="mb-3">
+      <label for="multilanguages" class="block text-sm font-medium text-gray-700 mb-1">🌐 Choose Languages</label>
+      <select id="lang_set" name="lang_set[]" multiple
+        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-40">
+        <option value="en">🇺🇸 English</option>
+        <option value="zh">🇨🇳 中文</option>
+        <option value="ja">🇯🇵 日本語</option>
+        <option value="fr">🇫🇷 Français</option>
+      </select>
+    </div>
+        <button type="submit" class="btn btn-primary">Create   Config</button>
     </form>
 </body>
 

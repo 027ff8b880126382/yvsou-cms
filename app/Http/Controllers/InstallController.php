@@ -134,8 +134,35 @@ class InstallController extends Controller
             'name' => 'required',
             'email' => 'required',
             'password' => 'required',
+
+            'is_adminsp' => 'required',
+            'default_lang' => 'required',
+            'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
+
         ]);
         logger("requestafter", [$validated]);
+
+
+
+        #  file_put_contents(config_path('yvsou_example_config.php'), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
+        $cusconfig = File::get(base_path('yvsou_example_config.php'));
+        $cusconfig = str_replace("'DEFAULT_LANGUAGE' => 'ja'", "'DEFAULT_LANGUAGE' => '$request->default_lang'", $cusconfig);
+
+        $languages = $request->input('lang_set', []);
+
+        // Convert to JSON string
+        $jsonLanguages = json_encode($languages);
+
+        $cusconfig = str_replace("'LANGUAGESET' => ['en','zh','ja']", "'LANGUAGESET' => $jsonLanguages ", $cusconfig);
+        $adminstring = 'false';
+        if ($request->is_adminsp === 1)
+            $adminstring = 'true';
+
+        $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
+        File::put(config_path('yvsou_config.php'), contents: $cusconfig);
+        File::put(storage_path('installed.lock'), now());
+
+
 
         $env = File::get(base_path('env.example'));
         $env = str_replace('APP_NAME=yvsou-cms', 'APP_NAME=' . $request->app_name, $env);
@@ -149,12 +176,16 @@ class InstallController extends Controller
         $envkeystr = 'base64:' . base64_encode(random_bytes(32));
         $env = str_replace('APP_KEY=', 'APP_KEY=' . $envkeystr, $env);
 
-        File::put(base_path('.env'), $env);
-        #Artisan::call('config:clear');
+
 
         $this->createdbtables($request->db_name, $request->db_host, $request->db_user, $request->db_pass, $request->name, $request->email, bcrypt($request->password));
 
-        return view('install.step3');
+        File::put(base_path('.env'), $env);
+        #Artisan::call('config:clear');
+       
+        $this->reloadall();
+        return view('install.done');
+         
     }
 
 
@@ -189,44 +220,8 @@ class InstallController extends Controller
         }
 
     }
+ 
 
-    public function saveCustomConfig(Request $request)
-    {
-
-        $validated = $request->validate([
-            'is_adminsp' => 'required',
-            'default_lang' => 'required',
-            'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
-        ]);
-        //  logger("message", $validated['lang_set']);
-
-        # $langSet = $validated['lang_set']; // lang_set is already an array
-
-
-
-        #  file_put_contents(config_path('yvsou_example_config.php'), json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-        $cusconfig = File::get(base_path('yvsou_example_config.php'));
-        $cusconfig = str_replace("'DEFAULT_LANGUAGE' => 'ja'", "'DEFAULT_LANGUAGE' => '$request->default_lang'", $cusconfig);
-
-        $languages = $request->input('lang_set', []);
-
-        // Convert to JSON string
-        $jsonLanguages = json_encode($languages);
-
-        $cusconfig = str_replace("'LANGUAGESET' => ['en','zh','ja']", "'LANGUAGESET' => $jsonLanguages ", $cusconfig);
-        $adminstring = 'false';
-        if ($request->is_adminsp === 1)
-            $adminstring = 'true';
-
-        $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
-        File::put(config_path('yvsou_config.php'), contents: $cusconfig);
-        File::put(storage_path('installed.lock'), now());
-        $this->reloadall();
-        return view('install.done');
-    }
-
-
-
-
+  
 
 }
