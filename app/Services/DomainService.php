@@ -29,7 +29,8 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 use App\Models\DomainTree;
 use App\Models\DomainTreeChildId;
-
+use App\Models\DomainDict;
+use Illuminate\Support\Facades\DB;
 
 class DomainService
 {
@@ -218,5 +219,58 @@ class DomainService
         $ids = explode(".", $groupid);
         return reset($ids);
     }
+
+
+
+    function insertDomainTree($dictId, $groupid, $titles, $descriptions)
+    {
+
+        $userid = auth()->user()->id;
+
+
+        DB::transaction(function () use ($groupid, $titles, $descriptions, $userid) {
+
+            $dict = new DomainDict();
+            $dict->save();
+            $dictId = $dict->id;
+
+            $inserts = [];
+            foreach ($titles as $lang => $title) {
+                $inserts[] = [
+                    'id' => $dictId,
+                    'domain_dict_name' => $title,
+                    'lang' => $lang,
+                    'description' => $descriptions[$lang] ?? null,
+                ];
+            }
+   
+            DB::table('domain_trees')->insert($inserts);
+
+
+            DB::table('domain_id_manages')->insert([
+                'userid' => $userid,
+                'id' => $dictId,
+                'm_type' => 'c',
+            ]);
+
+            if ($groupid === "0")
+                $newGroupId = $dictId;
+            else
+                $newGroupId = $groupid . '.' . $dictId;
+
+            DB::table('domain_managers')->insert([
+                'userid' => $userid,
+                'domainid' => $newGroupId,
+                'm_type' => 'c',
+            ]);
+
+            DB::table('domain_tree_child_ids')->insert([
+                'domainid' => $groupid,
+                'child_id' => $dictId,
+            ]);
+        });
+    }
+
+
 
 }

@@ -32,6 +32,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\RightsService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Notifications\Notifiable;
 /**
  * Class User
  * 
@@ -50,6 +51,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
+	use Notifiable;
 	protected $table = 'users';
 
 	protected $casts = [

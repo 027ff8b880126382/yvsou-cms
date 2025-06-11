@@ -47,15 +47,15 @@ use Illuminate\Database\Eloquent\Model;
 class DomainTree extends Model
 {
 	protected $table = 'domain_trees';
-	public $incrementing = false;
-	public $timestamps = false;
+	public $incrementing = false; 
+    protected $primaryKey = ['id', 'lang'];
 
-	protected $casts = [
-		'id' => 'int',
-	];
+    protected $fillable = [
+        'id', 'domain_dict_name', 'lang', 'description',
+    ];
 
-	protected $fillable = [
-		'domain_dict_name',
-		'description'
-	];
+    public function dict()
+    {
+        return $this->belongsTo(DomainDict::class, 'id');
+    }
 }

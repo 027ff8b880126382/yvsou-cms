@@ -33,8 +33,8 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class DomainIdManage
  * 
- * @property string $username
- * @property int $id
+ * @property int $userid
+ * @property int $dictid
  * @property string $m_type
  *
  * @package App\Models
@@ -42,14 +42,19 @@ use Illuminate\Database\Eloquent\Model;
 class DomainIdManage extends Model
 {
 	protected $table = 'domain_id_manages';
-	public $incrementing = false;
+	public $incrementing = true;
 	public $timestamps = false;
 
 	protected $casts = [
-		'id' => 'int'
+		'dictid' => 'int',
+		'userid' => 'int' 
+		 
 	];
 
 	protected $fillable = [
+		'm_type',
+		'dictid',
+		'userid',
 		'm_type'
 	];
 }

@@ -39,26 +39,18 @@ class DomainViewController extends Controller
     public function showSubDomains(string $groupid)
     {
         $children = (new DomainService())->get_children_by_groupid($groupid); // adapt this to a Laravel service or model
-
         $crumbs = [];
-
         foreach ($children as $child) {
             $childGroupId = $groupid . '.' . $child;
-
             $subPostViewUrl = route('post.postview', [
                 'groupid' => $childGroupId,
             ]);
-
             $domainViewUrl = route('domainview.index', [
                 'groupid' => $childGroupId,
             ]);
-
             $title = (new DomainService())->get_jointitle_by_id($child);
             $owner = (new User())->getAliasNameByID((new RightsService())->getManageDomainOwner($childGroupId));
-
-
             // $subview = '<span class="ms-4"><a href="' . $subPostViewUrl . '">View SubGroup Posts</a></span>';
-
             if ((new RightsService())->checkRightPermission($childGroupId, 'SHOWDIR')) {
                 $scrumb = new \stdClass();
                 $scrumb = [
@@ -68,27 +60,25 @@ class DomainViewController extends Controller
                     'owner' => $owner,
                 ];
                 $crumbs[] = $scrumb;
-
             }
-
-
-
         }
-
         return $crumbs;
     }
 
     public function index($groupid)
     {
+
         if ($groupid == 0) {
             $groupid = DomainManager::getFirstGroupid();
             if (!$groupid) {
-
-                $user = auth()->user();
-
-                if (!in_array($user->role, ['user', 'admin'])) {
-                    abort(403, 'Administrator must create top domain first! ');
+                if (!auth()->check()) {
+                    return redirect()->route('login')->with('message', 'Please log in as Admin to create   top domain first.');
                 }
+                $user = auth()->user();
+                if (!in_array($user->role, ['admin'])) {
+                    return redirect()->route('home')->with('message', ' Only Administrator can create top domain !');
+                }
+                return redirect()->route('domainview.createsub', ['groupid' => 0]);
             }
             $groupid = (new DomainService())->get_topid_from_groupid($groupid);
         }
