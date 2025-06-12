@@ -27,17 +27,32 @@ today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
 
 # Clone stats
 clones = fetch_json(BASE + "/traffic/clones")
-append_csv("docs/metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
+
+import os
+
+# Get the directory where this script lives (docs/)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+metrics_dir = os.path.join(BASE_DIR, "metrics")
+os.makedirs(metrics_dir, exist_ok=True)
+
+clone_stats_path = os.path.join(metrics_dir, "clone-stats.csv")
+repo_stats_path = os.path.join(metrics_dir, "repo-stats.csv")
+
+# Then use these paths when saving:
+append_csv(clone_stats_path, ["date", "clones", "unique_cloners"], {
     "date": today,
     "clones": clones["count"],
     "unique_cloners": clones["uniques"]
 })
 
-# Repo stats
 repo = fetch_json(BASE)
-append_csv("docs/metrics/repo-stats.csv", ["date", "stars", "forks", "watchers"], {
+append_csv(repo_stats_path, ["date", "stars", "forks", "watchers"], {
     "date": today,
     "stars": repo["stargazers_count"],
     "forks": repo["forks_count"],
     "watchers": repo["subscribers_count"]
 })
+
+
+ 
