@@ -1,7 +1,7 @@
 import os
 import requests
-import csv
-from datetime import datetime
+import csv 
+from datetime import datetime, timezone
 
 TOKEN = os.getenv("GH_TOKEN")
 REPO = "yvsoucom/yvsou-cms"  # ← Change this
@@ -21,11 +21,13 @@ def append_csv(file, fieldnames, row):
             writer.writeheader()
         writer.writerow(row)
 
-today = datetime.utcnow().strftime("%Y-%m-%d")
+ 
+today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
 
 # Clone stats
 clones = fetch_json(BASE + "/traffic/clones")
-append_csv("metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
+append_csv("docs/metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
     "date": today,
     "clones": clones["count"],
     "unique_cloners": clones["uniques"]
@@ -33,7 +35,7 @@ append_csv("metrics/clone-stats.csv", ["date", "clones", "unique_cloners"], {
 
 # Repo stats
 repo = fetch_json(BASE)
-append_csv("metrics/repo-stats.csv", ["date", "stars", "forks", "watchers"], {
+append_csv("docs/metrics/repo-stats.csv", ["date", "stars", "forks", "watchers"], {
     "date": today,
     "stars": repo["stargazers_count"],
     "forks": repo["forks_count"],
