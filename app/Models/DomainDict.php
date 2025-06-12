@@ -27,10 +27,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class DomainDict extends Model
 {
-    protected $table = 'domain_dicts';
-
-    public function entries()
-    {
-        return $this->hasMany(DomainTree::class, 'id');
-    }
+  protected $table = 'domain_dicts';
+  public $timestamps = false;
+  public function entries()
+  {
+    return $this->hasMany(DomainTree::class, 'id');
+  }
 }

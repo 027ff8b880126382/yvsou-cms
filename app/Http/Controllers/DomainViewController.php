@@ -127,6 +127,28 @@ class DomainViewController extends Controller
     public function storesub(Request $request)
     {
 
+        // Optional: validate the input
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'titles' => 'required|array',
+            'descriptions' => 'required|array',
+        ]);
+
+        $user = auth()->user();
+
+        // Optionally check if user is allowed
+
+        // if (!$user || !$user->canCreateNewDomain($request->groupid)) {
+        //debug use
+        if (!$user  ) {
+            return abort(403, 'Unauthorized: only admin or editor can create domains.');
+        }
+
+
+        // Store each language version
+
+        $groupid = (new DomainService())->insertDomainTree($request->groupid, $request->titles, $request->descriptions);
+        return redirect()->route('domainview.index', compact(['groupid']));
 
     }
 

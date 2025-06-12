@@ -156,5 +156,9 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return (new RightsService())->checkCommentRightPermission($pid, $groupId, $type);
 	}
+	public function canCreateNewDomain($groupId)
+	{
+		return (new RightsService())->checkRightPermission($groupId, 'WRITE');
+	}
 
 }

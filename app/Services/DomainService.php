@@ -58,7 +58,8 @@ class DomainService
             return "";
         }
 
-        $record = DomainTree::find($id);
+        // $record = DomainTree::find($id);
+        $record = DomainDict::find($id)->DomainTree;
 
         return $record ? $record->domain_dict_name : "";
     }
@@ -222,11 +223,11 @@ class DomainService
 
 
 
-    function insertDomainTree($dictId, $groupid, $titles, $descriptions)
+    function insertDomainTree($groupid, $titles, $descriptions)
     {
 
         $userid = auth()->user()->id;
-
+        $newGroupId = $groupid;
 
         DB::transaction(function () use ($groupid, $titles, $descriptions, $userid) {
 
@@ -236,20 +237,21 @@ class DomainService
 
             $inserts = [];
             foreach ($titles as $lang => $title) {
+                $langid = (new LocaleService)->getlangID($lang);
                 $inserts[] = [
                     'id' => $dictId,
                     'domain_dict_name' => $title,
-                    'lang' => $lang,
+                    'lang' => $langid,
                     'description' => $descriptions[$lang] ?? null,
                 ];
             }
-   
+
             DB::table('domain_trees')->insert($inserts);
 
 
             DB::table('domain_id_manages')->insert([
                 'userid' => $userid,
-                'id' => $dictId,
+                'dictid' => $dictId,
                 'm_type' => 'c',
             ]);
 
@@ -262,6 +264,8 @@ class DomainService
                 'userid' => $userid,
                 'domainid' => $newGroupId,
                 'm_type' => 'c',
+                'cDate' => now()
+
             ]);
 
             DB::table('domain_tree_child_ids')->insert([
@@ -269,8 +273,7 @@ class DomainService
                 'child_id' => $dictId,
             ]);
         });
+        return $newGroupId;
     }
-
-
 
 }

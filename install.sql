@@ -16,53 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `account`
---
-
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE IF NOT EXISTS `account` (
-  `ID` bigint unsigned NOT NULL DEFAULT '0',
-  `username` varchar(156) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `name` varchar(156) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `RealName` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `sex` enum('M','F') CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `phone_number` varchar(16) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `birthdate` date DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_bin DEFAULT NULL,
-  `address` varchar(250) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `hobby` varchar(80) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `publickey` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `privateKey` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `signcert` mediumtext CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
-  `confirmcode` varchar(32) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `IP` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `outIP` varchar(256) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `port` int DEFAULT NULL,
-  `outPort` int DEFAULT NULL,
-  `loginTime` datetime DEFAULT NULL,
-  `logoutTime` datetime DEFAULT NULL,
-  `offTime` datetime DEFAULT NULL,
-  `savingsRMB` float NOT NULL DEFAULT '0',
-  `savingsUSD` float NOT NULL DEFAULT '0',
-  `savingsSEM` bigint unsigned NOT NULL DEFAULT '0',
-  `weixin_openID` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `wactivekey` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `wxlogintoken` varchar(25) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `rsaactivekey` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `prohibit` char(1) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL,
-  `search_page_right` int NOT NULL DEFAULT '0',
-  `IDcheck` tinyint(1) NOT NULL DEFAULT '0',
-  `wx_binding` tinyint(1) NOT NULL DEFAULT '0',
-  `user_registered` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `user_activation_key` varchar(255) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL DEFAULT '  ',
-  `user_status` int NOT NULL DEFAULT '0',
-  `pincode` char(6) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
 -- Table structure for table `cache`
 --
 
@@ -150,6 +103,18 @@ CREATE TABLE IF NOT EXISTS `domain_comments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
+-- Table structure for table `domain_dicts`
+--
+
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE IF NOT EXISTS `domain_dicts` (
+  `id` bigint unsigned NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86708 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
 -- Table structure for table `domain_download_zips`
 --
 
@@ -198,11 +163,12 @@ CREATE TABLE IF NOT EXISTS `domain_grant_users` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_id_manages` (
-  `username` varchar(128) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `id` bigint NOT NULL,
+  `Id` int NOT NULL AUTO_INCREMENT,
+  `dictid` bigint NOT NULL,
   `m_type` enum('c','m','s') CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
-  PRIMARY KEY (`username`,`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `userid` int NOT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=86307 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -412,7 +378,7 @@ CREATE TABLE IF NOT EXISTS `domain_search_keys` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_tree_child_ids` (
-  `child_id` bigint NOT NULL,
+  `child_id` bigint unsigned NOT NULL,
   `domainid` varchar(600) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
   PRIMARY KEY (`child_id`,`domainid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -425,12 +391,13 @@ CREATE TABLE IF NOT EXISTS `domain_tree_child_ids` (
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE IF NOT EXISTS `domain_trees` (
+  `id` bigint unsigned NOT NULL,
   `domain_dict_name` varchar(200) CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
-  `id` bigint NOT NULL,
   `lang` int NOT NULL,
-  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci NOT NULL,
+  `description` text CHARACTER SET utf8mb3 COLLATE utf8mb3_general_ci,
   PRIMARY KEY (`id`,`lang`),
-  UNIQUE KEY `domainN` (`domain_dict_name`,`lang`)
+  UNIQUE KEY `domainN` (`domain_dict_name`,`lang`),
+  CONSTRAINT `id` FOREIGN KEY (`id`) REFERENCES `domain_dicts` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -834,4 +801,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-10  5:21:22
+-- Dump completed on 2025-06-12 12:07:35
