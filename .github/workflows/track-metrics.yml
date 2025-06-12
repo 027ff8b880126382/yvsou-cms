@@ -24,7 +24,7 @@ jobs:
       - name: Run tracking script
         run: python docs/track_metrics.py
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT_for_Metrics_AutoPush }}
+          GH_TOKEN: ${{ secrets.GH_PAT }}
 
       - name: Commit updated CSVs
         run: |
