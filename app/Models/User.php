@@ -31,6 +31,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\RightsService;
+use App\Services\ConstantService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 /**
@@ -156,9 +157,20 @@ class User extends Authenticatable implements MustVerifyEmail
 	{
 		return (new RightsService())->checkCommentRightPermission($pid, $groupId, $type);
 	}
-	public function canCreateNewDomain($groupId)
+	public function canDomainRights($groupId, $type)
 	{
-		return (new RightsService())->checkRightPermission($groupId, 'WRITE');
+		if ($groupId === 0)
+			if ($this->isAdmin())
+				return true;
+			else
+				return false;
+
+		if (ConstantService::$adminHasAllRights)
+
+			if ($this->isAdmin())
+				return true;
+
+		return (new RightsService())->checkRightPermission($groupId, $type);
 	}
 
 }

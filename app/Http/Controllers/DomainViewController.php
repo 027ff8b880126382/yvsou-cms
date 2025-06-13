@@ -138,9 +138,8 @@ class DomainViewController extends Controller
 
         // Optionally check if user is allowed
 
-        // if (!$user || !$user->canCreateNewDomain($request->groupid)) {
-        //debug use
-        if (!$user  ) {
+        if (!$user || !$user->canDomainRights($request->groupid, 'WRITE')) {
+
             return abort(403, 'Unauthorized: only admin or editor can create domains.');
         }
 
