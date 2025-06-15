@@ -22,20 +22,24 @@
 */
 --}}
  
-
 @php
     $items = app(\App\Services\PagelineService::class)->showNewPosts();
 @endphp
-<div> 
-    <h2>New articles</h2>
-<ul>
-    @foreach ($items as $item)
-        <li>
 
-            <a href="{{ $item['url'] }}">
-                {{ $item['title'] }}
-            </a>
-        </li>
-    @endforeach
-</ul>
+<div>
+    <h2 class="text-xl font-semibold mb-3">New articles</h2>
+
+    <!-- Scrollable container -->
+    <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
+        <ul class="space-y-2">
+            @foreach ($items as $item)
+                <li>
+                    <a href="{{ $item['url'] }}" class="text-blue-600 hover:underline">
+                        {{ $item['title'] }}
+                    </a>
+                </li>
+            @endforeach
+        </ul>
+    </div>
 </div>
+ 

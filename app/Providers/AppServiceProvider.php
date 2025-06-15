@@ -58,7 +58,7 @@ class AppServiceProvider extends ServiceProvider
             $view->with('getlangSet', $localeService->getlangSet(config('yvsou_config.LANGUAGESET')));
 
         });
-        //   app(LocaleService::class)->setLocaleFromCookie();
+        app(LocaleService::class)->setLocaleFromCookie();
         if (app()->runningInConsole() && basename($_SERVER['PHP_SELF']) === 'generate_migrations_from_models.php') {
             return; // prevent loading shortcodes
         }

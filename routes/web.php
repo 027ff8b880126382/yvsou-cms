@@ -44,7 +44,7 @@ Route::view('/privacy', 'privacy')->name('privacy');
 
 Route::view('/help', 'help')->name('help');
 
-Route::view('/message', 'message')->name('message');
+Route::view('/message.message', 'message.message')->name('message.message');
 
 
  
