@@ -52,3 +52,10 @@ yvsou-cms uses **dual licensing** to support both open-source and commercial use
 +---------------------+-------------------------+-----------------------------+
 
  
+ ## Live Metrics  
+
+You can access the live Metrics here:
+
+[https://yvsoucom.github.io/metrics-dashboard/](https://yvsoucom.github.io/metrics-dashboard/)
+
+ 
