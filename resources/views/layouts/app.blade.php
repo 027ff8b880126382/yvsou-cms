@@ -61,9 +61,14 @@
         </div>
     @endif
     @include('components.header')
+    <div class="mt-8"></div> {{-- Adds 2rem (32px) of vertical space --}}
 
-    @yield('content')
 
+    <div class="min-h-[200px]"> {{-- Ensures vertical space even if no content --}}
+        @yield('content')
+    </div>
+
+    <div class="mt-8"></div> {{-- Space between content and footer --}}
     @include('components.footer')
     <!-- Page-specific scripts -->
 

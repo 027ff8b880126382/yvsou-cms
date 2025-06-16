@@ -47,8 +47,9 @@ class SearchController extends Controller
             case 'mykeyword':
                 $term = $request->input('mykeyword');
 
-                // Handle mykeyword search
-                break;
+                $postlines = (new SearchService())->getMyKeywordPosts($term);
+                return view('search.searchmykeyword', compact('postlines'));
+
 
             case 'dir':
                 $dirkey = $request->input('dir');
@@ -58,15 +59,15 @@ class SearchController extends Controller
 
 
             case 'mydir':
-                $term = $request->input('mydir');
-                // Handle mydir search
-                break;
+                
+                $dirlines = (new SearchService())->getMyALLDirs();
+                return view('search.searchmydir', compact('dirlines'));
 
             case 'mygroup':
-                $term = $request->input('mygroup');
-                // Handle mygroup search
-                break;
+                  $dirlines = (new SearchService())->getMyALLGroups();
+                return view('search.searchmygroup', compact('dirlines'));
 
+               
 
             default:
                 // Invalid action
