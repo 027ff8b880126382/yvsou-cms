@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-16
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-16
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,24 +21,28 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
- 
+@extends('layouts.app')
 
-@php
-    $items = app(\App\Services\PagelineService::class)->showNewDirs();
-@endphp
+@section('content')
 
-<div>
-    <h2 class="text-xl font-semibold mb-3">New Domain Directories</h2>
+    <div>
+        <h2 class="text-xl font-semibold mb-3">Found directories</h2>
 
-    <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
-        <ul class="space-y-2">
-            @foreach ($items as $item)
-                <li>
-                    <a href="{{ $item['url'] }}" class="text-purple-600 hover:underline">
-                        {{ $item['title'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
+        {{-- Display count outside of scroll box --}}
+        <p class="mb-2 text-gray-600">Found {{ count($dirlines) }} items</p>
+
+        <!-- Scrollable container for the list only -->
+        <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
+            <ul class="space-y-2">
+                @foreach ($dirlines as $item)
+                    <li>
+                        <a href="{{ $item['url'] }}" class="text-blue-600 hover:underline">
+                            {{ $item['title'] }}
+                        </a>
+                    </li>
+                @endforeach
+            </ul>
+        </div>
     </div>
-</div>
+
+@endsection

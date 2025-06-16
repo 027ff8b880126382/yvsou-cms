@@ -41,18 +41,21 @@ class SearchController extends Controller
             case 'keyword':
                 $likeitem = trim($request->input('keyword'));
 
-               $postlines = (new SearchService())->getKeywordPosts($likeitem);
-                return view('search.searchkeyword', compact('postlines'));  
+                $postlines = (new SearchService())->getKeywordPosts($likeitem);
+                return view('search.searchkeyword', compact('postlines'));
 
             case 'mykeyword':
                 $term = $request->input('mykeyword');
+
                 // Handle mykeyword search
                 break;
 
             case 'dir':
-                $term = $request->input('dir');
+                $dirkey = $request->input('dir');
                 // Handle directory search
-                break;
+                $dirlines = (new SearchService())->getKeywordDirs($dirkey);
+                return view('search.searchdir', compact('dirlines'));
+
 
             case 'mydir':
                 $term = $request->input('mydir');

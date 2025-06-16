@@ -22,18 +22,18 @@
 */
 --}}
  
- 
-@php
-    $items = app(\App\Services\PagelineService::class)->showNewPosts();
-@endphp
+@extends('layouts.app')
+
+@section('content')  
 
 <div>
-    <h2 class="text-xl font-semibold mb-3">New articles</h2>
+    <h2 class="text-xl font-semibold mb-3">Found articles</h2>
 
     <!-- Scrollable container -->
     <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
         <ul class="space-y-2">
-            @foreach ($items as $item)
+            <p>Found {{ count($postlines) }} items</p>
+            @foreach ($postlines as $item)
                 <li>
                     <a href="{{ $item['url'] }}" class="text-blue-600 hover:underline">
                         {{ $item['title'] }}
@@ -43,4 +43,4 @@
         </ul>
     </div>
 </div>
- 
+@endsection 

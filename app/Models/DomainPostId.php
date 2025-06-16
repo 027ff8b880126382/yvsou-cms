@@ -35,6 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * Class DomainPostId
  * 
  * @property int $id
+ * @property int $postid
  * @property string $groupid
  * @property int $lang
  * @property int $guserid

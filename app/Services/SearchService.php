@@ -39,29 +39,32 @@ class SearchService
         $results = $this->getpostfromkeys($keyword);
         $postlines = [];
         foreach ($results as $item) {
+            logger("getKeywordPosts item", [$item]);
+            logger("getKeywordPosts id", [$item->id]);
             $postsQuery = DB::table('domain_post_ids')
-                ->useIndex('gDate')
                 ->select('postid', 'lang', 'groupid')
                 ->where('isTrash', 0)
-                ->where('postid', $item->postid)
-                ->where('lang', $langid);
+                ->where('postid', $item->id)
+                ->where('lang', $langid)
+                ->get();
 
             foreach ($postsQuery as $row) {
+                logger("getKeywordPosts row", [$row]);
                 $postId = $row->postid;
                 $groupId = trim($row->groupid);
-                $title = (new PostService())->getPostTitle($postId); 
+                $title = (new PostService())->getPostTitle($postId);
                 if (trim($title) === '') {
                     continue;
                 }
                 if ((new RightsService())->checkFileAccess($groupId, $postId)) {
                     //   if ((new RightsService())->checkRightPermission($groupId, 'SHOWDIR')) {
                     $url = route('post.index', ['groupid' => $groupId, 'pid' => $postId]);
-                    $postlines[] = ['url' => $url, 'title' => $title,'groupid'=> $groupId,'postid'=> $postId ];
+                    $postlines[] = ['url' => $url, 'title' => $title, 'groupid' => $groupId, 'postid' => $postId];
                 }
             }
 
         }
- 
+
         return $postlines;
     }
 
@@ -72,43 +75,61 @@ class SearchService
             ->where(function ($q) use ($likeitem) {
                 $q->where('post_title', 'like', "%{$likeitem}%")
                     ->orWhere('post_content', 'like', "%{$likeitem}%");
-            })->get();
+            })->limit(200)->get();
 
         return $query;
     }
 
-
-    public function showNewDirs(): array
+    public function getDomainIdsFromDirkey($likeitem, $lang)
     {
+        $domainName = str_replace(' ', '', strtoupper(trim($likeitem)));
 
-        $counts = 15;
+        $results = DB::table('domain_trees')
+            ->select('id')
+            ->where('lang', $lang)
+            ->whereRaw('REPLACE(UPPER(TRIM(domain_dict_name)), " ", "") LIKE ?', ["%$domainName%"])
+            ->limit(200)
+            ->pluck('id'); 
 
-        $items = DomainManager::where('bTrash', 0)
-            ->orderByDesc('cDate')
-            ->limit($counts)
-            ->get(['domainid'])
-            ->reverse();
+        return $results->toArray(); // returns plain array
+    }
 
+    public function getKeywordDirs($keyword): array
+    {
+        $langid = (new LocaleService())->getcurlang();
+        $results = $this->getDomainIdsFromDirkey($keyword, $langid);
+        logger("getKeywordDirs", $results);
         $dirlines = [];
         $rightsService = new RightsService();
         $domainService = new DomainService();
+        foreach ($results as $dictid) {
 
-        foreach ($items as $item) {
-            $domainId = $item['domainid'];
-            if (trim($domainId) == "")
-                continue;
+            $likestringtmp = '%.' . $dictid . '.%';
+            $likestringtmp2 = '%.' . $dictid; // for cases ending in domainid
 
-            if ($rightsService->checkRightPermission($domainId, 'SHOWDIR')) {
+            $items = DomainManager::where('bTrash', 0)
+                ->where(function ($query) use ($likestringtmp, $likestringtmp2) {
+                    $query->whereRaw('TRIM(domainid) LIKE ?', [$likestringtmp])
+                        ->orWhereRaw('TRIM(domainid) LIKE ?', [$likestringtmp2]);
+                })
+                ->get(['domainid']);
+  
+            foreach ($items as $item) {
+                $domainId = $item['domainid'];
+                if (trim($domainId) == "")
+                    continue;
 
-                $url = route('post.postview', ['groupid' => urlencode($domainId)]);
-                // dd($url);
-                //  $url = route('post.postview', ['groupid' => "1"]);
-                $title = $domainService->get_jointitle_by_uniqid($domainId);
+                if ($rightsService->checkRightPermission($domainId, 'SHOWDIR')) {
 
-                $dirlines[] = [
-                    'url' => $url,
-                    'title' => $title
-                ];
+                    $url = route('post.postview', ['groupid' => urlencode($domainId)]);
+                  
+                    $title = $domainService->get_jointitle_by_uniqid($domainId);
+
+                    $dirlines[] = [
+                        'url' => $url,
+                        'title' => $title
+                    ];
+                }
             }
         }
         //  dd($dirlines);
