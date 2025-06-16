@@ -1,7 +1,8 @@
-{{--
-@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-@author Lican Huang
-@created 2025-06-14
+<?php
+/**
+  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+  @author Lican Huang
+  @created 2025-06-16
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -20,17 +21,18 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
-<div>
-    @if ($domain)
-        <ul>
-            @include('livewire.partials.domain_node', [
-                'domain' => $domain,
-                'children' => $children,
-                'expanded' => $expanded,
-            ])
-        </ul>
-    @else
-        <p>No root domain found.</p>
-    @endif
-</div>
+
+
+namespace App\Http\Controllers;
+
+use App\Models\User;
+use App\Services\RightsService;
+use Illuminate\Http\Request;
+use App\Services\DomainService;
+use App\Models\DomainManager;
+use App\Models\DomainName;
+
+class message extends Controller
+{
+    
+}

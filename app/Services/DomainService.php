@@ -37,9 +37,12 @@ class DomainService
 
     public function get_children_by_groupid(string $groupId): array
     {
-        return DomainTreeChildId::where('domainid', $groupId)
+        logger("get_children_by_groupid", [$groupId]);
+        $groupId = trim($groupId);
+
+        return array_map('trim', DomainTreeChildId::where('domainid', $groupId)
             ->pluck('child_id')
-            ->toArray();
+            ->toArray());
     }
 
 
@@ -51,6 +54,7 @@ class DomainService
             ->where('id', $id)
             ->value('domain_dict_name');
     }
+
 
     function get_first_title_by_id($id)
     {
@@ -138,8 +142,6 @@ class DomainService
     }
 
 
-
-
     function get_joinGroupLink_by_uniqid($groupid)
     {
         $ids = explode(".", $groupid);
@@ -176,6 +178,25 @@ class DomainService
 
 
         return substr($rtntitle, 0, strlen($rtntitle) - 1);
+    }
+
+
+    function get_joinLink_by_uniqid($groupid)
+    {
+
+        $id = trim($this->get_id_from_groupid($groupid));
+
+        $rtitle = $this->get_jointitle_by_id($id);
+
+        // Correctly call route() function
+        $url = route('domainview.index', ['groupid' => $groupid]);
+        $urlpostview = route('post.postview', ['groupid' => $groupid]);
+        $rtntitle = '<div style="display: flex; align-items: center; gap: 4px;">';
+        $rtntitle .= '<a href="' . e($url) . '">' . e($rtitle) . '</a>';
+        $rtntitle .= '<a href="' . e($urlpostview) . '">'
+            . '<img src="/images/list.png" alt="" class="w-5 h-3" /></a>';
+        $rtntitle .= '</div>';
+        return $rtntitle;
     }
 
 

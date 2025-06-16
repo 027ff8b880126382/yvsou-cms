@@ -21,65 +21,105 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
-// app/Http/Livewire/DomainTree.php
-
 namespace App\Livewire;
-use Livewire\Component as LivewireComponent;
 
+use Livewire\Component;
 use App\Services\DomainService;
-use App\Models\DomainTreeChildId;
 use App\Models\DomainManager;
 
-
-class ShowDomainTree extends LivewireComponent
+class ShowDomainTree extends Component
 {
     public $expanded = [];
     public $children = [];
-    public $groupgid = null;
-    public $id;
-    public $rootDomain;
+
+    public $groupid;
+    public $domain;
 
     public function mount()
     {
-        // Load the single root domain (assuming only one root)
-        // $rootgroupid  = DomainTreeChildId::whereNull('child_id')->first();
-        $rootgroupid = DomainManager::getFirstGroupid();
-        $this->groupgid = $rootgroupid;
+        // Initialize root domain groupid
+        $tmpgroupid = DomainManager::getFirstGroupid();
+        $tmpgroupid = trim($tmpgroupid);
+        if ($tmpgroupid)
+            $this->groupid = trim((new DomainService())->get_topid_from_groupid($tmpgroupid));
 
+        if ($this->groupid) {
+            $thislink = (new DomainService())->get_joinLink_by_uniqid($this->groupid);
+            $this->domain = [
+                'groupid' => $this->groupid,
+                'name' => $thislink ,
+                // 'name' => trim((new DomainService())->get_jointitle_by_uniqid($this->groupid)),
+            ];
 
-        if ($rootgroupid) {
-            // Load the first-level children immediately
-            $childids = (new DomainService())->get_children_by_groupid($rootgroupid);
-            $this->children[] = $childids;
-            $this->expanded[] = $rootgroupid; // root expanded by default
+            // Load first-level children of root domain
+            $this->loadChildren($this->groupid);
+
+            foreach ($this->children[$this->groupid] as $child) {
+                $this->loadnextChildren($child);
+            }
+            // Root expanded by default
+            $this->expanded[] = $this->groupid;
         }
     }
 
-    public function toggle($id)
+    // Load children for a given groupid, if not loaded
+    public function loadChildren($groupid)
     {
-        if (in_array($id, $this->expanded)) {
-            // Collapse node
-            $this->expanded = array_diff($this->expanded, [$id]);
-        } else {
-            // Expand node and lazy load children if not loaded yet
-            $this->expanded[] = $id;
+        $groupid = trim($groupid);
+        if (!is_array($this->children) || !isset($this->children[$groupid])) {
+            $childIds = (new DomainService())->get_children_by_groupid($groupid);
+            logger("childids", [$childIds]);
+            $this->children[$groupid] = []; // initialize
+            foreach ($childIds as $childId) {
+                $childId = trim($childId);
+                $childgroupid = "{$groupid}.{$childId}";
+                $this->children[$groupid][] = $childgroupid;
 
-            if (!isset($this->children[$id])) {
-                $this->children[$id] = ShowDomainTree::where('parent_id', $id)->get();
             }
+        }
+        logger("this_childids", [$this->children[$groupid]]);
+    }
+
+    public function loadnextChildren($groupid)
+    {
+        $groupid = trim($groupid);
+        if (!isset($this->children[$groupid])) {
+            $childIds = (new DomainService())->get_children_by_groupid($groupid);
+            logger("nextchildids", [$childIds]);
+            $this->children[$groupid] = []; // initialize
+            foreach ($childIds as $childId) {
+                $childId = trim($childId);
+                $childgroupid = "{$groupid}.{$childId}";
+                $this->children[$groupid][] = $childgroupid;
+            }
+        }
+        logger("loadnextChildren", [$this->children[$groupid]]);
+    }
+
+
+    public function toggle($groupid)
+    {
+        if (in_array($groupid, $this->expanded)) {
+            // Collapse
+            $this->expanded = array_diff($this->expanded, [$groupid]);
+        } else {
+            // Expand
+            $this->expanded[] = $groupid;
+            // Lazy load children if not loaded
+            $this->loadChildren($groupid);
+            foreach ($this->children[$groupid] as $child) {
+                $this->loadnextChildren($child);
+            }
+
         }
     }
 
     public function render()
     {
-
         return view('livewire.show-domain-tree', [
-
-            'rootDomain' => $this->rootDomain,
+            'domain' => $this->domain,
             'children' => $this->children,
             'expanded' => $this->expanded,
-
         ]);
-
     }
 }

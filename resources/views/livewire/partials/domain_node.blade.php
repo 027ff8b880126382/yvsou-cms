@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-14
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-14
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -20,33 +20,44 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
+--}} 
 <li class="mb-1">
     @php
-        $hasChildren = !empty($children[$domain->id]) || \App\Livewire\ShowDomainTree::where('parent_id', $domain->id)->exists();
+        $groupid = $domain['groupid'];    
+        $name = $domain['name'];    
+        $hasChildren = !empty($children[$groupid] ?? []);        
     @endphp
 
     <div class="flex items-center space-x-2">
         @if ($hasChildren)
             <button
-                wire:click="toggle({{ $domain->id }})"
+                wire:click="toggle('{{ $groupid }}')"
                 class="w-6 h-6 flex items-center justify-center rounded border border-gray-400 text-gray-700 hover:bg-gray-200 focus:outline-none focus:ring focus:ring-indigo-300"
-                aria-label="{{ in_array($domain->id, $expanded) ? 'Collapse' : 'Expand' }} domain {{ $domain->name }}"
-                >
-                {{ in_array($domain->id, $expanded) ? '-' : '+' }}
+                aria-label="{{ in_array($groupid, $expanded) ? 'Collapse' : 'Expand' }} domain {{ $name }}"
+            >
+                {{ in_array($groupid, $expanded) ? '-' : '+' }}
             </button>
         @else
-            <span class="w-6 h-6"></span> <!-- placeholder to align text -->
+            <span class="w-6 h-6"></span>
+        
         @endif
 
-        <span class="text-gray-800 break-words">{{ $domain->name }}</span>
+        <span class="text-gray-800 break-words">{!! $name !!}</span>
     </div>
 
-    @if (in_array($domain->id, $expanded) && !empty($children[$domain->id]))
+    @if (in_array($groupid, $expanded) && $hasChildren)
         <ul class="ml-6 border-l border-gray-300 mt-1 pl-4">
-            @foreach ($children[$domain->id] as $child)
-                @include('livewire.partials.domain_node', ['domain' => $child])
+            @foreach ($children[$groupid] as $childGroupid)
+                @php
+                    $childName = (new \App\Services\DomainService())->get_joinLink_by_uniqid($childGroupid);
+                @endphp
+                @include('livewire.partials.domain_node', [
+                    'domain' => ['groupid' => $childGroupid, 'name' => $childName],
+                    'children' => $children,
+                    'expanded' => $expanded,
+                ])
             @endforeach
         </ul>
     @endif
 </li>
+ 
