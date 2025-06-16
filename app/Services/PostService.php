@@ -168,7 +168,7 @@ class PostService
         //    Logger(message: "postgroups" . $results);
         $posts = [];
         foreach ($results as $row) {
-            $postId = $row->id;
+            $postId = $row->postid;
             $groupId = trim($row->groupid);
             $title = $this->getPostTitle($postId);
             if (trim($title) === '') {

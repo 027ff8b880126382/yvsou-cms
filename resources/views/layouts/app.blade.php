@@ -53,8 +53,8 @@
 
 </head>
 
-<body
-    class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
+<body class="bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] p-6 lg:p-8 min-h-screen">
+
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -62,14 +62,8 @@
     @endif
     @include('components.header')
 
+    @yield('content')
 
-
-    <div class="mt-8">
-        <main class="min-h-screen py-6">
-
-            @yield('content')
-        </main>
-    </div>
     @include('components.footer')
     <!-- Page-specific scripts -->
 

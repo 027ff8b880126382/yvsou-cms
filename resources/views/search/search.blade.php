@@ -22,7 +22,7 @@
 */
 --}}
 
- <form method="POST" action="{{ route('search') }}" class="max-w-md mx-auto space-y-6 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
+ <form method="POST" action="{{ route('search.search') }}" class="max-w-md mx-auto space-y-6 bg-white p-8 rounded-xl shadow-lg border border-gray-100">
     @csrf
 
     <!-- Keyword Row -->

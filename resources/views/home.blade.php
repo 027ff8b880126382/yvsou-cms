@@ -34,7 +34,7 @@
             <div class="space-y-4 md:col-span-1 md:h-[calc(100vh-6rem)] md:overflow-y-auto md:sticky md:top-16">
                 {{-- Search Box --}}
                 <div class="bg-white shadow rounded-2xl p-4">
-                    @include('search')
+                    @include('search.search')
                 </div>
 
                 {{-- Domain Tree --}}

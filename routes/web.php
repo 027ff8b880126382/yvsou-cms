@@ -95,6 +95,7 @@ require __DIR__ . '/post.php';
 require __DIR__ . '/group.php';
 require __DIR__ . '/toggle.php';
 require __DIR__ . '/error.php';
-require __DIR__ . '/ Installer.php';
+require __DIR__ . '/Installer.php';
+require __DIR__ . '/search.php';
 
 

@@ -21,15 +21,16 @@
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-namespace App\Http\Controllers;
-
+namespace App\Http\Controllers\Search;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
-
+use Illuminate\Support\Facades\DB;
+use App\Services\SearchService;
 class SearchController extends Controller
 {
     public function search(Request $request)
@@ -38,9 +39,10 @@ class SearchController extends Controller
 
         switch ($action) {
             case 'keyword':
-                $term = $request->input('keyword');
-                // Handle keyword search
-                break;
+                $likeitem = trim($request->input('keyword'));
+
+               $postlines = (new SearchService())->getKeywordPosts($likeitem);
+                return view('search.searchkeyword', compact('postlines'));  
 
             case 'mykeyword':
                 $term = $request->input('mykeyword');
@@ -62,13 +64,6 @@ class SearchController extends Controller
                 // Handle mygroup search
                 break;
 
-            case 'My All Directories':
-                // Handle all directories logic
-                break;
-
-            case 'My All Groups':
-                // Handle all groups logic
-                break;
 
             default:
                 // Invalid action
