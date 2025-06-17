@@ -75,6 +75,7 @@
             document.addEventListener('DOMContentLoaded', () => {
                 const draggable = document.getElementById('draggable');
                 const lockWrapper = document.getElementById('lock-wrapper');
+                const lockImage = document.getElementById('target');
                 const dragVerified = document.getElementById('drag_verified');
 
                 lockWrapper.addEventListener('dragover', e => e.preventDefault());
@@ -93,6 +94,8 @@
                     draggable.style.cursor = 'default';
                     draggable.style.transformOrigin = 'left center';
                     draggable.style.transform = 'rotate(90deg)';
+
+                    lockImage.src = '/images/unlock.png';
                     dragVerified.value = 1;
 
                     lockWrapper.classList.remove('border-gray-400');
