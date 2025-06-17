@@ -1,8 +1,8 @@
 <?php
 
 return array(
-    'DEFAULT_LANGUAGE' => 'ja',
-    'LANGUAGESET' => ['en','zh','ja'],
+    'DEFAULT_LANGUAGE' => 'zh',
+    'LANGUAGESET' => ["en", "zh", "ja", "fr"],
 
     'MIGRATEDOMAINHOST' => [
         'yvsou.com/wp-content',
@@ -10,5 +10,6 @@ return array(
         '127.0.0.1:8000'
     ],
 
-   'ADMINHASRIGHTS' => true,
+    'ADMINHASRIGHTS' => false,
+    'BLOCKBOT' => true,
 );

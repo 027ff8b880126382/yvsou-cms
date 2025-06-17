@@ -60,13 +60,28 @@
             {{ session('message') }}
         </div>
     @endif
+
+    @if(!session('human_verified'))
+        @include('components.guest-verification')
+    @endif
+
     @include('components.header')
     <div class="mt-8"></div> {{-- Adds 2rem (32px) of vertical space --}}
 
-
-    <div class="min-h-[200px]"> {{-- Ensures vertical space even if no content --}}
-        @yield('content')
+    <div class="min-h-[200px]">
+        @if(config('yvsou_config.BLOCKBOT'))
+            @if(session('human_verified') || Auth::check())
+                @yield('content')
+            @else
+                <div class="text-center text-gray-500 dark:text-gray-400">
+                    <p>Please complete human verification above to view content.</p>
+                </div>
+            @endif
+        @else
+            @yield('content')
+        @endif
     </div>
+
 
     <div class="mt-8"></div> {{-- Space between content and footer --}}
     @include('components.footer')

@@ -22,12 +22,10 @@
  */
 
 
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\InstallController;
-use App\Http\Controllers\SearchController;
+use Illuminate\Support\Facades\Route; 
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\ProtectedFileController;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CaptchaController; 
 use App\Http\Controllers\Lang\LangController;
 
 use Illuminate\Support\Facades\App;
@@ -47,24 +45,24 @@ Route::view('/help', 'help')->name('help');
 Route::view('/message.message', 'message.message')->name('message.message');
 
 
- 
+
 Route::get('/lang/{locale}', [LangController::class, 'setLang'])->name('lang.setLang');
-   
+
 Route::get('/upgrade', function () {
     return view('upgrade'); // or redirect to your commercial landing page
 });
 
 
 
- /*
+/*
 Route::middleware(['SetLocale'])->group(function () {
-    Route::get('/', [HomeController::class, 'index']);
-    // other routes...
+   Route::get('/', [HomeController::class, 'index']);
+   // other routes...
 });
- 
+
 Route::middleware('prevent.install')->group(function () {
-    Route::get('/install', [InstallController::class, 'welcome'])->name('install.welcome');
-   # Route::post('/install', [InstallController::class, 'submit'])->name('install.submit');
+   Route::get('/install', [InstallController::class, 'welcome'])->name('install.welcome');
+  # Route::post('/install', [InstallController::class, 'submit'])->name('install.submit');
 });
 
 */
@@ -74,7 +72,7 @@ Route::middleware(['auth'])->get('/dashboard', function () {
 
 
 
-Route::post('/search', [SearchController::class, 'search'])->name('search');
+#Route::post('/search', [SearchController::class, 'search'])->name('search');
 
 Route::get('/headlines', [PostController::class, 'showHeadlines'])->name('headlines.show');
 /*
@@ -86,7 +84,8 @@ Route::get('/protected/{filename}', [ProtectedFileController::class, 'show'])
 Route::get('/protected/{filename}', [ProtectedFileController::class, 'show'])
     ->where('filename', '.*');  // allow slashes in filename
 
-
+Route::get('/verify', [CaptchaController::class, 'show']);
+Route::post('/verify', [CaptchaController::class, 'verify']);
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/domainview.php';
