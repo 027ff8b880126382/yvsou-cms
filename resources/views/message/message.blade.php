@@ -21,3 +21,49 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
+@extends('layouts.app')
+
+@section('content')
+    <div class="{{ Agent::isMobile() ? 'mbcontent' : 'content' }}">
+        <li class="selected">
+            <h2>
+                {{ __('Your Group') }} {!! get_joinGroupLink_by_uniqid($groupid) !!} {{ __('Articles') }}
+            </h2>
+        </li>
+
+        <table class="table-auto border-collapse border border-gray-300 w-full">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="border px-4 py-2">{{ __('From') }}</th>
+                    <th class="border px-4 py-2">{{ __('Message') }}</th>
+                    <th class="border px-4 py-2">{{ __('Time') }}</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($castMessages as $msg)
+                    <tr>
+                        <td class="border px-4 py-2">{{ $msg->fromuser ?? __('System') }}</td>
+                        <td class="border px-4 py-2">{{ $msg->msgcontent }}</td>
+                        <td class="border px-4 py-2">
+                            {!! ($lastReadTime && $msg->dtime > $lastReadTime)
+                                ? '<span class="text-red-600">' . $msg->dtime . '</span>'
+                                : $msg->dtime !!}
+                        </td>
+                    </tr>
+                @endforeach
+
+                @foreach ($userMessages as $msg)
+                    <tr>
+                        <td class="border px-4 py-2">{{ $msg->fromuser ?? __('System') }}</td>
+                        <td class="border px-4 py-2">{{ $msg->msgcontent }}</td>
+                        <td class="border px-4 py-2">{{ $msg->dtime }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+
+        <a href="{{ url('/') }}" class="text-blue-500 hover:underline mt-4 inline-block">
+            {{ __('Cancel') }}
+        </a>
+    </div>
+@endsection
