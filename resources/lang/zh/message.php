@@ -23,4 +23,10 @@
 
 return [
     'message' => '消息',
+    'chmsgid' => "选择消息ID",
+    'msgid' => "  消息ID",
+    'msg_content' => " 消息内容",
+    'msg_handled' => " 处理类型 ：",
+    'msg_from' => "发布者",
+    'msg_time' => " 发布时间 ",
 ];

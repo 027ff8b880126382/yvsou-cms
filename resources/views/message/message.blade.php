@@ -20,50 +20,62 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
+--}} 
 @extends('layouts.app')
 
 @section('content')
-    <div class="{{ Agent::isMobile() ? 'mbcontent' : 'content' }}">
-        <li class="selected">
-            <h2>
-                {{ __('Your Group') }} {!! get_joinGroupLink_by_uniqid($groupid) !!} {{ __('Articles') }}
-            </h2>
-        </li>
+<div class="px-4 py-6 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+ 
 
-        <table class="table-auto border-collapse border border-gray-300 w-full">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="border px-4 py-2">{{ __('From') }}</th>
-                    <th class="border px-4 py-2">{{ __('Message') }}</th>
-                    <th class="border px-4 py-2">{{ __('Time') }}</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($castMessages as $msg)
+        <div class="overflow-x-auto">
+            <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700 text-sm">
+                <thead class="bg-gray-50 dark:bg-gray-800">
                     <tr>
-                        <td class="border px-4 py-2">{{ $msg->fromuser ?? __('System') }}</td>
-                        <td class="border px-4 py-2">{{ $msg->msgcontent }}</td>
-                        <td class="border px-4 py-2">
-                            {!! ($lastReadTime && $msg->dtime > $lastReadTime)
-                                ? '<span class="text-red-600">' . $msg->dtime . '</span>'
-                                : $msg->dtime !!}
-                        </td>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('message.msg_from') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('message.msg_content') }}</th>
+                        <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{{ __('message.msg_time') }}</th>
                     </tr>
-                @endforeach
+                </thead>
+                <tbody class="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800">
+                    @foreach ($castMessages as $msg)
+                        <tr>
+                            <td class="px-4 py-2 text-gray-700 dark:text-gray-200">
+                                {{ $msg->from_username ?? __('System') }}
+                            </td>
+                            <td class="px-4 py-2 text-gray-700 dark:text-gray-200">
+                                {{ $msg->msg_content }}
+                            </td>
+                            <td class="px-4 py-2">
+                                {!! ($lastReadTime && $msg->dtime > $lastReadTime)
+                                    ? '<span class="text-red-600 dark:text-red-400 font-semibold">' . $msg->dtime . '</span>'
+                                    : '<span class="text-gray-600 dark:text-gray-400">' . $msg->dtime . '</span>' !!}
+                            </td>
+                        </tr>
+                    @endforeach
 
-                @foreach ($userMessages as $msg)
-                    <tr>
-                        <td class="border px-4 py-2">{{ $msg->fromuser ?? __('System') }}</td>
-                        <td class="border px-4 py-2">{{ $msg->msgcontent }}</td>
-                        <td class="border px-4 py-2">{{ $msg->dtime }}</td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
+                    @foreach ($userMessages as $msg)
+                        <tr>
+                            <td class="px-4 py-2 text-gray-700 dark:text-gray-200">
+                                {{ $msg->from_username ?? __('System') }}
+                            </td>
+                            <td class="px-4 py-2 text-gray-700 dark:text-gray-200">
+                                {{ $msg->msg_content }}
+                            </td>
+                            <td class="px-4 py-2 text-gray-600 dark:text-gray-400">
+                                {{ $msg->dtime }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
 
-        <a href="{{ url('/') }}" class="text-blue-500 hover:underline mt-4 inline-block">
-            {{ __('Cancel') }}
-        </a>
+        <div class="mt-6">
+            <a href="{{ url('/') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm transition">
+                {{ __('Cancel') }}
+            </a>
+        </div>
     </div>
+</div>
 @endsection

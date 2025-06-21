@@ -41,10 +41,7 @@ Route::view('/terms', 'terms')->name('terms');
 Route::view('/privacy', 'privacy')->name('privacy');
 
 Route::view('/help', 'help')->name('help');
-
-Route::view('/message.message', 'message.message')->name('message.message');
-
-
+ 
 
 Route::get('/lang/{locale}', [LangController::class, 'setLang'])->name('lang.setLang');
 
@@ -96,5 +93,6 @@ require __DIR__ . '/toggle.php';
 require __DIR__ . '/error.php';
 require __DIR__ . '/Installer.php';
 require __DIR__ . '/search.php';
+require __DIR__ . '/message.php';
 
 

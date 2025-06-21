@@ -21,8 +21,8 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
-use App\Http\Controllers\MessageController;
+use App\Http\Controllers\Msg\MessageController;
 
-Route::middleware(['auth'])->prefix('messages')->name('messages.')->group(function () {
+Route::prefix('message')->name('message.')->group(function () {
     Route::get('/index', [MessageController::class, 'showMessages'])->name('index');
 });

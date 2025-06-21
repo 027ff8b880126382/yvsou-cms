@@ -21,21 +21,23 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Msg;
 
+use App\Services\LocaleService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Controller;
 
 class MessageController extends Controller
 {
     public function showMessages(Request $request)
     {
-        $groupid = $request->input('groupid');
-        $lang = $this->getCurrentLang();
 
-        $castMessages = DB::table('domainmsgcast')
-            ->where('msghandled', 0)
+        $lang = (new LocaleService)->getCurLang();
+
+        $castMessages = DB::table('domain_msg_casts')
+            ->where('msg_handled', 0)
             ->where('lang', $lang)
             ->orderByDesc('dtime')
             ->get();
@@ -46,31 +48,43 @@ class MessageController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 
-            $userMessages = DB::table('domainmsgcenter')
-                ->where('touser', $user->username)
-                ->where('msghandled', 0)
-                ->where('lang', $lang)
-                ->orderByDesc('dtime')
+            $userMessages = DB::table('domain_msg_centers as m')
+                ->join('users as u', 'm.from_userid', '=', 'u.id')
+                ->where('m.to_userid', $user->id)
+                ->where('m.msg_handled', 0)
+                ->where('m.lang', $lang)
+                ->orderByDesc('m.dtime')
+                ->select('m.msg_content', 'm.dtime', 'u.name as from_username')
                 ->get();
+            /*
+                        $sql = $userMessages->toSql();
+                        $bindings = $userMessages->getBindings();
 
-            $lastReadTime = DB::table('domainmsgread')
-                ->where('username', $user->username)
+                        $finalSql = vsprintf(
+                            str_replace('?', '%s', $sql),
+                            array_map(fn($v) => is_numeric($v) ? $v : "'" . addslashes($v) . "'", $bindings)
+                        );
+                        logger("message");
+
+                        logger($finalSql);
+            */
+            $lastReadTime = DB::table('domain_msg_reads')
+                ->where('userid', $user->id)
                 ->where('lang', $lang)
                 ->value('readtime');
 
             // Insert or update read time
-            DB::table('domainmsgread')->updateOrInsert(
-                ['username' => $user->username, 'lang' => $lang],
+            DB::table('domain_msg_reads')->updateOrInsert(
+                ['userid' => $user->id, 'lang' => $lang],
                 ['readtime' => now()]
             );
         }
 
-        return view('messages.index', compact(
+        return view('message.message', compact(
             'castMessages',
             'userMessages',
-            'lastReadTime',
-            'groupid'
+            'lastReadTime'
         ));
     }
- 
+
 }
