@@ -11,5 +11,5 @@ return array(
     ],
 
     'ADMINHASRIGHTS' => false,
-    'BLOCKBOT' => true,
+    'BLOCKBOT' => false,
 );

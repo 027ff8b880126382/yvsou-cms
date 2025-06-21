@@ -22,26 +22,22 @@
  */
 
 
-use Illuminate\Support\Facades\Route; 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\ProtectedFileController;
-use App\Http\Controllers\CaptchaController; 
+use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\Lang\LangController;
-
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\Redirect;
-
-
-Route::view('/', 'home')->name('home');
-Route::view('/about', 'about')->name('about');
-Route::view('/contact', 'contact')->name('contact');
-Route::view('/profile', 'profile')->name('profile');
-Route::view('/terms', 'terms')->name('terms');
-Route::view('/privacy', 'privacy')->name('privacy');
-
-Route::view('/help', 'help')->name('help');
+use App\Http\Controllers\HomeController;
  
+Route::get('/', [HomeController::class, 'home'])->name('home');
+Route::get('/about', [HomeController::class, 'about'])->name('about');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
+Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
+Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
+
+Route::get('/help', [HomeController::class, 'help'])->name('help');
+
 
 Route::get('/lang/{locale}', [LangController::class, 'setLang'])->name('lang.setLang');
 

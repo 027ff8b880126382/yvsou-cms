@@ -115,6 +115,13 @@ class LocaleService
         return $langid;
 
     }
+    public function getcurlangcode(): string
+    {
+        $this->getSetLocaleFromCookie();
+        $code = App::getLocale();
+        return $code;
+
+    }
 
 
 }
