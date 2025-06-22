@@ -38,6 +38,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): View
     {
+        logger("ProfileController");
         return view('profile.edit', [
             'user' => $request->user(),
         ]);
@@ -53,10 +54,11 @@ class ProfileController extends Controller
         if ($request->user()->isDirty('email')) {
             $request->user()->email_verified_at = null;
         }
-
+        $request->user()->alias_name = $request->input('alias_name');
         $request->user()->save();
+ 
 
-        return Redirect::route('profile.edit')->with('status', 'profile-updated');
+        return Redirect::route('admin.profile.edit')->with('status', 'profile-updated');
     }
 
     /**

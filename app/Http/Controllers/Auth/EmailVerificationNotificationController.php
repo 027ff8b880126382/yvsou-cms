@@ -38,9 +38,14 @@ class EmailVerificationNotificationController extends Controller
         if ($request->user()->hasVerifiedEmail()) {
             return redirect()->intended(route('dashboard', absolute: false));
         }
+        try {
+            $request->user()->sendEmailVerificationNotification();
+            logger('Verification email resent to: ' . $request->user()->email);
+            return back()->with('status', 'verification-link-sent');
 
-        $request->user()->sendEmailVerificationNotification();
-
-        return back()->with('status', 'verification-link-sent');
+        } catch (\Exception $e) {
+            \Log::error('Failed to resend verification: ' . $e->getMessage());
+            return back()->withErrors(['email' => 'Failed to send verification email']);
+        }
     }
 }
