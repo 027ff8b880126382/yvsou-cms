@@ -66,8 +66,9 @@ class AppServiceProvider extends ServiceProvider
             'mail.from.name' => $settings['from_name'] ?? null,
         ]);
 
+        $defaultLocale = config('yvsou_config.DEFAULT_LANGUAGE', 'en');
+        App::setLocale($defaultLocale);
 
-        // app(LocaleService::class)->setLocaleFromCookie();
         ConstantService::$adminHasAllRights = config('yvsou_config.ADMINHASRIGHTS') ?? false;
 
         View::composer('*', function ($view) {
