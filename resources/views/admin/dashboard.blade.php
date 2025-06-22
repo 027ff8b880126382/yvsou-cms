@@ -26,13 +26,19 @@
 
 
 @section('content')
-    <div class="absolute right-0 top-0 w-64 p-4">
-        <h2 class="text-xl font-bold mb-4">Dashboard</h2>
-        <nav class="space-y-3">
-            <a href="/admin/dashboard" class="block text-gray-800 hover:font-semibold">Dashboard</a>
-            <a href="/admin/plugins" class="block text-gray-800 hover:font-semibold">Plugins</a>
-            <a href="/admin/users" class="block text-gray-800 hover:font-semibold">Users</a>
-        </nav>
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="w-64 p-6 bg-white shadow rounded text-center">
+            <h2 class="text-xl font-bold mb-4">Dashboard</h2>
+            <nav class="space-y-3">
+                <a href="/admin/dashboard" class="block text-gray-800 hover:font-semibold">Dashboard</a>
+                <a href="/admin/plugins" class="block text-gray-800 hover:font-semibold">Plugins</a>
+                <a href="/admin/users" class="block text-gray-800 hover:font-semibold">Users</a>
+                @can('admin')
+                    <a href="{{ route('admin.setmail.edit') }}" class="block text-gray-800 hover:font-semibold">
+                        Mail Settings
+                    </a>
+                 @endcan
+            </nav>
+        </div>
     </div>
-
 @endsection

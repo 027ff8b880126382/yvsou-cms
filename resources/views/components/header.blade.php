@@ -76,7 +76,11 @@
                                             class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                             {{ __('profile.title') }}
                                         </a>
-                                        
+                                        <!-- Dashboard -->
+                                        <a href="{{ route('dashboard') }}"
+                                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                            {{ __('dashboard.dashboard') }}
+                                        </a>
 
                                         <!-- Logout -->
                                         <form method="POST" action="{{ route('logout') }}">
@@ -154,7 +158,10 @@
                                 class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                                 {{ __('profile.title') }}
                             </a>
-                            
+                            <!-- Dashboard -->
+                            <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                                {{ __('dashboard.dashboard') }}
+                            </a>
 
                             <!-- Logout -->
                             <form method="POST" action="{{ route('logout') }}">
@@ -166,6 +173,8 @@
                             </form>
                         </x-slot>
                     </x-dropdown>
+
+
                 @else
                     <a href="{{ route('login') }}"
                         class="block py-2 text-sm text-gray-700 hover:text-black">{{ __('auth.login') }} </a>

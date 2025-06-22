@@ -1,0 +1,33 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
+// app/Http/Controllers/Admin/MailSettingsController.php
+use App\Models\MailSetting;
+
+class MailSettingsController extends Controller
+{
+    public function edit()
+    {
+        $settings = MailSetting::getSettings();
+        logger("MailSettingsController");
+        return view('admin.mail.mail-settings', compact('settings'));
+    }
+
+    public function update(Request $request)
+    {
+        MailSetting::updateSettings($request->only([
+            'host',
+            'port',
+            'encryption',
+            'username',
+            'password',
+            'from_address',
+            'from_name',
+        ]));
+
+        return redirect()->back()->with('success', 'Mail settings updated.');
+    }
+}
