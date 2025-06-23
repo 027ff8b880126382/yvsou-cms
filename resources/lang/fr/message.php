@@ -23,4 +23,10 @@
 
 return [
     'message' => 'Message',
+    'chmsgid' => "Choisir l'ID du message",
+    'msgid' => "ID du message",
+    'msg_content' => "Contenu du message",
+    'msg_handled' => "Type de traitement :",
+    'msg_from' => "Éditeur",
+    'msg_time' => "Heure de publication",
 ];

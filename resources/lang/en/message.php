@@ -22,6 +22,11 @@
  */
 
 return [
-'message' => 'Message',
- 
+    'message' => 'Message',
+    'chmsgid' => 'Choose Message ID',
+    'msgid' => 'Message ID',
+    'msg_content' => 'Message Content',
+    'msg_handled' => 'Handling Type:',
+    'msg_from' => 'Publisher',
+    'msg_time' => 'Published Time',
 ];
