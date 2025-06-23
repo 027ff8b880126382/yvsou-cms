@@ -28,77 +28,28 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Cookie;
 
 
-
 class SetLocale
 {
-    public function handle1($request, Closure $next)
-    {
-
-        $cookieLocale = $request->cookie('locale'); // Already decrypted
-    
-
-
-        //  $cookieLocale = Cookie::get('locale', config(key: 'site.DEFAULT_LANGUAGE'));
-        // $cookieLocale = Cookie::get('locale', config(key: 'site.DEFAULT_LANGUAGE'));
-
-        logger('cookieLocale in SetLocaleFromCookie class ', [$cookieLocale]); // Temporarily check this
-
-        if (!in_array($cookieLocale, config('yvsou_config.LANGUAGESET'))) {
-            logger('cookieLocale in not in langset   ', [$cookieLocale]); // Temporarily check this
-         //   Cookie::queue(Cookie::forget('locale'));
-        } else {
-            logger('setLocalebefore getlocale', [App::getLocale()]); // Temporarily check this
-            if (App::getLocale() !== $cookieLocale) {
-                logger('setLocalebefore', [App::getLocale()]); // Temporarily check this
-                App::setLocale($cookieLocale);
-
-                logger('setLocaleafter', [App::getLocale()]); // Temporarily check this
-            }
-        }
-
-        return $next($request);
-    }
-
-   
+      
     public function handle($request, Closure $next)
     {
-        // Automatically decrypted by EncryptCookies middleware
-        $cookieLocale = $request->cookie('locale');
+        logger('Locale in SetLocale middleware before', [app()->getLocale()]);
 
-        logger('cookieLocale in SetLocale middleware', [$cookieLocale]);
+       // $locale = Cookie::get('locale', config('yvsou_config.DEFAULT_LANGUAGE'));
+         $locale = $_COOKIE['locale'] ?? 'en';
+        logger('cookieLocale in SetLocale middleware  ', [$locale]);
 
-        $availableLocales = config('yvsou_config.LANGUAGESET');
+        if (in_array($locale, config('yvsou_config.LANGUAGESET'))) {
+            app()->setLocale($locale);
+            logger('cookieLocale in SetLocale middleware after', [app()->getLocale()]);
 
-        if (in_array($cookieLocale, $availableLocales)) {
-            if (App::getLocale() !== $cookieLocale) {
-                logger('Setting locale from cookie', ['from' => App::getLocale(), 'to' => $cookieLocale]);
-                App::setLocale($cookieLocale);
-            }
-        } else {
-            logger('Invalid locale found in cookie', [$cookieLocale]);
-            // Optional: unset bad cookie
-            // Cookie::queue(Cookie::forget('locale'));
         }
 
         return $next($request);
     }
 }
 
- 
-class SetLocale1
-{
-    public function handle($request, Closure $next)
-    {
-        $locale = Cookie::get('locale', config('app.locale'));
-        $availableLocales = array_keys(config('yvsou_config.LANGUAGESET'));
 
-        if (in_array($locale, $availableLocales)) {
-            App::setLocale($locale);
-        }
-
-        return $next($request);
-    }
-}
 
 
 

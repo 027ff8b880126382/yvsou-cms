@@ -20,7 +20,7 @@
  * Contact: yvsoucom@gmail.com
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
- 
+
 namespace App\Http\Controllers\Lang;
 use App\Http\Controllers\Controller;
 use App\Services\LocaleService;
@@ -42,13 +42,16 @@ class LangController extends Controller
     public function setLang($locale)
     {
         $availableLocales = config('yvsou_config.LANGUAGESET');
-      //  logger('availableLocales', $availableLocales); // Temporarily check this
-      //  logger('localebefore', [$locale]); // Temporarily check this
+        logger('availableLocales', $availableLocales); // Temporarily check this
+        logger('localebefore', [$locale]); // Temporarily check this
         if (in_array($locale, $availableLocales)) {
 
-            logger('set locale cookie', [$locale]); // Temporarily check this
+            app()->setLocale($locale);
+            logger('set locale cookie after', [app()->getLocale()]); // Temporarily check this 
+             
+            setcookie('locale', $locale, time() + (60 * 60 * 24 * 30), '/'); // expires in 30 days, available site-wide
 
-            return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 30)); // valid locale
+           // return redirect()->back()->withCookie(cookie('locale', $locale, 60 * 24 * 30)); // valid locale
         }
 
         return redirect()->back(); // don't set cookie for invalid locale

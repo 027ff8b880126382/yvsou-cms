@@ -1,7 +1,8 @@
-{{--
-@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-@author Lican Huang
-@created 2025-06-15
+<?php
+/**
+  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+  @author Lican Huang
+  @created 2025-06-23
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -20,24 +21,14 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
+return [
+  'personalkeyword' => '个人关键词',
+  'keywordsearch' => '关键词搜索',
+  'inputkeyword' => '请输入关键词...',
+  'inputpersonalkeyword' => '您的个人关键词...',
+  'directorysearch' => '目录搜索',
+  'inputdirectory' => '搜索目录...',
+  'alldirectory' => '我的所有目录',
+  'allgroup' => '我的所有小组',
 
-@php
-    $items = app(\App\Services\PagelineService::class)->showNewDirs();
-@endphp
-
-<div>
-    <h2 class="text-xl font-semibold mb-3">{{ __('headline.newdirs')}}</h2>
-
-    <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">
-        <ul class="space-y-2">
-            @foreach ($items as $item)
-                <li>
-                    <a href="{{ $item['url'] }}" class="text-purple-600 hover:underline">
-                        {{ $item['title'] }}
-                    </a>
-                </li>
-            @endforeach
-        </ul>
-    </div>
-</div>
+];

@@ -27,7 +27,7 @@
 @endphp
 
 <div>
-    <h2 class="text-xl font-semibold mb-3">New articles</h2>
+    <h2 class="text-xl font-semibold mb-3"> {{ __('headline.newposts')}}</h2>
 
     <!-- Scrollable container -->
     <div class="max-h-64 overflow-y-auto border border-gray-200 rounded-lg p-3 bg-white shadow-sm">

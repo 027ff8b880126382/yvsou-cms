@@ -30,33 +30,41 @@ use Illuminate\Support\Facades\Cookie;
 
 class LocaleService
 {
-
-    public function setLocaleFromCookie(): string
+    public function setbootLocaleFromCookie(): void
     {
-        // $cookieLocale = request()->cookie('locale', config('app.locale'));
-        //  $cookieLocale = request()->cookie('locale', config(key: 'site.DEFAULT_LANGUAGE'));
-        $cookieLocale = Cookie::get('locale', config(key: 'yvsou_config.DEFAULT_LANGUAGE'));
-        logger('cookieLocale', [$cookieLocale]); // Temporarily check this
+        if (!request()->isMethod('get') || !request()->acceptsHtml()) {
+            return; // Only apply locale on normal HTML page GET requests
+        }
+        $cookieLocale = Cookie::get('locale');
+        logger('setbootLocaleFromCookie begin  ', [$cookieLocale]); // Temporarily check this
+        logger('setbootLocaleFromCookie getLocale   ', [app()->getLocale()]); // Temporarily check this
+
+        if (!$cookieLocale)
+            $cookieLocale = config('yvsou_config.DEFAULT_LANGUAGE');
 
         if (!in_array($cookieLocale, config('yvsou_config.LANGUAGESET'))) {
-            logger('cookieLocale in not in langset   ', [$cookieLocale]); // Temporarily check this
-            logger('LANGUAGESET in not in langset   ', [config('yvsou_config.LANGUAGESET')]); // Temporarily check this
+            $Locale = app()->getLocale();
+            logger('setbootLocaleFromCookie getLocale not in array  ', [$Locale]); // Temporarily check this
 
-            $cookieLocale = App::getLocale();
-        } else {
-            if (App::getLocale() !== $cookieLocale) {
-                App::setLocale($cookieLocale);
-                logger('setLocale', [$cookieLocale]); // Temporarily check this
-                logger('setLocaleafter', [App::getLocale()]); // Temporarily check this
-                return redirect()->back();
+            if (!$Locale) {
+                $Locale = config('yvsou_config.DEFAULT_LANGUAGE');
+                //  App::setLocale($Locale);
             }
+        } else {
+            logger('setbootLocaleFromCookie cookieLocale ', [$cookieLocale]); // Temporarily check this
+            logger('setbootLocaleFromCookie getLocale ', [app()->getLocale()]); // Temporarily check this
+
+            if (app()->getLocale() !== $cookieLocale)
+                app()->setLocale($cookieLocale);
         }
-        return '1';
+        logger('setbootLocaleFromCookie after', [app()->getLocale()]); // Temporarily check this
+
     }
+
     public function getlangSet($langSet): array
     {
         $languageArray = [];
-        
+
         foreach ($langSet as $code) {
 
             $code = trim($code);
@@ -89,35 +97,35 @@ class LocaleService
 
 
 
-    public function getSetLocaleFromCookie(): void
-    {
+    /*    public function getSetLocaleFromCookie(): void
+        {
 
-        $cookieLocale = Cookie::get('locale');
+            $cookieLocale = Cookie::get('locale');
 
-        if (!in_array($cookieLocale, config('yvsou_config.LANGUAGESET'))) {
+            if (!in_array($cookieLocale, config('yvsou_config.LANGUAGESET'))) {
 
-        } else {
-            if (App::getLocale() !== $cookieLocale) {
-                App::setLocale($cookieLocale);
-                logger('setLocale', [$cookieLocale]); // Temporarily check this
-                logger('setLocaleafter', [App::getLocale()]); // Temporarily check this
+            } else {
+                if (App::getLocale() !== $cookieLocale) {
+                    App::setLocale($cookieLocale);
+                    logger('setLocale', [$cookieLocale]); // Temporarily check this
+                    logger('setLocaleafter', [App::getLocale()]); // Temporarily check this
+                }
             }
+
         }
-
-    }
-
+    */
     public function getcurlang(): int
     {
-        $this->getSetLocaleFromCookie();
+        //  $this->getSetLocaleFromCookie();
         $code = App::getLocale();
         $langid = $this->getlangID($code);
-        logger('langcode, langid ', [$code, $langid]);
+        //logger('langcode, langid ', [$code, $langid]);
         return $langid;
 
     }
     public function getcurlangcode(): string
     {
-        $this->getSetLocaleFromCookie();
+        // $this->getSetLocaleFromCookie();
         $code = App::getLocale();
         return $code;
 

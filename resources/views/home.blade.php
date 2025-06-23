@@ -39,7 +39,7 @@
 
                 {{-- Domain Tree --}}
                 <div class="bg-white shadow rounded-2xl p-4">
-                    <h2 class="text-xl font-semibold mb-4">Domain Tree</h2>
+                    <h2 class="text-xl font-semibold mb-4">{{__('domain.domaintree')}}</h2>
                     @livewire('show-domain-tree')
                 </div>
 

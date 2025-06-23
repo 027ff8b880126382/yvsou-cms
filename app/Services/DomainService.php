@@ -37,7 +37,7 @@ class DomainService
 
     public function get_children_by_groupid(string $groupId): array
     {
-        logger("get_children_by_groupid", [$groupId]);
+        // logger("get_children_by_groupid", [$groupId]);
         $groupId = trim($groupId);
 
         return array_map('trim', DomainTreeChildId::where('domainid', $groupId)

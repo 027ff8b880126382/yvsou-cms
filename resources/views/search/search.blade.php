@@ -27,9 +27,9 @@
 
     <!-- Keyword Row -->
     <div class="space-y-2">
-        <label for="keyword" class="block text-sm font-medium text-gray-600">Keyword Search</label>
+        <label for="keyword" class="block text-sm font-medium text-gray-600">{{ __('search.keywordsearch') }}</label>
         <div class="flex items-center gap-2">
-            <input type="text" name="keyword" id="keyword" placeholder="Enter keyword..."
+            <input type="text" name="keyword" id="keyword" placeholder="{{ __('search.inputkeyword') }}"
                 class="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-blue-100 focus:border-blue-500 transition-all duration-200">
             <button type="submit" name="action" value="keyword"
                 class="px-5 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-1">
@@ -44,9 +44,9 @@
     @auth
     <!-- My Keyword Row -->
     <div class="space-y-2">
-        <label for="mykeyword" class="block text-sm font-medium text-gray-600">Personal Keyword</label>
+        <label for="mykeyword" class="block text-sm font-medium text-gray-600">{{ __('search.personalkeyword') }}</label>
         <div class="flex items-center gap-2">
-            <input type="text" name="mykeyword" id="mykeyword" placeholder="Your personal keyword..."
+            <input type="text" name="mykeyword" id="mykeyword" placeholder="{{ __('search.inputpersonalkeyword') }}"
                 class="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-green-100 focus:border-green-500 transition-all duration-200">
             <button type="submit" name="action" value="mykeyword"
                 class="px-5 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-1">
@@ -61,9 +61,9 @@
 
     <!-- Directory Row -->
     <div class="space-y-2">
-        <label for="dir" class="block text-sm font-medium text-gray-600">Directory Search</label>
+        <label for="dir" class="block text-sm font-medium text-gray-600">{{ __('search.directorysearch') }}</label>
         <div class="flex items-center gap-2">
-            <input type="text" name="dir" id="dir" placeholder="Search directories..."
+            <input type="text" name="dir" id="dir" placeholder="{{ __('search.inputdirectory') }}"
                 class="flex-1 p-3 border-2 border-gray-200 rounded-lg focus:ring-4 focus:ring-purple-100 focus:border-purple-500 transition-all duration-200">
             <button type="submit" name="action" value="dir"
                 class="px-5 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg font-medium transition-all duration-200 shadow-sm hover:shadow-md flex items-center gap-1">
@@ -84,7 +84,7 @@
                 <path d="M2 6a2 2 0 012-2h5l2 2h5a2 2 0 012 2v6a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                 <path fill-rule="evenodd" d="M8 11a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd" />
             </svg>
-            All Directories
+            {{ __('search.alldirectory') }}  
         </button>
 
         <!-- My All Groups Button -->
@@ -93,8 +93,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
             </svg>
-            All Groups
-        </button>
+            {{ __('search.allgroup') }}   
     </div>
     @endauth
 </form>

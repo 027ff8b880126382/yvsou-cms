@@ -47,7 +47,7 @@ class ShowDomainTree extends Component
             $thislink = (new DomainService())->get_joinLink_by_uniqid($this->groupid);
             $this->domain = [
                 'groupid' => $this->groupid,
-                'name' => $thislink ,
+                'name' => $thislink,
                 // 'name' => trim((new DomainService())->get_jointitle_by_uniqid($this->groupid)),
             ];
 
@@ -68,7 +68,7 @@ class ShowDomainTree extends Component
         $groupid = trim($groupid);
         if (!is_array($this->children) || !isset($this->children[$groupid])) {
             $childIds = (new DomainService())->get_children_by_groupid($groupid);
-            logger("childids", [$childIds]);
+            //   logger("childids", [$childIds]);
             $this->children[$groupid] = []; // initialize
             foreach ($childIds as $childId) {
                 $childId = trim($childId);
@@ -77,7 +77,7 @@ class ShowDomainTree extends Component
 
             }
         }
-        logger("this_childids", [$this->children[$groupid]]);
+        //   logger("this_childids", [$this->children[$groupid]]);
     }
 
     public function loadnextChildren($groupid)
@@ -85,7 +85,7 @@ class ShowDomainTree extends Component
         $groupid = trim($groupid);
         if (!isset($this->children[$groupid])) {
             $childIds = (new DomainService())->get_children_by_groupid($groupid);
-            logger("nextchildids", [$childIds]);
+            //   logger("nextchildids", [$childIds]);
             $this->children[$groupid] = []; // initialize
             foreach ($childIds as $childId) {
                 $childId = trim($childId);
@@ -93,7 +93,7 @@ class ShowDomainTree extends Component
                 $this->children[$groupid][] = $childgroupid;
             }
         }
-        logger("loadnextChildren", [$this->children[$groupid]]);
+        // logger("loadnextChildren", [$this->children[$groupid]]);
     }
 
 

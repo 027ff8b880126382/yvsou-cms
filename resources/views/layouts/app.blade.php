@@ -24,11 +24,7 @@
 
 <!DOCTYPE html>
 <!-- #endregion -->
-
-@php
-    app(\App\Services\LocaleService::class)->setLocaleFromCookie();
-@endphp
-
+ 
 <html lang="{{ str_replace('_', '-', App::getLocale()) }}">
 
 <head>

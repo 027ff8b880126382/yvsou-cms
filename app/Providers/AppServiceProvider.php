@@ -55,7 +55,6 @@ class AppServiceProvider extends ServiceProvider
             return $user->role === 'admin'; // or $user->is_admin, etc.
         });
         $settings = MailSetting::getSettings();
-
         config([
             'mail.mailers.smtp.host' => $settings['host'] ?? null,
             'mail.mailers.smtp.port' => $settings['port'] ?? null,
@@ -65,31 +64,22 @@ class AppServiceProvider extends ServiceProvider
             'mail.from.address' => $settings['from_address'] ?? null,
             'mail.from.name' => $settings['from_name'] ?? null,
         ]);
-
-        $defaultLocale = config('yvsou_config.DEFAULT_LANGUAGE', 'en');
-        App::setLocale($defaultLocale);
-
+        if (app()->runningInConsole() && basename($_SERVER['PHP_SELF']) === 'generate_migrations_from_models.php') {
+            return; // prevent loading shortcodes
+        }
+        // app(LocaleService::class)->setbootLocaleFromCookie();
         ConstantService::$adminHasAllRights = config('yvsou_config.ADMINHASRIGHTS') ?? false;
-
         View::composer('*', function ($view) {
             $localeService = app(LocaleService::class);
             // $view->with('getlangSet', $localeService->getlangSet(config('yvsou_config.LANGUAGESET')));
             $view->with('getlangSet', $localeService->getlangSet(config('yvsou_config.LANGUAGESET')));
-
         });
-        app(LocaleService::class)->setLocaleFromCookie();
-        if (app()->runningInConsole() && basename($_SERVER['PHP_SELF']) === 'generate_migrations_from_models.php') {
-            return; // prevent loading shortcodes
-        }
-        if (Schema::hasTable('shortcodes')) {
 
+        if (Schema::hasTable('shortcodes')) {
             $shortcodes = \App\Models\Shortcode::all();
             $shortcodeManager = new \App\Services\ShortcodeManager();
             $shortcodeManager->loadFromDatabase();
-
             app()->instance('shortcode', $shortcodeManager);
-
-
         }
 
 
