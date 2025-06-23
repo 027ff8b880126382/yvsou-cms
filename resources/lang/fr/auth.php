@@ -30,5 +30,7 @@ return [
     'remember_me' => 'Se souvenir de moi',
     'forgot_password' => 'Mot de passe oublié ?',
     'logout' => 'Déconnexion',
-
+    'account' => 'Nom',
+    'confirmpassword' => 'Confirmer le mot de passe',
+    'alreadyregistered' => 'Déjà inscrit ?',
 ];

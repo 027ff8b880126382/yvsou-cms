@@ -30,4 +30,7 @@ return [
     'remember_me' => '记住我',
     'forgot_password' => '忘记密码？',
     'logout' => '登出',
+    'account' => '姓名',
+    'confirmpassword' => '确认密码',
+    'alreadyregistered' => '已经注册？',
 ];

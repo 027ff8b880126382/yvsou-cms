@@ -30,4 +30,7 @@ return [
     'remember_me' => 'ログインを記憶する',
     'forgot_password' => 'パスワードをお忘れですか？',
     'logout' => 'ログアウト',
+    'account' => '名前',
+    'confirmpassword' => 'パスワードの確認',
+    'alreadyregistered' => 'すでに登録していますか？',
 ];

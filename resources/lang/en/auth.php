@@ -30,4 +30,8 @@ return [
     'remember_me' => 'Remember Me',
     'forgot_password' => 'Forgot Your Password?',
     'logout' => 'Logout',
+    'account' => 'Name',
+    'confirmpassword' => 'Confirm Password',
+    'alreadyregistered' => 'Already registered?',
+
 ];
