@@ -32,6 +32,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use App\Services\RightsService;
 use App\Services\ConstantService;
+use App\Services\DomainService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
 /**
@@ -140,6 +141,15 @@ class User extends Authenticatable implements MustVerifyEmail
 			->where('userid', $this->id)
 			->where('m_type', 'c')
 			->exists();
+	}
+
+	public function withDomainPublicStatus($domainID): bool
+	{
+		if ($this->isManageDomainOwner($domainID)) {
+			$status = (new DomainService())->checkDomainPublicStatus($domainID);
+			return $status;
+		}
+		return -1;
 	}
 
 
