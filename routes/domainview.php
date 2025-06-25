@@ -37,12 +37,12 @@ Route::middleware(['auth'])->prefix('domainview')->name('domainview.')->group(fu
     ->name('createsub');
   Route::post('storesub', [DomainViewController::class, 'storesub'])
     ->name('storesub');
-  Route::get('/editsub/{groupid}', [DomainViewController::class, 'editsub'])->name('editsub');
-  Route::post('updatesub', [DomainViewController::class, 'updatesub'])
-    ->name('updatesub');
-  Route::post('destroysub', [DomainViewController::class, 'destroysub'])
+  Route::get('/editdomain/{groupid}', [DomainViewController::class, 'editdomain'])->name('editdomain');
+  Route::post('updatedomain', [DomainViewController::class, 'updatedomain'])
+    ->name('updatedomain');
+  Route::post('destroy', [DomainViewController::class, 'destroy'])
     ->name('destroy');
-  Route::delete('/{groupid}', [DomainViewController::class, 'destroysub'])->name('destroysub');
+  Route::delete('/{groupid}', [DomainViewController::class, 'destroydomain'])->name('destroydomain');
   Route::patch('/trash/{groupid}', [DomainViewController::class, 'trash'])->name('trash');
   Route::patch('/{groupid}/untrash', [DomainViewController::class, 'untrash'])->name('untrash');
   Route::patch('/{groupid}/auditcheck', [DomainViewController::class, 'auditcheck'])->name('auditcheck');

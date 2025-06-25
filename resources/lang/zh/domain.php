@@ -21,8 +21,37 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
+ 
 return [
-    'domaintree' => '域名目录树',
-];
+  'domaintree' => '领域树',
+  'createpost' => '创建新帖子',
+  'viewpost' => '查看领域帖子',
+  'manage' => '领域目录管理操作',
+  'group' => '领域小组管理操作',
+  'createsub' => '创建子目录',
+  'editdomain' => '编辑领域目录',
+  'editrights' => '编辑权限',
+  'auditcheck' => '审核通过',
+  'audituncheck' => '取消审核',
+  'comfirmtrash' => '您确定要将此领域移入回收站吗？',
+  'trashdomain' => '移入回收站',
+  'restoredomain' => '恢复领域',
+  'permanetdelete' => '您确定要永久删除此领域吗？',
+  'deletedomain' => '永久删除领域',
 
+  'broadcastmsg' => '📢 广播领域消息',
+  'approvegroup' => '✅ 批准小组',
+  'invitegroup' => '✉️ 邀请加入小组',
+  'auditcheckgroup' => '✔️ 小组审核通过',
+  'audituncheckgroup' => '❌ 小组取消审核',
+  'groupstatus' => '小组状态',
+  'joined' => '已加入',
+  'pending' => '待审核',
+  'blocked' => '已封锁',
+  'joingroup' => '加入领域小组',
+  'quitgroup' => '退出领域小组',
+  'setprivate' => '🔒 设为私有小组',
+  'setpublic' => '🌐 设为公开小组',
+  'subdomains' => '子目录',
+];
 

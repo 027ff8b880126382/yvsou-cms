@@ -21,7 +21,37 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
+ 
 return [
-    'domaintree' => 'Arborescence de domaine',
+  'domaintree' => 'Arborescence des domaines',
+  'createpost' => 'Créer un nouveau message',
+  'viewpost' => 'Voir les publications du domaine',
+  'manage' => 'Gestion du répertoire du domaine',
+  'group' => 'Gestion du groupe de domaine',
+  'createsub' => 'Créer un sous-répertoire',
+  'editdomain' => 'Modifier le répertoire du domaine',
+  'editrights' => 'Modifier les droits',
+  'auditcheck' => 'Valider l’audit',
+  'audituncheck' => 'Annuler l’audit',
+  'comfirmtrash' => 'Êtes-vous sûr de vouloir mettre ce domaine à la corbeille ?',
+  'trashdomain' => 'Mettre à la corbeille',
+  'restoredomain' => 'Restaurer le domaine',
+  'permanetdelete' => 'Êtes-vous sûr de vouloir supprimer ce domaine définitivement ?',
+  'deletedomain' => 'Supprimer le domaine',
+
+  'broadcastmsg' => '📢 Diffuser un message de groupe',
+  'approvegroup' => '✅ Approuver le groupe',
+  'invitegroup' => '✉️ Inviter dans le groupe',
+  'auditcheckgroup' => '✔️ Valider l’audit du groupe',
+  'audituncheckgroup' => '❌ Annuler l’audit du groupe',
+  'groupstatus' => 'Statut du groupe',
+  'joined' => 'Rejoints',
+  'pending' => 'En attente',
+  'blocked' => 'Bloqués',
+  'joingroup' => 'Rejoindre le groupe du domaine',
+  'quitgroup' => 'Quitter le groupe du domaine',
+  'setprivate' => '🔒 Définir comme groupe privé',
+  'setpublic' => '🌐 Définir comme groupe public',
+  'subdomains' => 'Sous-domaines',
 ];
 

@@ -22,9 +22,35 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 return [
-    'domaintree' => 'Domain Tree',
-    'createpost' => 'Create New Post',
-    'viewpost' => 'View Domain Posts',
-    
+  'domaintree' => 'Domain Tree',
+  'createpost' => 'Create New Post',
+  'viewpost' => 'View Domain Posts',
+  'manage' => 'Domain Directory Manage Action',
+  'group' => 'Domain Group Manage Action',
+  'createsub' => 'Create Sub Directory',
+  'editdomain' => 'Edit  Domain Directory',
+  'editrights' => 'Edit  Rights',
+  'auditcheck' => 'Audit Check',
+  'audituncheck' => 'Audit Uncheck',
+  'comfirmtrash' => 'Are you sure you want to trash this domain?',
+  'trashdomain' => 'Trash Domain',
+  'restoredomain' => 'Restore Domain',
+  'permanetdelete' => 'Are you sure you want to permanently delete this domain?',
+  'deletedomain' => 'Delete Domain',
+
+  'broadcastmsg' => '📢 Broadcast Group Message',
+  'approvegroup' => '✅ Approve Group',
+  'invitegroup' => '✉️ Invite Group',
+  'auditcheckgroup' => '✔️ Audit Check Group',
+  'audituncheckgroup' => '❌ Uncheck Audit Group',
+  'groupstatus' => 'group status',
+  'joined' => 'group joined',
+  'pending' => 'group pending',
+  'blocked' => 'group blocked',
+  'joingroup' => 'Join Domain Group',
+  'quitgroup' => 'Leave Domain Group',
+  'setprivate' => '🌐change to Private Group',
+  'setpublic' => '🔒 change to Public Group',
+  'subdomains' => 'Sub Domains',
 ];
 
