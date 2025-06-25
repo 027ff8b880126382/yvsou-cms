@@ -67,7 +67,6 @@ class DomainViewController extends Controller
 
     public function index($groupid)
     {
-
         if ($groupid == 0) {
             $groupid = DomainManager::getFirstGroupid();
             if (!$groupid) {
@@ -82,41 +81,31 @@ class DomainViewController extends Controller
             }
             $groupid = (new DomainService())->get_topid_from_groupid($groupid);
         }
-
         $domainlinks = (new DomainService())->get_joinGroupLink_by_uniqid($groupid);
         $subdomain = $this->showSubDomains($groupid);
-
-
         $joincounts = [
             'joinnumbers' => DomainName::countJoinGroup($groupid),
             'pendingUsers' => DomainName::countRequestedGroup($groupid),
             'blockedUsers' => DomainName::countBlockGroup($groupid),
 
         ];
-
         $createpost = new \stdClass();
-
         $createUrl = route('post.create', [
             'groupid' => $groupid,
         ]);
-        $createpost->title = "create new post";
+
         $createpost->url = $createUrl;
-
-
         $viewdomainposts = new \stdClass();
-
         $viewdomainpostUrl = route('post.postview', [
             'groupid' => $groupid,
         ]);
 
-        $viewdomainposts->title = "View Domain Posts";
         $viewdomainposts->url = $viewdomainpostUrl;
-
-
-        return view('domainview.index', compact('groupid', 'domainlinks', 'subdomain', 'joincounts', 'createpost', 'viewdomainposts')); // resources/views/domainview/index.blade.php
+        $id = (new DomainService())->get_id_from_groupid($groupid);
+        $domaintitle = (new DomainService())->get_jointitle_by_id($id);
+        $domaindescription = (new DomainService())->get_jointitledescription_by_id($id);
+        return view('domainview.index', compact('groupid', 'domaintitle', 'domaindescription', 'domainlinks', 'subdomain', 'joincounts', 'createpost', 'viewdomainposts'));
     }
-
-
 
     public function createsub($groupid)
     {
@@ -221,7 +210,16 @@ class DomainViewController extends Controller
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
-
+   public function editrights($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+ 
+   
+   
+    
 }
 
 

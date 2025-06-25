@@ -38,8 +38,17 @@ Route::prefix('group')->name('group.')->group(function () {
 
 Route::middleware(['auth'])->prefix('group')->name('group.')->group(function () {
 
-    Route::get('join/{groupid}', [GroupController::class, 'join'])
-        ->name('join');
+    Route::patch('/setpub/{groupid}', [GroupController::class, 'setpub'])->name('setpub');
+    Route::patch('/setprivate/{groupid}', [GroupController::class, 'setprivate'])->name('setprivate');
+
+    Route::patch('/{groupid}/joingroup', [GroupController::class, 'joingroup'])->name('joingroup');
+    Route::patch('/{groupid}/quitgroup', [GroupController::class, 'quitgroup'])->name('quitgroup');
+    Route::patch('/{groupid}/approvegroup', [GroupController::class, 'approvegroup'])->name('approvegroup');
+    Route::patch('/{groupid}/invitegroup', [GroupController::class, 'invitegroup'])->name('invitegroup');
+    Route::patch('/{groupid}/auditcheckgroup', [GroupController::class, 'auditcheckgroup'])->name('auditcheckgroup');
+    Route::patch('/{groupid}/unauditcheckgroup', [GroupController::class, 'unauditcheckgroup'])->name('unauditcheckgroup');
+    Route::patch('/{groupid}/groupmessage', [GroupController::class, 'groupmessage'])->name('groupmessage');
+
 
 });
 

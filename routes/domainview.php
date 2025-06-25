@@ -21,86 +21,31 @@
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DomainViewController;
 use App\Http\Controllers\DomainItemController;
-
 
 // Public
 Route::prefix('domainview')->name('domainview.')->group(function () {
   Route::get('/{groupid}', [DomainViewController::class, 'index'])->name('index');
 });
 
-
 // Authenticated
 
 Route::middleware(['auth'])->prefix('domainview')->name('domainview.')->group(function () {
   Route::get('/createsub/{groupid}', [DomainViewController::class, 'createsub'])
     ->name('createsub');
-
-
   Route::post('storesub', [DomainViewController::class, 'storesub'])
     ->name('storesub');
-
-
-
   Route::get('/editsub/{groupid}', [DomainViewController::class, 'editsub'])->name('editsub');
-
-
-
   Route::post('updatesub', [DomainViewController::class, 'updatesub'])
     ->name('updatesub');
-
-
-
-
   Route::post('destroysub', [DomainViewController::class, 'destroysub'])
     ->name('destroy');
-
   Route::delete('/{groupid}', [DomainViewController::class, 'destroysub'])->name('destroysub');
-
-
-
-  //Route::post('setpub', [DomainViewController::class, 'setpub'])
-  //  ->name('setpub');
-
-  Route::patch('/setpub/{groupid}', [DomainViewController::class, 'setpub'])->name('setpub');
-
-
-
-  //Route::post('setprivate', [DomainViewController::class, 'setprivate'])
-  //  ->name('setprivate');
-
-  Route::patch('/setprivate/{groupid}', [DomainViewController::class, 'setprivate'])->name('setprivate');
-
-
-
- // Route::post('trash', [DomainViewController::class, 'trash'])
- //   ->name('trash');
-
   Route::patch('/trash/{groupid}', [DomainViewController::class, 'trash'])->name('trash');
-
-
-
- // Route::post('untrash', [DomainViewController::class, 'untrash'])
- //   ->name('untrash');
-
   Route::patch('/{groupid}/untrash', [DomainViewController::class, 'untrash'])->name('untrash');
-
-
-
-  //Route::post('auditcheck', [DomainViewController::class, 'auditcheck'])
-  //  ->name('auditcheck');
-
   Route::patch('/{groupid}/auditcheck', [DomainViewController::class, 'auditcheck'])->name('auditcheck');
-
-
-
-  //Route::post('audituncheck', [DomainViewController::class, 'audituncheck'])
-  //  ->name('audituncheck');
-
   Route::patch('/{groupid}/audituncheck', [DomainViewController::class, 'audituncheck'])->name('audituncheck');
-
-
+  Route::patch('/{groupid}/editrights', [DomainViewController::class, 'editrights'])->name('editrights');
 });

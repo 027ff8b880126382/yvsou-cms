@@ -35,8 +35,58 @@ use App\Models\DomainPostId;
 use App\Models\DomainManager;
 use App\Models\User;
 use App\Models\DomainPost;
- 
+
 
 class GroupController extends Controller
 {
+
+
+    public function joingroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+
+    public function quitgroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+    public function approvegroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+
+    public function invitegroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+
+    public function auditcheckgroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+
+    public function unauditcheckgroup($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+    public function groupmessage($groupid)
+    {
+        if (!config('app.pro')) {
+            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        }
+    }
+
 }
+

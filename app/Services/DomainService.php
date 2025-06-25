@@ -84,7 +84,9 @@ class DomainService
         if (!is_numeric($id))
             return "";
 
-        $record = DomainTree::find($id);
+        $record = DomainTree::where('id', $id)
+            ->first();
+
 
         return $record ? $record->description : "";
     }

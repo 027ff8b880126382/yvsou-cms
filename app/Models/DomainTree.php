@@ -33,13 +33,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class DomainTree
  * 
- * @property string $domainN
- * @property string|null $wikiURL
- * @property string|null $forumURL
- * @property string|null $blogURL
+ * @property string $domain_dict_name
  * @property int $id
- * @property string $guid
- * @property int $blog_id
+ * @property int $lang
  * @property string $description
  *
  * @package App\Models

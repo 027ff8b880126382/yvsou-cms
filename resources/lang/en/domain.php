@@ -23,6 +23,8 @@
 */
 return [
     'domaintree' => 'Domain Tree',
+    'createpost' => 'Create New Post',
+    'viewpost' => 'View Domain Posts',
     
 ];
 
