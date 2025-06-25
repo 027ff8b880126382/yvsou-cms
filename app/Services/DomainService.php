@@ -298,5 +298,16 @@ class DomainService
         });
         return $newGroupId;
     }
+    function checkDomainPublicStatus($domainID)
+    {
+        if (trim($domainID) === '') {
+            return -1;
+        }
+        return DB::table('domain_managers')
+            ->where('domainID', $domainID)
+            ->where('m_type', 'c')
+            ->value('bHide');
+    }
+
 
 }

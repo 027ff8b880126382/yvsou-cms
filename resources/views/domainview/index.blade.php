@@ -181,17 +181,17 @@
         @endif
     @endif
 
-     {{-- Join/Leave Group --}}
+     {{-- set pub/set private Group --}}
     @if(auth()->check())
-        @if(!auth()->user()->withinGroup($groupid))
-            <form method="POST" action="{{ route('group.setprivate', $groupid) }}" class="mt-2">
+        @if(!auth()->user()->withDomainPublicStatus($groupid))
+            <form method="POST" action="{{ route('group.setprivate') }}" class="mt-2">
                 @csrf
-                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">🔒 Set Private Group</button>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">  🌐change to Private Group</button>
             </form>
         @else
-            <form method="POST" action="{{ route('group.setpublic', $groupid) }}" class="mt-2">
+            <form method="POST" action="{{ route('group.setpublic')}}" class="mt-2">
                 @csrf
-                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">🌐 Set Public Group</button>
+                <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded">🔒 change to Public Group</button>
             </form>
         @endif
     @endif

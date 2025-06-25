@@ -155,21 +155,7 @@ class DomainViewController extends Controller
 
     }
 
-    public function setpub($groupid)
-    {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
-
-    }
-
-    public function setprivate($groupid)
-    {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
-
-    }
+    
 
     public function trash($groupid)
     {

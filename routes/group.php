@@ -38,8 +38,8 @@ Route::prefix('group')->name('group.')->group(function () {
 
 Route::middleware(['auth'])->prefix('group')->name('group.')->group(function () {
 
-    Route::patch('/setpub/{groupid}', [GroupController::class, 'setpub'])->name('setpub');
-    Route::patch('/setprivate/{groupid}', [GroupController::class, 'setprivate'])->name('setprivate');
+    Route::post('/setpub', [GroupController::class, 'setpub'])->name('setpub');
+    Route::post('/setprivate', [GroupController::class, 'setprivate'])->name('setprivate');
 
     Route::patch('/{groupid}/joingroup', [GroupController::class, 'joingroup'])->name('joingroup');
     Route::patch('/{groupid}/quitgroup', [GroupController::class, 'quitgroup'])->name('quitgroup');
