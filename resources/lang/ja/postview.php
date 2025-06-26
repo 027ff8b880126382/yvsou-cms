@@ -1,4 +1,5 @@
-{{--
+<?php
+/**
   @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
   @author Lican Huang
   @created 2025-06-26
@@ -20,10 +21,8 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
-
-@extends('layouts.app')
-
-@section('content')
-    <livewire:post-reversion-diff :reversion-id="$reversionId" />
-@endsection
+return [
+    'postview4domain' => 'ドメイン内の記事を表示',
+    'postnumbers' => 'ドメイン内の記事数：',
+    'postaLLnumbers' => 'すべてのサブドメインの記事総数：',
+];

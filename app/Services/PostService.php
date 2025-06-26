@@ -101,7 +101,7 @@ class PostService
         $slen = ConstantService::$slen;
         $postsQuery = DB::table('domain_post_ids')
             ->useIndex('groupblogdate')
-            ->select('id', 'lang', 'groupid', 'gDate', 'guserID', 'isTrash')
+            ->select('postid', 'lang', 'groupid', 'gDate', 'guserID', 'isTrash')
             ->where('lang', $langid)
             ->where('groupid', 'like', $groupid . '%')
             ->orWhere('groupid', 'like', $groupid . '.%');
@@ -112,9 +112,10 @@ class PostService
             ->get();
     }
     function getPostCounts(
-        $groupid,   $alist 
+        $groupid,
+        $alist
     ) {
-    //    $alist = json_decode(Cookie::get('alist'), true) ?? ConstantService::$alist;
+        //    $alist = json_decode(Cookie::get('alist'), true) ?? ConstantService::$alist;
 
         if ($alist)
             $counts = $this->getAllSubPostCounts($groupid);
@@ -133,7 +134,7 @@ class PostService
         $countQuery = DB::table('domain_post_ids')
             ->useIndex('groupblogdate')
             ->where('lang', $langid)
-            ->where('groupid', '=', trim($groupid) );
+            ->where('groupid', '=', trim($groupid));
 
         $total = $countQuery->distinct('postid')->count('postid');
         return $total;
@@ -165,7 +166,7 @@ class PostService
             $results = $this->getAllSubPostGroups($groupid, $srec);
         else
             $results = $this->getDomainPostGroups($groupid, $srec);
-        //    Logger(message: "postgroups" . $results);
+        Logger(message: "postgroups" . $results);
         $posts = [];
         foreach ($results as $row) {
             $postId = $row->postid;
