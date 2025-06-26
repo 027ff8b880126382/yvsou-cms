@@ -20,4 +20,24 @@
  * Contact: yvsoucom@gmail.com
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
+return [
+    'reversionhist' => 'Reversion History',
+    'norevrsionfound' => 'No reversions found.',
+    'diff' => 'Difference',
+    'restore' => 'Restore',
+    'loading' => 'Loading...',
+    'loadmore' => 'Load More',
+    'confirm_restore' => 'Are you sure you want to restore this revision?',
+
+    'target_groupid' => 'target groupid',
+    'copy_targetid' => 'copy post to target group',
+
+    'posttitle' => 'Post Title',
+    'postcontent' => 'Post Content',
+    'close' => 'Close',
+    'publish' => 'Publish',
+    'selectfilefromlib' => 'Select a file from the library',
+    'updatepost' => 'Update Post',
+
+];
 

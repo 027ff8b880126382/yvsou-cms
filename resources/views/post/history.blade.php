@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-26
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-26
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,18 +21,19 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
- 
+
 <div x-data="reversionModal()" x-init="init()" x-show="show"
     class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50" x-cloak>
     <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl mx-4 p-6">
         <div class="flex justify-between items-center mb-4">
-            <h3 class="text-lg font-bold">reversion History</h3>
+            <h3 class="text-lg font-bold">{{ __('post.reversionhist') }}</h3>
             <button @click="show = false" class="text-gray-600 hover:text-red-500 text-xl">&times;</button>
         </div>
 
-        <div x-show="loading" class="text-center text-gray-500 py-10">Loading...</div>
+        <div x-show="loading" class="text-center text-gray-500 py-10">{{ __('post.loading') }}</div>
 
-        <div x-show="!loading && reversions.length === 0" class="text-center text-gray-400">No reversions found.</div>
+        <div x-show="!loading && reversions.length === 0" class="text-center text-gray-400">
+            {{ __('post.norevrsionfound') }} </div>
 
         <ul x-show="!loading" class="divide-y divide-gray-200 max-h-80 overflow-y-auto">
             <template x-for="rev in reversions" :key="rev . id">
@@ -43,16 +44,16 @@
                             <span class="text-xs text-gray-500" x-text="rev.modified_at"></span>
                         </div>
                         <div>
-                           
+
                             <span class="text-xs text-gray-500" x-text="rev.title"></span>
                         </div>
                         <div class="space-x-2">
 
                             <a :href="`/post/reversion-diff/${rev . id}/`" target="_blank"
-                                class="text-blue-600 hover:underline text-sm">Diff</a>
+                                class="text-blue-600 hover:underline text-sm">{{ __('post.diff') }} </a>
 
                             <button @click="restorereversion(rev.id)"
-                                class="text-green-600 hover:underline text-sm">Restore</button>
+                                class="text-green-600 hover:underline text-sm">{{ __('post.restore') }} </button>
                         </div>
                     </div>
                     <div class="text-sm text-gray-700 italic" x-text="rev.preview"></div>
@@ -61,7 +62,7 @@
         </ul>
 
         <div class="pt-4 text-center" x-show="nextPageUrl">
-            <button @click="loadMore" class="text-sm text-blue-600 hover:underline">Load More</button>
+            <button @click="loadMore" class="text-sm text-blue-600 hover:underline">{{ __('post.loadmore') }} </button>
         </div>
     </div>
 </div>
@@ -103,7 +104,8 @@
             },
 
             restorereversion(id) {
-                if (confirm('Are you sure you want to restore this reversion?')) {
+                if (confirm(@json(__('post.confirm_restore')))) {
+
                     fetch(`/post/restore/${id}`, {
                         method: 'POST',
                         headers: { 'X-CSRF-TOKEN': '{{ csrf_token() }}' }
