@@ -20,24 +20,44 @@
  * Contact: yvsoucom@gmail.com
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
-return [
+ return [
+    // History
     'reversionhist' => 'Reversion History',
     'norevrsionfound' => 'No reversions found.',
     'diff' => 'Difference',
     'restore' => 'Restore',
+    'confirm_restore' => 'Are you sure you want to restore this revision?',
+    'history' => '📜 History',
+    'restorewithicon' => '♻️ Restore',
+
+    // Post Actions
+    'edit' => '✏️ Edit',
+    'move2group' => '📂 Move to Group',
+    'copy2group' => '📄 Copy to Group',
+    'movelang' => '🌐 Move Language',
+    'auditcheck' => '✅ Audit Check',
+    'uncheck' => '🚫 Uncheck',
+    'trash' => '🗑️ Trash',
+    'deletepermanent' => '❌ Delete Permanently',
+
+    // Confirmations
+    'comfirmdelete' => 'Are you sure you want to permanently delete this post?',
+    'comfirmtrash' => 'Are you sure you want to trash this post?',
+
+    // Buttons & Forms
     'loading' => 'Loading...',
     'loadmore' => 'Load More',
-    'confirm_restore' => 'Are you sure you want to restore this revision?',
-
     'target_groupid' => 'target groupid',
     'copy_targetid' => 'copy post to target group',
+    'move_targetid' => 'move post to target group',
+    'move_targetlang' => 'move post to target language',
+    'select_lang' => 'Select Language',
+    'selectfilefromlib' => 'Select a file from the library',
 
+    // Post Fields
     'posttitle' => 'Post Title',
     'postcontent' => 'Post Content',
-    'close' => 'Close',
-    'publish' => 'Publish',
-    'selectfilefromlib' => 'Select a file from the library',
     'updatepost' => 'Update Post',
-
+    'publish' => 'Publish',
+    'close' => 'Close',
 ];
-

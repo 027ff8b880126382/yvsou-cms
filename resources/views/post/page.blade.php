@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-26
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-26
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,7 +21,7 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
-  
+
 <div class="mt-4 space-y-6">
 
     {{-- Domain Links --}}
@@ -47,44 +47,63 @@
                         <div x-show="open" x-cloak x-transition
                             class="absolute right-0 z-50 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
                             <ul class="text-sm text-gray-700">
-                                <li><a href="{{ route('post.edit', ['groupid' => $groupid, 'pid' => $pid]) }}" class="block px-4 py-2 hover:bg-gray-100">✏️ Edit</a></li>
-                                <li><a href="{{ route('post.movegroup', ['groupid' => $groupid, 'pid' => $pid]) }}" class="block px-4 py-2 hover:bg-gray-100">📂 Move to Group</a></li>
-                                <li><a href="{{ route('post.copygroup', ['groupid' => $groupid, 'pid' => $pid]) }}" class="block px-4 py-2 hover:bg-gray-100">📄 Copy to Group</a></li>
-                                <li><a href="{{ route('post.movelang', ['groupid' => $groupid, 'pid' => $pid]) }}" class="block px-4 py-2 hover:bg-gray-100">🌐 Move Language</a></li>
-                                <li><button onclick="window.reversionModalInstance?.open({{ $pid }})" class="w-full text-left px-4 py-2 hover:bg-gray-100">📜 History</button></li>
+                                <li><a href="{{ route('post.edit', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.edit') }} </a></li>
+                                <li><a href="{{ route('post.movegroup', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.move2group') }}</a></li>
+                                <li><a href="{{ route('post.copygroup', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.copy2group') }}</a></li>
+                                <li><a href="{{ route('post.movelang', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.movelang') }}</a></li>
+                                <li><button onclick="window.reversionModalInstance?.open({{ $pid }})"
+                                        class="w-full text-left px-4 py-2 hover:bg-gray-100">{{ __('post.history') }}
+                                    </button></li>
                             </ul>
 
                             <ul class="text-sm text-red-600">
                                 <li>
-                                    <form method="POST" action="{{ route('post.auditcheck', compact('groupid', 'pid')) }}">
+                                    <form method="POST"
+                                        action="{{ route('post.auditcheck', compact('groupid', 'pid')) }}">
                                         @csrf @method('PATCH')
-                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-100">✅ Audit Check</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100">{{ __('post.auditcheck') }}
+                                        </button>
                                     </form>
                                 </li>
                                 <li>
-                                    <form method="POST" action="{{ route('post.audituncheck', compact('groupid', 'pid')) }}">
+                                    <form method="POST"
+                                        action="{{ route('post.audituncheck', compact('groupid', 'pid')) }}">
                                         @csrf @method('PATCH')
-                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-100">🚫 Uncheck</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100">{{ __('post.uncheck') }}
+                                        </button>
                                     </form>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ route('post.trash', compact('groupid', 'pid')) }}"
-                                          onsubmit="return confirm('Are you sure you want to trash this post?');">
+                                        onsubmit="return confirm('{{ __('post.comfirmtrash') }}');">
+
                                         @csrf @method('PATCH')
-                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-100">🗑️ Trash</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100">{{ __('post.trash') }}
+                                        </button>
                                     </form>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ route('post.untrash', compact('groupid', 'pid')) }}">
                                         @csrf @method('PATCH')
-                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-100">♻️ Restore</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100">{{ __('post.restorewithicon') }}
+                                        </button>
                                     </form>
                                 </li>
                                 <li>
                                     <form method="POST" action="{{ route('post.destroy', compact('groupid', 'pid')) }}"
-                                          onsubmit="return confirm('Are you sure you want to permanently delete this post?');">
+                                        onsubmit="return confirm('{{ __('post.comfirmdelete') }}');">
+
                                         @csrf @method('DELETE')
-                                        <button type="submit" class="w-full text-left px-4 py-2 hover:bg-red-100">❌ Delete Permanently</button>
+                                        <button type="submit"
+                                            class="w-full text-left px-4 py-2 hover:bg-red-100">{{ __('post.deletepermanent') }}</button>
                                     </form>
                                 </li>
                             </ul>

@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-26
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-26
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,32 +21,35 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
-
 @extends('layouts.app')
 
 @section('content')
+    <div class="max-w-xl mx-auto mt-10 px-4 sm:px-6 lg:px-8">
+        <form id="movepostlink" method="POST" action="{{ route('post.movegroupupdate', compact('groupid', 'pid')) }}"
+            class="bg-white p-6 rounded-lg shadow-md space-y-6">
+            @csrf
+            @method('PATCH')
 
+            <h2 class="text-xl font-semibold text-gray-800">{{ __('post.move_targetid') }}</h2>
 
-    <form id="movepostlink" method="POST" action="{{route('post.movegroupupdate', compact('groupid', 'pid')) }}">
-        @csrf
-        @method('PATCH')
-        <div>
-            <label for="editor" class="block text-sm font-medium text-gray-700">target groupid</label>
-            <input type="text" name="desgroupid" value="" size="30" maxlength="350">
+            <div>
+                <label for="desgroupid" class="block text-sm font-medium text-gray-700">
+                    {{ __('post.target_groupid') }}
+                </label>
+                <input type="text" id="desgroupid" name="desgroupid"
+                    class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+                    maxlength="350">
+            </div>
+
             <input type="hidden" name="groupid" value="{{ $groupid }}">
             <input type="hidden" name="pid" value="{{ $pid }}">
 
-            </br>
-
-            </br>
             <div class="flex justify-end">
-
                 <button type="submit"
-                    class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
-                    move post to target group
+                    class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 shadow focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                    {{ __('post.move_targetid') }}
                 </button>
             </div>
-        </div>
-    </form>
-
+        </form>
+    </div>
 @endsection
