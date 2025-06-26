@@ -21,7 +21,7 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
- 
+
 return [
   'domaintree' => 'Arborescence des domaines',
   'createpost' => 'Créer un nouveau message',
@@ -53,5 +53,10 @@ return [
   'setprivate' => '🔒 Définir comme groupe privé',
   'setpublic' => '🌐 Définir comme groupe public',
   'subdomains' => 'Sous-domaines',
+
+  'createdomaintitledescription' => 'Créer des titres et descriptions de domaine',
+  'domaintitle' => 'Titre du domaine',
+  'domaindescription' => 'Description du domaine',
+  'submit' => 'Soumettre',
 ];
 

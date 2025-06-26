@@ -21,7 +21,7 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
- 
+
 return [
   'domaintree' => '领域树',
   'createpost' => '创建新帖子',
@@ -53,5 +53,10 @@ return [
   'setprivate' => '🔒 设为私有小组',
   'setpublic' => '🌐 设为公开小组',
   'subdomains' => '子目录',
+
+  'createdomaintitledescription' => '创建域标题与描述',
+  'domaintitle' => '域标题',
+  'domaindescription' => '域描述',
+  'submit' => '提交',
 ];
 

@@ -21,7 +21,7 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
- 
+
 return [
   'domaintree' => 'ドメインツリー',
   'createpost' => '新規投稿を作成',
@@ -53,5 +53,10 @@ return [
   'setprivate' => '🔒 プライベートグループに設定',
   'setpublic' => '🌐 パブリックグループに設定',
   'subdomains' => 'サブディレクトリ',
+
+  'createdomaintitledescription' => 'ドメインのタイトルと説明を作成',
+  'domaintitle' => 'ドメインタイトル',
+  'domaindescription' => 'ドメインの説明',
+  'submit' => '送信',
 ];
 

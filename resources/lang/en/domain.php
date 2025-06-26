@@ -52,5 +52,11 @@ return [
   'setprivate' => '🌐change to Private Group',
   'setpublic' => '🔒 change to Public Group',
   'subdomains' => 'Sub Domains',
+
+  'createdomaintitledescription' => 'Create Domain Titles & Descriptions',
+  'domaintitle' => 'Domain Title',
+  'domaindescription' => 'Domain Description',
+  'submit' => 'Submit',
+
 ];
 

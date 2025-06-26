@@ -29,20 +29,20 @@
             <form method="POST" action="{{ route('domainview.storesub') }}" class="space-y-6">
                 @csrf
                 <input type="hidden" name="groupid" value="{{$groupid}}">
-                <h2 class="text-xl font-semibold text-gray-800 mb-4">Create Domain Titles & Descriptions</h2>
+                <h2 class="text-xl font-semibold text-gray-800 mb-4">{{ __( 'domain.createdomaintitledescription') }}  </h2>
 
                 <div class="grid gap-6 md:grid-cols-2">
                     @foreach ($getlangSet as $code => $language)
                         <div class="space-y-3">
                             <label for="title-{{ $code }}" class="block text-sm font-medium text-gray-700">
-                                {{ $language }} Domain Title
+                                {{ $language }} {{ __( 'domain.domaintitle') }}  
                             </label>
                             <input type="text" id="title-{{ $code }}" name="titles[{{ $code }}]"
                                 placeholder="Title in {{ $language }}"
                                 class="w-full rounded-lg border border-gray-300 p-2 focus:ring focus:ring-blue-300 focus:outline-none">
 
                             <label for="desc-{{ $code }}" class="block text-sm font-medium text-gray-700">
-                                {{ $language }} Description
+                                {{ $language }} {{ __( 'domain.domaindescription') }} 
                             </label>
                             <textarea id="desc-{{ $code }}" name="descriptions[{{ $code }}]"
                                 placeholder="Description in {{ $language }}" rows="3"
@@ -54,7 +54,7 @@
                 <div class="pt-4">
                     <button type="submit"
                         class="w-full sm:w-auto bg-blue-600 text-white font-semibold py-2 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200">
-                        Submit
+                        {{ __( 'domain.submit') }}  
                     </button>
                 </div>
             </form>
