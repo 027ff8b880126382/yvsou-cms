@@ -21,33 +21,49 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 
 <head>
     <meta charset="UTF-8" />
-    <title>Laravel Install Wizard</title>
+    <title>{{ __('installer.title') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet" />
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-8">
+
     <div class="container mx-auto py-12 text-center">
-        <h1 class="text-4xl font-bold mb-6">Welcome to yvsou-cms Installer</h1>
-        <p class="text-lg mb-8">This installer will guide you through the setup of your new yvsou-cms site.</p>
+
+        <!-- 🌐 Language Switcher -->
+        <form method="POST" action="{{ route('install.setLocale') }}" class="mb-6">
+            @csrf
+            <label for="locale" class="block text-gray-700 font-semibold mb-2">{{ __('installer.choose_lang') }}</label>
+            <select name="locale" id="locale" onchange="this.form.submit()" class="p-2 border rounded">
+                <option value="en" {{ app()->getLocale() === 'en' ? 'selected' : '' }}>English</option>
+                <option value="zh" {{ app()->getLocale() === 'zh' ? 'selected' : '' }}>简体中文</option>
+                <option value="ja" {{ app()->getLocale() === 'ja' ? 'selected' : '' }}>日本語</option>
+                <option value="fr" {{ app()->getLocale() === 'fr' ? 'selected' : '' }}>Français</option>
+            </select>
+        </form>
+
+        <h1 class="text-4xl font-bold mb-6">{{ __('installer.welcome') }}</h1>
+        <p class="text-lg mb-8">{{ __('installer.description') }}</p>
 
         @if (session('message'))
             <div class="mb-4 text-green-600 font-semibold">
                 {{ session('message') }}
             </div>
         @endif
-        <a href="{{route('install.envForm')}}"
+
+        <a href="{{ route('install.envForm') }}"
             class="inline-block px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg shadow-md hover:bg-blue-700 transition">
-            Start Installation
+            {{ __('installer.start') }}
         </a>
     </div>
 
 </body>
 
 </html>
+
+ 

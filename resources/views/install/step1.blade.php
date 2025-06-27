@@ -21,111 +21,80 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
+ 
 <!DOCTYPE html>
-<html>
-
+<html lang="{{ app()->getLocale() }}">
 <head>
-    <title>yvsou-cms Installer - Step 1</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ __('installer.title') }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
 </head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-8">
+    <div class="w-full max-w-2xl bg-white p-8 rounded shadow">
+        <h1 class="text-3xl font-bold mb-6 text-center">{{ __('installer.title') }}</h1>
 
-<body class="container py-5">
-    
+        <form method="POST" action="{{ route('install.saveEnv') }}">
+            @csrf
 
-    <form method="POST" action="{{ route('install.saveEnv') }}">
-        @csrf
-         <h2> 1: Environment Setup</h2>
-        <div class="mb-3">
-            <label>App Name</label>
-            <input type="text" name="app_name" class="form-control" value="yvsou-cms">
-        </div>
-        <div class="mb-3">
-            <label>URL Site</label>
-            <input type="text" name="app_url" class="form-control" value="http://127.0.0.1:8000">
-        </div>
-        <div class="mb-3">
-            <label>Database Host</label>
-            <input type="text" name="db_host" class="form-control" value="127.0.0.1">
-        </div>
-        <div class="mb-3">
-            <label>Database Port</label>
-            <input type="text" name="db_port" class="form-control" value="3306">
-        </div>
-        <div class="mb-3">
-            <label>Database Name</label>
-            <input type="text" name="db_name" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Database Username</label>
-            <input type="text" name="db_user" class="form-control">
-        </div>
-        <div class="mb-3">
-            <label>Database Password</label>
-            <input type="password" name="db_pass" class="form-control">
-        </div>
+            <!-- Environment Setup -->
+            <h2 class="text-xl font-semibold mb-4">{{ __('installer.env_setup') }}</h2>
 
-        <h2> 2: Create Admin</h2>
+            <x-install.input name="app_name" label="installer.app_name" value="yvsou-cms" />
+            <x-install.input name="app_url" label="installer.app_url" value="http://127.0.0.1:8000" />
+            <x-install.input name="db_host" label="installer.db_host" value="127.0.0.1" />
+            <x-install.input name="db_port" label="installer.db_port" value="3306" />
+            <x-install.input name="db_name" label="installer.db_name" />
+            <x-install.input name="db_user" label="installer.db_user" />
+            <x-install.input name="db_pass" label="installer.db_pass" type="password" />
 
+            <!-- Admin Setup -->
+            <h2 class="text-xl font-semibold mt-8 mb-4">{{ __('installer.admin_setup') }}</h2>
 
-        <div class="mb-3">
-            <label>Admin account Name</label>
-            <input name="name" placeholder="Admin Name" required>
-        </div>
+            <x-install.input name="name" label="installer.admin_name" required />
+            <x-install.input name="email" label="installer.admin_email" type="email" required />
+            <x-install.input name="password" label="installer.admin_password" type="password" required />
 
-        <div class="mb-3">
-            <label>Email Address</label>
-            <input name="email" placeholder="email" required>
-        </div>
+            <!-- Custom Config -->
+            <h2 class="text-xl font-semibold mt-8 mb-4">{{ __('installer.custom_config') }}</h2>
 
-        <div class="mb-3">
-            <label>Admin Password</label>
-            <input name="password" type="password" placeholder="Password" required>
-        </div>
+            <div class="mb-4">
+                <label for="is_adminsp" class="inline-flex items-center">
+                    <input type="checkbox" name="is_adminsp" id="is_adminsp" value="1" class="form-checkbox text-indigo-600">
+                    <span class="ml-2">{{ __('installer.admin_super_power') }}</span>
+                </label>
+            </div>
 
-<h2> 3: Cunstom Config</h2>
+            <div class="mb-4">
+                <label for="default_lang" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ __('installer.default_lang') }}
+                </label>
+                <select name="default_lang" id="default_lang" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+            </div>
 
-<div class="mb-3">
-      <label>Admin Super Power ? </label>
+            <div class="mb-4">
+                <label for="lang_set" class="block text-sm font-medium text-gray-700 mb-1">
+                    {{ __('installer.multilanguages') }}
+                </label>
+                <select name="lang_set[]" id="lang_set" multiple class="block w-full mt-1 rounded-md border-gray-300 shadow-sm h-40">
+                    <option value="en">🇺🇸 English</option>
+                    <option value="zh">🇨🇳 中文</option>
+                    <option value="ja">🇯🇵 日本語</option>
+                    <option value="fr">🇫🇷 Français</option>
+                </select>
+            </div>
 
-      <label for="is_adminsp" class="flex items-center cursor-pointer">
-       
-        <div class="relative">
-          <input id="is_adminsp" type="checkbox" name="is_adminsp" value="1" class="sr-only peer">
-          <div class="w-11 h-6 bg-gray-300 rounded-full peer peer-checked:bg-green-500"></div>
-          <div
-            class="absolute left-1 top-1 w-4 h-4 bg-white rounded-full transition-transform peer-checked:translate-x-full">
-          </div>
-        </div>
-
-      </label>
-
+            <div class="flex justify-end">
+                <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                    {{ __('installer.create_config') }}
+                </button>
+            </div>
+        </form>
     </div>
-     
-    <div class="mb-3">
-
-      <label for="language" class="block text-sm font-medium text-gray-700 mb-1">🌐 Choose default Language</label>
-      <select name="default_lang" id="default_lang"
-        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm">
-        <option value="en">🇺🇸 English</option>
-        <option value="zh">🇨🇳 中文</option>
-        <option value="ja">🇯🇵 日本語</option>
-        <option value="fr">🇫🇷 Français</option>
-      </select>
-    </div>
-
-     
-    <div class="mb-3">
-      <label for="multilanguages" class="block text-sm font-medium text-gray-700 mb-1">🌐 Choose Languages</label>
-      <select id="lang_set" name="lang_set[]" multiple
-        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm h-40">
-        <option value="en">🇺🇸 English</option>
-        <option value="zh">🇨🇳 中文</option>
-        <option value="ja">🇯🇵 日本語</option>
-        <option value="fr">🇫🇷 Français</option>
-      </select>
-    </div>
-        <button type="submit" class="btn btn-primary">Create   Config</button>
-    </form>
 </body>
-
 </html>

@@ -30,13 +30,37 @@ use Illuminate\Support\Facades\Cookie;
 
 class SetLocale
 {
-      
+
     public function handle($request, Closure $next)
+    {
+        $defaultLocale = config('yvsou_config.DEFAULT_LANGUAGE', 'en');
+        $supportedLocales = config('yvsou_config.LANGUAGESET', ['en', 'zh', 'ja', 'fr']);
+
+        $locale = session('locale')
+            ?? ($_COOKIE['locale'] ?? null)
+            ?? $defaultLocale;
+
+        if (in_array($locale, $supportedLocales)) {
+            app()->setLocale($locale);
+        } else {
+            app()->setLocale($defaultLocale);
+        }
+
+        // Optional: Log for debugging
+        logger('SetLocale middleware applied', [
+            'locale_set' => app()->getLocale(),
+            'session_locale' => session('locale'),
+            'cookie_locale' => $_COOKIE['locale'] ?? null,
+            'default_locale' => $defaultLocale,
+        ]);
+        return $next($request);
+    }
+    public function handle1($request, Closure $next)
     {
         logger('Locale in SetLocale middleware before', [app()->getLocale()]);
 
-       // $locale = Cookie::get('locale', config('yvsou_config.DEFAULT_LANGUAGE'));
-         $locale = $_COOKIE['locale'] ?? 'en';
+        // $locale = Cookie::get('locale', config('yvsou_config.DEFAULT_LANGUAGE'));
+        $locale = $_COOKIE['locale'] ?? 'en';
         logger('cookieLocale in SetLocale middleware  ', [$locale]);
 
         if (in_array($locale, config('yvsou_config.LANGUAGESET'))) {

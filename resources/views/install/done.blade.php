@@ -25,7 +25,7 @@
 <html>
 
 <head>
-    <title>Installation Complete</title>
+    <title>{{ __('installer.install_complete_title') }}</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <style>
         body {
@@ -43,16 +43,18 @@
 
 <body>
     <div class="card p-4">
-        <h2 class="mb-3 text-center">✅ Installation Complete</h2>
-        <p class="text-center">Your yvsou-cms has been successfully installed.</p>
+        <h2 class="mb-3 text-center">✅ {{ __('installer.install_complete_title') }}</h2>
+        <p class="text-center">{{ __('installer.install_complete_message') }}</p>
 
         <div class="text-center mt-4">
-            <a href="{{ url('/') }}" class="btn btn-success">Go to Homepage</a>
-            <a href="{{ url('/login') }}" class="btn btn-primary">Login to Admin</a>
+            <a href="{{ url('/') }}" class="btn btn-success">{{ __('installer.goto_home') }}</a>
+            <a href="{{ url('/login') }}" class="btn btn-primary">{{ __('installer.goto_admin') }}</a>
         </div>
 
-        <p class="mt-4 text-muted text-center small">For security , do not delete installed.lock file.</p>
+        <p class="mt-4 text-muted text-center small">{{ __('installer.security_note') }}</p>
     </div>
 </body>
 
 </html>
+
+ 

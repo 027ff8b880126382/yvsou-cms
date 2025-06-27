@@ -45,6 +45,14 @@ Route::get('/upgrade', function () {
     return view('upgrade'); // or redirect to your commercial landing page
 });
 
+Route::post('/install/set-locale', function (Illuminate\Http\Request $request) {
+    $locale = $request->input('locale');
+    if (in_array($locale, ['en', 'zh', 'ja', 'fr'])) {
+        session(['locale' => $locale]);
+        app()->setLocale($locale);
+    }
+    return redirect()->back();
+})->name('install.setLocale');
 
 
 /*
