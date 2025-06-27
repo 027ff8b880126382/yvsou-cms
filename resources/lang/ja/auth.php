@@ -24,13 +24,22 @@
 
 return [
     'login' => 'ログイン',
-    'register' => '登録',
+    'register' => '新規登録',
     'email' => 'メールアドレス',
     'password' => 'パスワード',
-    'remember_me' => 'ログインを記憶する',
+    'remember_me' => 'ログイン状態を保存する',
     'forgot_password' => 'パスワードをお忘れですか？',
     'logout' => 'ログアウト',
     'account' => '名前',
     'confirmpassword' => 'パスワードの確認',
-    'alreadyregistered' => 'すでに登録していますか？',
+    'alreadyregistered' => 'すでに登録済みですか？',
+
+    'comfirmpasswd' => 'これはアプリケーションの保護されたエリアです。続行する前にパスワードを確認してください。',
+    'Confirm' => '確認',
+    'forgotpasswd' => 'パスワードをお忘れですか？心配いりません。メールアドレスをお知らせいただければ、パスワード再設定リンクをお送りします。',
+    'emailpasswdresetlink' => 'パスワード再設定リンクを送信',
+    'resetpasswd' => 'パスワードをリセット',
+    'verifyemail' => 'ご登録ありがとうございます！開始する前に、登録時に送信された確認メールのリンクをクリックして、メールアドレスの確認をお願いします。メールが届いていない場合は、再送できます。',
+    'verifyemaillink' => '新しい確認リンクを登録時のメールアドレスに送信しました。',
+    'resendverifyemail' => '確認メールを再送する',
 ];

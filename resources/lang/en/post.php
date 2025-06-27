@@ -20,7 +20,7 @@
  * Contact: yvsoucom@gmail.com
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
- return [
+return [
     // History
     'reversionhist' => 'Reversion History',
     'norevrsionfound' => 'No reversions found.',
@@ -60,4 +60,13 @@
     'updatepost' => 'Update Post',
     'publish' => 'Publish',
     'close' => 'Close',
+    
+    //comments
+    'plslogin' => 'Please login to reply.',
+    'Reply' => 'Reply',
+    'yourreply' => 'Your reply...',
+    'submitreply' => 'Submit Reply',
+    'Login' => 'Login',
+
+
 ];

@@ -30,5 +30,25 @@ return [
     'password_optional' => 'Mot de passe (optionnel)',
     'update' => 'Mettre à jour le profil',
     'logout' => 'Déconnexion',
-    'updated' => 'Profil mis à jour avec succès !',
+    'updated' => 'Profil mis à jour avec succès !',
+    'cancel' => 'Annuler',
+
+    'updatepassword' => 'Mettre à jour le mot de passe',
+    'ensurepasswdsecurity' => 'Assurez-vous d’utiliser un mot de passe long et aléatoire pour sécuriser votre compte.',
+    'CurrentPassword' => 'Mot de passe actuel',
+    'NewPassword' => 'Nouveau mot de passe',
+    'ConfirmPassword' => 'Confirmer le mot de passe',
+    'Save' => 'Enregistrer',
+
+    'Profile_Information' => 'Informations du profil',
+    'updateprofileInformation' => 'Mettez à jour les informations de votre compte et votre adresse e-mail.',
+    'AliasName' => 'Nom d’alias',
+    'emailunverified' => 'Votre adresse e-mail n’est pas vérifiée.',
+    'clickresendverify' => 'Cliquez ici pour renvoyer l’e-mail de vérification.',
+    'newverifylinksent' => 'Un nouveau lien de vérification a été envoyé à votre adresse e-mail.',
+
+    'delaccount' => 'Supprimer le compte',
+    'comfirmdel' => 'Une fois votre compte supprimé, toutes ses ressources et données seront définitivement supprimées. Veuillez sauvegarder vos données avant la suppression.',
+    'suredel' => 'Êtes-vous sûr de vouloir supprimer votre compte ?',
+    'comfirmdelpasswd' => 'Veuillez confirmer votre mot de passe pour supprimer définitivement votre compte.',
 ];

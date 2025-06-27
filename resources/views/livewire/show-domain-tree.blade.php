@@ -31,6 +31,6 @@
             ])
         </ul>
     @else
-        <p>No root domain found.</p>
+        <p>{{__('livewire.norootdomain')}}</p>
     @endif
 </div>

@@ -60,4 +60,12 @@ return [
     'updatepost' => 'Mettre à jour le post',
     'publish' => 'Publier',
     'close' => 'Fermer',
+
+    // comments
+    'plslogin' => 'Veuillez vous connecter pour répondre.',
+    'Reply' => 'Répondre',
+    'yourreply' => 'Votre réponse...',
+    'submitreply' => 'Envoyer la réponse',
+    'Login' => 'Connexion',
+
 ];

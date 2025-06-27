@@ -31,4 +31,25 @@ return [
     'update' => 'Update Profile',
     'logout' => 'Logout',
     'updated' => 'Profile updated successfully!',
+    'cancel' => 'Cancel',
+
+    'updatepassword' => 'Update Password',
+    'ensurepasswdsecurity' => 'Ensure your account is using a long, random password to stay secure.',
+    'CurrentPassword' => 'Current Password',
+    'NewPassword' => 'New Password',
+    'ConfirmPassword' => 'Confirm Password',
+    'Save' => 'Save',
+
+    'Profile_Information' => 'Profile Information',
+    'updateprofileInformation' => "Update your account's profile information and email address.",
+    'AliasName' => 'Alias Name',
+    'emailunverified' => 'Your email address is unverified.',
+    'clickresendverify' => 'Click here to re-send the verification email.',
+    'newverifylinksent' => 'A new verification link has been sent to your email address.',
+
+    'delaccount' => 'Delete Account',
+    'comfirmdel' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
+    'suredel' => 'Are you sure you want to delete your account?',
+    'comfirmdelpasswd' => 'Once your account is deleted, all of its r  password to confirm you would like to permanently delete your account.',
+
 ];

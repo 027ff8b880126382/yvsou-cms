@@ -1,7 +1,8 @@
-{{--
+<?php
+/**
   @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
   @author Lican Huang
-  @created 2025-06-26
+  @created 2025-06-27
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -20,16 +21,10 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
---}}
- 
- <div class="container mx-auto p-6">
-    <h1 class="text-2xl font-semibold mb-4">{{ __('livewire.reversiondiff') }}</h1>
+return [
 
-    <div class="bg-white shadow rounded p-4 overflow-auto prose max-w-none">
-        {!! $diffHtml !!}
-    </div>
+    'norootdomain' => 'No root domain found.',
 
-    <div class="mt-6">
-        <a href="{{ url()->previous() }}" class="text-blue-600 hover:underline">{{ __('livewire.Back') }} </a>
-    </div>
-</div>
+    'reversiondiff' => 'Post reversion Difference',
+    'Back' => '← Back',
+];

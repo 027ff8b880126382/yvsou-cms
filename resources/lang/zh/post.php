@@ -60,4 +60,12 @@ return [
     'updatepost' => '更新帖子',
     'publish' => '发布',
     'close' => '关闭',
+
+    // comments
+    'plslogin' => '请登录后回复。',
+    'Reply' => '回复',
+    'yourreply' => '你的回复...',
+    'submitreply' => '提交回复',
+    'Login' => '登录',
+
 ];

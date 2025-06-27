@@ -21,10 +21,9 @@
  * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
  */
 
-
 return [
     'login' => 'Connexion',
-    'register' => 'Inscription',
+    'register' => 'S’inscrire',
     'email' => 'Adresse e-mail',
     'password' => 'Mot de passe',
     'remember_me' => 'Se souvenir de moi',
@@ -33,4 +32,13 @@ return [
     'account' => 'Nom',
     'confirmpassword' => 'Confirmer le mot de passe',
     'alreadyregistered' => 'Déjà inscrit ?',
+
+    'comfirmpasswd' => 'Ceci est une zone sécurisée de l’application. Veuillez confirmer votre mot de passe avant de continuer.',
+    'Confirm' => 'Confirmer',
+    'forgotpasswd' => 'Mot de passe oublié ? Aucun souci. Indiquez simplement votre adresse e-mail et nous vous enverrons un lien de réinitialisation de mot de passe.',
+    'emailpasswdresetlink' => 'Envoyer le lien de réinitialisation',
+    'resetpasswd' => 'Réinitialiser le mot de passe',
+    'verifyemail' => 'Merci pour votre inscription ! Avant de commencer, veuillez vérifier votre adresse e-mail en cliquant sur le lien que nous venons de vous envoyer. Si vous n’avez pas reçu l’e-mail, nous vous en enverrons un nouveau avec plaisir.',
+    'verifyemaillink' => 'Un nouveau lien de vérification a été envoyé à l’adresse e-mail fournie lors de l’inscription.',
+    'resendverifyemail' => 'Renvoyer l’e-mail de vérification',
 ];

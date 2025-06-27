@@ -1,7 +1,7 @@
 {{--
-  @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
-  @author Lican Huang
-  @created 2025-06-26
+@copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
+@author Lican Huang
+@created 2025-06-26
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -27,7 +27,7 @@
         <div class="w-full max-w-md p-6 bg-white rounded shadow">
 
             <div class="mb-4 text-sm text-gray-600">
-                {{ __('Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.') }}
+                {{ __('auth.forgotpasswd') }}
             </div>
 
             <!-- Session Status -->
@@ -38,7 +38,7 @@
 
                 <!-- Email Address -->
                 <div>
-                    <x-input-label for="email" :value="__('Email')" />
+                    <x-input-label for="email" :value="__('auth.email')" />
                     <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')"
                         required autofocus />
                     <x-input-error :messages="$errors->get('email')" class="mt-2" />
@@ -46,7 +46,7 @@
 
                 <div class="flex items-center justify-end mt-4">
                     <x-primary-button>
-                        {{ __('Email Password Reset Link') }}
+                        {{ __('auth.emailpasswdresetlink') }}
                     </x-primary-button>
                 </div>
             </form>

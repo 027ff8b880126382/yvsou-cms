@@ -60,4 +60,12 @@ return [
     'updatepost' => '投稿を更新',
     'publish' => '公開',
     'close' => '閉じる',
+
+    // comments
+    'plslogin' => '返信するにはログインしてください。',
+    'Reply' => '返信',
+    'yourreply' => 'あなたの返信...',
+    'submitreply' => '返信を送信',
+    'Login' => 'ログイン',
+
 ];

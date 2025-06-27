@@ -39,7 +39,7 @@
 
             {{-- Reply Form --}}
             {{-- Reply Button --}}
-            <button onclick="toggleReplyForm({{ $comment->id }})" class="text-blue-500 hover:underline">Reply</button>
+            <button onclick="toggleReplyForm({{ $comment->id }})" class="text-blue-500 hover:underline">{{ __('post.Reply') }}</button>
 
             {{-- Hidden Reply Form --}}
             <div id="reply-form-{{ $comment->id }}" style="display: none;" class="mt-2">
@@ -51,7 +51,7 @@
 
                     <textarea name="comment_content" rows="5" class="w-full mt-2 border rounded p-2"></textarea>
                     <button type="submit"
-                        class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">{{ $rsubmit ?? 'Submit Reply' }}</button>
+                        class="mt-2 px-4 py-2 bg-blue-500 text-white rounded">{{ $rsubmit ?? __('post.submitreply') }}</button>
                 </form>
             </div>
 
@@ -70,8 +70,8 @@
         @endif
     @else
         {{-- User is not logged in --}}
-        <p>{{ $cneedloginreply ?? 'Please log in to reply.' }}
-            <a href="{{ route('login') }}" class="text-blue-500 underline">{{ $rlogin ?? 'Login' }}</a>
+        <p>{{ $cneedloginreply ?? __('post.plslogin') }}
+            <a href="{{ route('login') }}" class="text-blue-500 underline">{{ $rlogin ?? __('post.Login') }}</a>
         </p>
     @endauth
 
