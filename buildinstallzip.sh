@@ -1,4 +1,4 @@
-ver="0.9.0"
+ver="1.0.0.0.beta"
 rm -rf vendor
 mv  .env  .env.bak
 cp env_install  .env     

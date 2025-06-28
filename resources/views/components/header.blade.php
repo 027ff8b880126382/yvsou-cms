@@ -72,10 +72,35 @@
 
                         {{ __('header.rootdomaintool') }}
                     </a>
-                    <a href="{{ route('help') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                        {{ __('header.help') }}
-                    </a>
+
+
+                    <div x-data="{ open: false }" class="relative">
+                        <!-- Trigger -->
+                        <button @click="open = !open" class="px-4 py-2 flex items-center">
+                            {{ __('header.help') }}
+                            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M5.25 7L10 11.75 14.75 7z" />
+                            </svg>
+                        </button>
+
+                        <!-- First dropdown menu -->
+                        <div x-show="open" @click.away="open = false"
+                            class="absolute left-0 z-10 mt-2 w-48 bg-white border rounded shadow-md p-2 space-y-1"
+                            x-transition>
+
+                            <!-- Single items -->
+                            <a href="{{ route('help.about') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                {{ __('help.about') }}
+                            </a>
+                            <a href="{{ route('help.menu') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                                {{ __('help.menu') }}
+                            </a>
+ 
+                        </div>
+                    </div>
+
+
+
                     @if (Route::has('login'))
 
                         @auth
@@ -155,8 +180,32 @@
 
             {{ __('header.rootdomaintool') }}
         </a>
-        <a href="{{ route('help') }}" class="block py-2 text-sm text-gray-700 hover:text-black">
-            {{ __('header.help') }}</a>
+
+        <div x-data="{ open: false }" class="relative">
+            <!-- Trigger -->
+            <button @click="open = !open" class="px-4 py-2 flex items-center">
+                {{ __('header.help') }}
+                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M5.25 7L10 11.75 14.75 7z" />
+                </svg>
+            </button>
+
+            <!-- First dropdown menu -->
+            <div x-show="open" @click.away="open = false"
+                class="absolute left-0 z-10 mt-2 w-48 bg-white border rounded shadow-md p-2 space-y-1" x-transition>
+
+                <!-- Single items -->
+                <a href="{{ route('help.about') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    {{ __('help.about') }}
+                </a>
+                <a href="{{ route('help.menu') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
+                    {{ __('help.menu') }}
+                </a>
+
+
+            </div>
+        </div>
+
         <a href="{{ route('message.index') }}" class="block py-2 text-sm text-gray-700 hover:text-black">
             {{ __('message.message') }}</a>
 

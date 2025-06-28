@@ -21,15 +21,17 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
- 
+
 <!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ __('installer.title') }}</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/dist/tailwind.min.css" rel="stylesheet">
 </head>
+
 <body class="bg-gray-100 min-h-screen flex items-center justify-center px-4 py-8">
     <div class="w-full max-w-2xl bg-white p-8 rounded shadow">
         <h1 class="text-3xl font-bold mb-6 text-center">{{ __('installer.title') }}</h1>
@@ -57,44 +59,51 @@
 
             <!-- Custom Config -->
             <h2 class="text-xl font-semibold mt-8 mb-4">{{ __('installer.custom_config') }}</h2>
+            <div class="space-y-6">
+                <div class="mb-4">
+                    <label for="is_adminsp" class="inline-flex items-center">
+                        <input type="checkbox" name="is_adminsp" id="is_adminsp" value="1"
+                            class="form-checkbox text-indigo-600">
+                        <span class="ml-2">{{ __('installer.admin_super') }}</span>
+                    </label>
+                </div>
+                <br />
+                <div class="mb-4">
+                    <label for="default_lang" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ __('installer.choose_default_language') }}
+                    </label>
+                    <select name="default_lang" id="default_lang"
+                        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="fr">🇫🇷 Français</option>
+                    </select>
+                </div>
+                <br />
+                <div class="mb-4">
+                    <label for="lang_set" class="block text-sm font-medium text-gray-700 mb-1">
+                        {{ __('installer.choose_languages') }}
+                    </label>
+                    <select name="lang_set[]" id="lang_set" multiple
+                        class="block w-full mt-1 rounded-md border-gray-300 shadow-sm h-40">
+                        <option value="en">🇺🇸 English</option>
+                        <option value="zh">🇨🇳 中文</option>
+                        <option value="ja">🇯🇵 日本語</option>
+                        <option value="fr">🇫🇷 Français</option>
+                    </select>
+                </div>
+                <br />
+                <div class="flex justify-end">
+                    <button type="submit"
+                        class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
+                        {{ __('installer.create_config') }}
+                    </button>
 
-            <div class="mb-4">
-                <label for="is_adminsp" class="inline-flex items-center">
-                    <input type="checkbox" name="is_adminsp" id="is_adminsp" value="1" class="form-checkbox text-indigo-600">
-                    <span class="ml-2">{{ __('installer.admin_super_power') }}</span>
-                </label>
-            </div>
-
-            <div class="mb-4">
-                <label for="default_lang" class="block text-sm font-medium text-gray-700 mb-1">
-                    {{ __('installer.default_lang') }}
-                </label>
-                <select name="default_lang" id="default_lang" class="block w-full mt-1 rounded-md border-gray-300 shadow-sm">
-                    <option value="en">🇺🇸 English</option>
-                    <option value="zh">🇨🇳 中文</option>
-                    <option value="ja">🇯🇵 日本語</option>
-                    <option value="fr">🇫🇷 Français</option>
-                </select>
-            </div>
-
-            <div class="mb-4">
-                <label for="lang_set" class="block text-sm font-medium text-gray-700 mb-1">
-                    {{ __('installer.multilanguages') }}
-                </label>
-                <select name="lang_set[]" id="lang_set" multiple class="block w-full mt-1 rounded-md border-gray-300 shadow-sm h-40">
-                    <option value="en">🇺🇸 English</option>
-                    <option value="zh">🇨🇳 中文</option>
-                    <option value="ja">🇯🇵 日本語</option>
-                    <option value="fr">🇫🇷 Français</option>
-                </select>
-            </div>
-
-            <div class="flex justify-end">
-                <button type="submit" class="inline-flex items-center px-6 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-blue-600 hover:bg-blue-700">
-                    {{ __('installer.create_config') }}
-                </button>
+                </div>
             </div>
         </form>
     </div>
 </body>
+
 </html>

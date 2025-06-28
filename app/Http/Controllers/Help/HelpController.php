@@ -2,7 +2,7 @@
 /**
   @copyright (c) 2025  Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
   @author Lican Huang
-  @created 2025-06-21
+  @created 2025-06-28
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -21,8 +21,7 @@
 * Contact: yvsoucom@gmail.com
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
-
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Help;
 
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
@@ -31,51 +30,52 @@ use Illuminate\Http\Request;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\App;
 use App\Services\LocaleService;
+use App\Http\Controllers\Controller;
 
 
-class HomeController extends Controller
+class HelpController extends Controller
 {
 
-    public function home()
-    {
-
-        return view('home'); // resources/views/domainview/index.blade.php
-    }
     public function about()
     {
         $lang = (new LocaleService())->getcurlangcode();
-        return view('page.about', [
-            'aboutText' => config("yvsou_custom_config.$lang.about"),
-        ]);
+
+        // Build the path to your .md file
+        $path = resource_path("docs/help/{$lang}/about.md");
+
+        // Check if file exists
+        if (file_exists($path)) {
+            $aboutMd = file_get_contents($path);
+        } else {
+            $aboutMd = '# Content not found';
+        }
+
+        return view('help.about', compact('aboutMd'));
     }
-    public function contact()
+
+    public function menu()
     {
         $lang = (new LocaleService())->getcurlangcode();
-        return view('page.contact', [
-            'aboutText' => config("yvsou_custom_config.$lang.contact"),
-        ]);
+
+        // Build the path to your .md file
+        $path = resource_path("docs/help/{$lang}/menu.md");
+
+        // Check if file exists
+        if (file_exists($path)) {
+            $menuMd = file_get_contents($path);
+        } else {
+            $menuMd = '# Content not found';
+        }
+
+        return view('help.menu', compact('menuMd'));
+
     }
-    public function profile()
+
+    public function search()
     {
-        $lang = (new LocaleService())->getcurlangcode();
-        return view('page.profile', [
-            'aboutText' => config("yvsou_custom_config.$lang.profile"),
-        ]);
+         
+
     }
-    public function terms()
-    {
-        $lang = (new LocaleService())->getcurlangcode();
-        return view('page.terms', [
-            'aboutText' => config("yvsou_custom_config.$lang.terms"),
-        ]);
-    }
-    public function privacy()
-    {
-        $lang = (new LocaleService())->getcurlangcode();
-        return view('page.privacy', [
-            'aboutText' => config("yvsou_custom_config.$lang.privacy"),
-        ]);
-    }
-     
+
 
 }

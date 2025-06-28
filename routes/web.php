@@ -36,9 +36,7 @@ Route::get('/profile', [HomeController::class, 'profile'])->name('profile');
 Route::get('/terms', [HomeController::class, 'terms'])->name('terms');
 Route::get('/privacy', [HomeController::class, 'privacy'])->name('privacy');
 
-Route::get('/help', [HomeController::class, 'help'])->name('help');
-
-
+ 
 Route::get('/lang/{locale}', [LangController::class, 'setLang'])->name('lang.setLang');
 
 Route::get('/upgrade', function () {
@@ -98,5 +96,6 @@ require __DIR__ . '/error.php';
 require __DIR__ . '/Installer.php';
 require __DIR__ . '/search.php';
 require __DIR__ . '/message.php';
+require __DIR__ . '/help.php';
 
 
