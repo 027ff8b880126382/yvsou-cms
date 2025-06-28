@@ -27,7 +27,16 @@ class MailSettingsController extends Controller
             'from_address',
             'from_name',
         ]));
-
+        $settings = MailSetting::getSettings();
+        config([
+            'mail.mailers.smtp.host' => $settings['host'] ?? null,
+            'mail.mailers.smtp.port' => $settings['port'] ?? null,
+            'mail.mailers.smtp.encryption' => $settings['encryption'] ?? null,
+            'mail.mailers.smtp.username' => $settings['username'] ?? null,
+            'mail.mailers.smtp.password' => $settings['password'] ?? null,
+            'mail.from.address' => $settings['from_address'] ?? null,
+            'mail.from.name' => $settings['from_name'] ?? null,
+        ]);
         return redirect()->back()->with('success', 'Mail settings updated.');
     }
 }

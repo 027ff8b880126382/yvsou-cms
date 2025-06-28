@@ -169,7 +169,7 @@ class User extends Authenticatable implements MustVerifyEmail
 	}
 	public function canDomainRights($groupId, $type)
 	{
-		if ($groupId === 0)
+		if ($groupId === '0')
 			if ($this->isAdmin())
 				return true;
 			else

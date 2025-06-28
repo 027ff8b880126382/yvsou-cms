@@ -1,7 +1,7 @@
 <?php
 
 return array(
-    'DEFAULT_LANGUAGE' => 'ja',
+    'DEFAULT_LANGUAGE' => 'en',
     'LANGUAGESET' => ['en', 'zh', 'ja'],
 
     'MIGRATEDOMAINHOST' => [
@@ -11,6 +11,6 @@ return array(
     ],
 
     'ADMINHASRIGHTS' => true,
-    'BLOCKBOT' => true,
+    'BLOCKBOT' => false,
 
 );

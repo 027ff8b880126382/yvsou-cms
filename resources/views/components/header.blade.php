@@ -67,7 +67,7 @@
                         </div>
                     </div>
 
-                    <a href="{{ route('domainview.index', ['groupid' => 0]) }}"
+                    <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
                         class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
 
                         {{ __('header.rootdomaintool') }}
@@ -175,7 +175,7 @@
             @endforeach
 
         </div>
-        <a href="{{ route('domainview.index', ['groupid' => 0]) }}"
+        <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
             class="block py-2 text-sm text-gray-700 hover:text-black">
 
             {{ __('header.rootdomaintool') }}

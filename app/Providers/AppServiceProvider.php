@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\View;
 use App\Models\MailSetting;
 use Illuminate\Support\Facades\Gate;
 
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -54,16 +55,31 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('admin', function ($user) {
             return $user->role === 'admin'; // or $user->is_admin, etc.
         });
-        $settings = MailSetting::getSettings();
-        config([
-            'mail.mailers.smtp.host' => $settings['host'] ?? null,
-            'mail.mailers.smtp.port' => $settings['port'] ?? null,
-            'mail.mailers.smtp.encryption' => $settings['encryption'] ?? null,
-            'mail.mailers.smtp.username' => $settings['username'] ?? null,
-            'mail.mailers.smtp.password' => $settings['password'] ?? null,
-            'mail.from.address' => $settings['from_address'] ?? null,
-            'mail.from.name' => $settings['from_name'] ?? null,
-        ]);
+
+
+        try {
+            if (Schema::hasTable('mail_settings')) {
+                $settings = MailSetting::getSettings();
+
+                config([
+                    'mail.mailers.smtp.host' => $settings['host'] ?? null,
+                    'mail.mailers.smtp.port' => $settings['port'] ?? null,
+                    'mail.mailers.smtp.encryption' => $settings['encryption'] ?? null,
+                    'mail.mailers.smtp.username' => $settings['username'] ?? null,
+                    'mail.mailers.smtp.password' => $settings['password'] ?? null,
+                    'mail.from.address' => $settings['from_address'] ?? null,
+                    'mail.from.name' => $settings['from_name'] ?? null,
+                ]);
+            } else {
+                // Optional: log or use default mail config
+                logger('mail_settings table does not exist.');
+            }
+        } catch (\Throwable $e) {
+            logger()->error('Error loading mail settings: ' . $e->getMessage());
+            // Optional: fallback config
+        }
+ 
+
         if (app()->runningInConsole() && basename($_SERVER['PHP_SELF']) === 'generate_migrations_from_models.php') {
             return; // prevent loading shortcodes
         }
