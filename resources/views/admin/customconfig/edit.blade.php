@@ -25,7 +25,7 @@
 @extends('layouts.app')
 @section('content')
 
-    <h1 class="text-2xl font-bold mb-4">Edit Pages Content </h1>
+    <h1 class="text-2xl font-bold mb-4">{{__('setpages.editpages')}} </h1>
 
     @if(session('success'))
         <div class="p-2 bg-green-200 mb-4">
@@ -37,19 +37,19 @@
         @csrf
 
 
-        <label>About</label>
+        <label>{{ __('setpages.about') }}</label>
         <textarea name="about" rows="5" class="w-full mb-4">{{ $pages['about'] ?? '' }}</textarea>
 
-        <label>Contact</label>
+        <label>{{ __('setpages.contact') }} </label>
         <textarea name="contact" rows="5" class="w-full mb-4">{{ $pages['contact'] ?? '' }}</textarea>
 
-        <label>Terms</label>
+        <label>{{ __('setpages.terms') }} </label>
         <textarea name="terms" rows="5" class="w-full mb-4">{{ $pages['terms'] ?? '' }}</textarea>
 
-        <label>Privacy</label>
+        <label>{{ __('setpages.privacy') }} </label>
         <textarea name="privacy" rows="5" class="w-full mb-4">{{ $pages['privacy'] ?? '' }}</textarea>
 
-        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">{{ __('setpages.save') }} </button>
     </form>
 
 
