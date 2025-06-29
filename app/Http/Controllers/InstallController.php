@@ -90,8 +90,10 @@ class InstallController extends Controller
             $pdo->exec("USE `$newdb`"); // ✅ CORRECTED LINE
 
             // Read SQL from file
-            $sql = file_get_contents(base_path('install.sql'));
-
+            if (is_mysql_8_or_higher())
+                $sql = file_get_contents(base_path('install.sql'));
+            else
+                $sql = file_get_contents(base_path('install57.sql'));
             // Split and execute multiple statements (safely)
             foreach (array_filter(array_map('trim', explode(';', $sql))) as $stmt) {
                 if (!empty($stmt)) {
