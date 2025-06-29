@@ -136,6 +136,7 @@ class InstallController extends Controller
             'password' => 'required',
 
             'is_adminsp' => 'required',
+            'is_blockbot' => 'required',
             'default_lang' => 'required',
             'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
 
@@ -154,11 +155,20 @@ class InstallController extends Controller
         $jsonLanguages = json_encode($languages);
 
         $cusconfig = str_replace("'LANGUAGESET' => ['en','zh','ja']", "'LANGUAGESET' => $jsonLanguages ", $cusconfig);
+
         $adminstring = 'false';
         if ($request->is_adminsp === 1)
             $adminstring = 'true';
 
         $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
+
+        $blockbotstring = 'false';
+        if ($request->is_blockbot === 1)
+            $blockbotstring = 'true';
+
+        $cusconfig = str_replace("'BLOCKBOT' => false", "'BLOCKBOT' =>   $blockbotstring ", $cusconfig);
+
+
         File::put(config_path('yvsou_config.php'), contents: $cusconfig);
         File::put(storage_path('installed.lock'), now());
 
@@ -182,10 +192,10 @@ class InstallController extends Controller
 
         File::put(base_path('.env'), $env);
         #Artisan::call('config:clear');
-       
+
         $this->reloadall();
         return view('install.done');
-         
+
     }
 
 
@@ -220,8 +230,8 @@ class InstallController extends Controller
         }
 
     }
- 
 
-  
+
+
 
 }

@@ -49,6 +49,7 @@ return [
 
     // Custom Config
     'admin_super' => 'Admin Super Power?',
+    'blockbot' => 'Block Bot Access  ?',
     'choose_default_language' => '🌐 Choose Default Language',
     'choose_languages' => '🌐 Choose Languages',
 

@@ -47,6 +47,7 @@ return [
     'admin_password' => '管理员密码',
 
     'admin_super' => '是否授予管理员超级权限？',
+    'blockbot' => '阻止机器人访问？',
     'choose_default_language' => '🌐 选择默认语言',
     'choose_languages' => '🌐 选择支持的语言',
 

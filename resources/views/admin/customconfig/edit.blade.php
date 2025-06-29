@@ -1,7 +1,7 @@
 {{--
 @copyright (c) 2025 Hangzhou Domain Zones Technology Co., Ltd., Institute of Future Science and Technology G.K., Tokyo
 @author Lican Huang
-@created 2025-06-15
+@created 2025-06-29
 * License: Dual Licensed – GPLv3 or Commercial
 *
 * This program is free software: you can redistribute it and/or modify
@@ -23,24 +23,34 @@
 --}}
 
 @extends('layouts.app')
-
-
 @section('content')
-    <div class="min-h-screen flex items-center justify-center">
-        <div class="w-64 p-6 bg-white shadow rounded text-center">
-            <h2 class="text-xl font-bold mb-4">Dashboard</h2>
-            <nav class="space-y-3">
-                <a href="/admin/plugins" class="block text-gray-800 hover:font-semibold">Plugins</a>
-                <a href="/admin/users" class="block text-gray-800 hover:font-semibold">User center</a>
-                @can('admin')
-                    <a href="{{ route('admin.setmail.edit') }}" class="block text-gray-800 hover:font-semibold">
-                        Mail Settings
-                    </a>
-                    <a href="{{ route('admin.setcustomconfig.edit') }}" class="block text-gray-800 hover:font-semibold">
-                        Custom Config Settings
-                    </a>
-                @endcan
-            </nav>
+
+    <h1 class="text-2xl font-bold mb-4">Edit Pages Content </h1>
+
+    @if(session('success'))
+        <div class="p-2 bg-green-200 mb-4">
+            {{ session('success') }}
         </div>
-    </div>
+    @endif
+
+    <form method="POST" action="{{ route('admin.setcustomconfig.update') }}">
+        @csrf
+
+
+        <label>About</label>
+        <textarea name="about" rows="5" class="w-full mb-4">{{ $pages['about'] ?? '' }}</textarea>
+
+        <label>Contact</label>
+        <textarea name="contact" rows="5" class="w-full mb-4">{{ $pages['contact'] ?? '' }}</textarea>
+
+        <label>Terms</label>
+        <textarea name="terms" rows="5" class="w-full mb-4">{{ $pages['terms'] ?? '' }}</textarea>
+
+        <label>Privacy</label>
+        <textarea name="privacy" rows="5" class="w-full mb-4">{{ $pages['privacy'] ?? '' }}</textarea>
+
+        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded">Save</button>
+    </form>
+
+
 @endsection

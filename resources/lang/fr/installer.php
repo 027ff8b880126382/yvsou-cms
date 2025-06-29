@@ -46,6 +46,7 @@ return [
     'admin_password' => 'Mot de passe administrateur',
 
     'admin_super' => 'Pouvoirs super administrateur ?',
+    'blockbot' => 'Bloquer l’accès des robots ?',
     'choose_default_language' => '🌐 Choisir la langue par défaut',
     'choose_languages' => '🌐 Choisir les langues disponibles',
 

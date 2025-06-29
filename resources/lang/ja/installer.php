@@ -47,6 +47,7 @@ return [
     'admin_password' => '管理者パスワード',
 
     'admin_super' => '管理者にスーパーパワーを付与しますか？',
+    'blockbot' => 'ボットアクセスをブロックしますか？',
     'choose_default_language' => '🌐 デフォルト言語を選択',
     'choose_languages' => '🌐 使用可能な言語を選択',
 

@@ -23,59 +23,58 @@
 */
 
 namespace App\Http\Controllers;
-
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
-use Illuminate\Http\Request;
-use Dotenv\Dotenv;
-use Illuminate\Support\Facades\App;
 use App\Services\LocaleService;
 
 
 class HomeController extends Controller
 {
+    protected function getPageContent($key)
+    {
+        $lang = (new LocaleService())->getcurlangcode();
+        $file = resource_path("lang/{$lang}/pages.php");
+
+        $pages = file_exists($file) ? include $file : [];
+        return $pages[$key] ?? "Content not found.";
+    }
 
     public function home()
     {
-
-        return view('home'); // resources/views/domainview/index.blade.php
+        return view('home'); // or domainview.index if needed
     }
+
     public function about()
     {
-        $lang = (new LocaleService())->getcurlangcode();
         return view('page.about', [
-            'aboutText' => config("yvsou_custom_config.$lang.about"),
+            'aboutText' => $this->getPageContent('about'),
         ]);
     }
+
     public function contact()
     {
-        $lang = (new LocaleService())->getcurlangcode();
         return view('page.contact', [
-            'aboutText' => config("yvsou_custom_config.$lang.contact"),
+            'aboutText' => $this->getPageContent('contact'),
         ]);
     }
+
     public function profile()
     {
-        $lang = (new LocaleService())->getcurlangcode();
         return view('page.profile', [
-            'aboutText' => config("yvsou_custom_config.$lang.profile"),
+            'aboutText' => $this->getPageContent('profile'),
         ]);
     }
+
     public function terms()
     {
-        $lang = (new LocaleService())->getcurlangcode();
         return view('page.terms', [
-            'aboutText' => config("yvsou_custom_config.$lang.terms"),
+            'aboutText' => $this->getPageContent('terms'),
         ]);
     }
+
     public function privacy()
     {
-        $lang = (new LocaleService())->getcurlangcode();
         return view('page.privacy', [
-            'aboutText' => config("yvsou_custom_config.$lang.privacy"),
+            'aboutText' => $this->getPageContent('privacy'),
         ]);
     }
-     
-
 }
+
