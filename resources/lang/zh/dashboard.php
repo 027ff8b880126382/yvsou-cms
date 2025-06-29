@@ -27,4 +27,9 @@ return [
     'welcome' => '欢迎回来，:name！',
     'stats' => '这是您的最新统计数据：',
     'logout' => '退出登录',
+
+    'mailsettings'      => '邮件设置',
+    'custompagesettings'=> '自定义页面设置',
+    'plugins'           => '插件',
+    'usercenter'        => '用户中心',
 ];

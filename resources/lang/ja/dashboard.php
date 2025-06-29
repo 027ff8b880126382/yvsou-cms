@@ -27,4 +27,9 @@ return [
     'welcome' => 'おかえりなさい、:name！',
     'stats' => '最新の統計情報はこちら：',
     'logout' => 'ログアウト',
+
+    'mailsettings'      => 'メール設定',
+    'custompagesettings'=> 'カスタムページ設定',
+    'plugins'           => 'プラグイン',
+    'usercenter'        => 'ユーザーセンター',
 ];

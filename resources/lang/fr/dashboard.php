@@ -27,4 +27,9 @@ return [
     'welcome' => 'Bon retour, :name !',
     'stats' => 'Voici vos dernières statistiques :',
     'logout' => 'Se déconnecter',
+
+    'mailsettings'      => 'Paramètres de messagerie',
+    'custompagesettings'=> 'Paramètres des pages personnalisées',
+    'plugins'           => 'Extensions',
+    'usercenter'        => 'Centre utilisateur',
 ];

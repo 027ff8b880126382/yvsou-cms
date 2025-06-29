@@ -27,4 +27,10 @@ return [
     'welcome' => 'Welcome back, :name!',
     'stats' => 'Here are your latest stats:',
     'logout' => 'Log out',
+
+    'mailsettings' => 'Mail Settings',
+    'custompagesettings' => 'Custom Page Settings',
+    'plugins' => 'Plugins',
+    'usercenter' => 'User center',
+
 ];
