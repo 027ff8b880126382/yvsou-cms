@@ -42,17 +42,18 @@ if (!file_exists($installedFlag) && !$inInstaller) {
         // Create an empty file
         file_put_contents($filePath, '');
     }
-
-    $vendorExists = is_dir(base_path('vendor'));
+    $vendorfilePath = __DIR__ . '../vendor';
+    $vendorExists = is_dir($vendorfilePath);
     if (!$vendorExists) {
         $composerAvailable = trim(shell_exec('which composer')) ? true : false;
         if ($composerAvailable) {
+            chdir(__DIR__ . '/../'); 
             exec('composer install --no-interaction --prefer-dist --optimize-autoloader 2>&1', $output, $returnCode);
             if ($returnCode === 0) {
                 echo "Composer install succeeded!\n";
             } else {
                 echo "Composer install failed!\n";
-                echo implode("\n", $output);  
+                echo implode("\n", $output);
                 exit;
             }
         } else {

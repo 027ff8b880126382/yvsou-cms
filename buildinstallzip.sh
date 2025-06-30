@@ -25,6 +25,8 @@ zip -r yvsou-cms/yvsou-cms-installer-${ver}.zip   \
     yvsou-cms/composer.json yvsou-cms/composer.lock\
     yvsou-cms/env.example yvsou-cms/yvsou_example_config.php \
     yvsou-cms/.env   \
+     yvsou-cms/artisan   \
+    yvsou-cms/composer.sh  \
     yvsou-cms/install.sql yvsou-cms/install57.sql yvsou-cms/server.php \
     --exclude=yvsou-cms/*.log --exclude=yvsou-cms/node_modules/* \
     --exclude=yvsou-cms/vendor/* \  
