@@ -20,14 +20,13 @@ npm run build
 
    
 cd ..
-zip -r yvsou-cms/yvsou-cms-installer-${ver}.zip   \
-    yvsou-cms/app yvsou-cms/bootstrap yvsou-cms/config yvsou-cms/database yvsou-cms/public yvsou-cms/resources yvsou-cms/routes  \
+zip -r yvsou-cms/yvsou-cms-vendor-installer-${ver}.zip   \
+    yvsou-cms/app yvsou-cms/bootstrap yvsou-cms/config yvsou-cms/database yvsou-cms/public yvsou-cms/resources yvsou-cms/routes yvsou-cms/vendor \
     yvsou-cms/composer.json yvsou-cms/composer.lock\
     yvsou-cms/env.example yvsou-cms/yvsou_example_config.php \
     yvsou-cms/.env   \
     yvsou-cms/install.sql yvsou-cms/install57.sql yvsou-cms/server.php \
     --exclude=yvsou-cms/*.log --exclude=yvsou-cms/node_modules/* \
-    --exclude=yvsou-cms/vendor/* \  
     --exclude=yvsou-cms/.git/*   \
     --exclude=yvsou-cms/bootstrap/cache/*.php   
 

@@ -36,11 +36,30 @@ if (!file_exists($installedFlag) && !$inInstaller) {
         }
     }
 
-    $filePath =  __DIR__ . '/../storage/tmp-install.sqlite';
+    $filePath = __DIR__ . '/../storage/tmp-install.sqlite';
 
     if (!file_exists($filePath)) {
         // Create an empty file
         file_put_contents($filePath, '');
+    }
+
+    $vendorExists = is_dir(base_path('vendor'));
+    if (!$vendorExists) {
+        $composerAvailable = trim(shell_exec('which composer')) ? true : false;
+        if ($composerAvailable) {
+            exec('composer install --no-interaction --prefer-dist --optimize-autoloader 2>&1', $output, $returnCode);
+            if ($returnCode === 0) {
+                echo "Composer install succeeded!\n";
+            } else {
+                echo "Composer install failed!\n";
+                echo implode("\n", $output);  
+                exit;
+            }
+        } else {
+            echo "composer unAvailable, please install composer first";
+            exit;
+        }
+
     }
 
     header('Location: /install');
