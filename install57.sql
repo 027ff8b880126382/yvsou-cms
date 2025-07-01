@@ -1,4 +1,5 @@
--- MySQL dump 10.13  Distrib 8.4.5, for macos15.2 (arm64)
+-- SQL Version: sql-v1.0.0
+-- Generated on: Tue Jul  1 18:16:52 UTC 2025-- MySQL dump 10.13  Distrib 8.4.5, for macos15.2 (arm64)
 --
 -- Host: localhost    Database: yvsou
 -- ------------------------------------------------------
@@ -817,4 +818,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-06-28 16:23:01
+-- Dump completed on 2025-07-02  2:16:55

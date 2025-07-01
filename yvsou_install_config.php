@@ -1,6 +1,8 @@
 <?php
 
 return array(
+    'CONFIG_VERSION' => 'config-v1.0.0',
+    
     'DEFAULT_LANGUAGE' => 'en',
     'LANGUAGESET' => ['en','zh','ja'],
 
