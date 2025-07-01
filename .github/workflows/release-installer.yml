@@ -37,6 +37,13 @@ jobs:
           npm ci
           npm run build
 
+      # Create source archive
+      - name: Create source.zip and source.tar.gz
+        run: |
+          mkdir -p release
+          git archive --format zip --output  source-${{ github.ref_name }}.zip HEAD
+          git archive --format tar.gz --output  source-${{ github.ref_name }}.tar.gz HEAD
+
       # ✅ 5. Prepare installer.zip (no vendor)
       - name: Build installer.zip
         run: |
@@ -45,7 +52,7 @@ jobs:
           cp composer.json composer.lock artisan server.php install.sql install57.sql build_installer/
           cp env_install build_installer/.env
           cp yvsou_install_config.php build_installer/config/yvsou_config.php
-
+          cp composer.sh build_installer/  
           cd build_installer
           zip -r ../installer-${{ github.ref_name }}.zip . \
             --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
@@ -63,6 +70,13 @@ jobs:
           zip -r ../installvendor-${{ github.ref_name }}.zip . \
             --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
 
+      # Generate SHA-256 checksums
+      - name: Generate checksums
+        run: |
+          sha256sum *.zip > checksums-sha256.txt
+          sha256sum *.tar.gz >> checksums-sha256.txt
+          cat checksums-sha256.txt
+
       # ✅ 7. Upload both zips to the GitHub Release for this tag
       - name: Upload release assets
         uses: softprops/action-gh-release@v2
@@ -71,5 +85,8 @@ jobs:
           files: |
             installer-${{ github.ref_name }}.zip
             installvendor-${{ github.ref_name }}.zip
+            source-${{ github.ref_name }}.zip
+            source-${{ github.ref_name }}.tar.gz
+            checksums-sha256.txt
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
