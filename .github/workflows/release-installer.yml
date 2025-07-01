@@ -1,0 +1,75 @@
+name: Build & Upload Installer Packages
+
+on:
+  push:
+    tags:
+      - 'v*'    # Runs when you push a tag like v1.0.0
+  workflow_dispatch:   # Allow manual run too
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # ✅ 1. Checkout your repo
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      # ✅ 2. Setup PHP and Composer
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, pdo, sqlite, mysql
+
+      # ✅ 3. Install Composer dependencies
+      - name: Install Composer dependencies (prod)
+        run: composer install --no-dev --optimize-autoloader
+
+      # ✅ 4. Build frontend if you have one
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install and build frontend
+        run: |
+          npm ci
+          npm run build
+
+      # ✅ 5. Prepare installer.zip (no vendor)
+      - name: Build installer.zip
+        run: |
+          mkdir build_installer
+          cp -r app bootstrap config database public resources routes build_installer/
+          cp composer.json composer.lock artisan server.php install.sql install57.sql build_installer/
+          cp env_install build_installer/.env
+          cp yvsou_install_config.php build_installer/config/yvsou_config.php
+
+          cd build_installer
+          zip -r ../installer-${{ github.ref_name }}.zip . \
+            --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
+
+      # ✅ 6. Prepare installvendor.zip (with vendor)
+      - name: Build installvendor.zip
+        run: |
+          mkdir build_vendor
+          cp -r app bootstrap config database public resources routes vendor build_vendor/
+          cp composer.json composer.lock artisan server.php install.sql install57.sql build_vendor/
+          cp env_install build_vendor/.env
+          cp yvsou_install_config.php build_vendor/config/yvsou_config.php
+
+          cd build_vendor
+          zip -r ../installvendor-${{ github.ref_name }}.zip . \
+            --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
+
+      # ✅ 7. Upload both zips to the GitHub Release for this tag
+      - name: Upload release assets
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          files: |
+            installer-${{ github.ref_name }}.zip
+            installvendor-${{ github.ref_name }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
