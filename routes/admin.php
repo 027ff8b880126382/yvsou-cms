@@ -62,6 +62,12 @@ Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('ad
         Route::get('edit', [CustomConfigSettingsController::class, 'edit'])->name('edit');
         Route::post('update', [CustomConfigSettingsController::class, 'update'])->name('update');
     });
+
+    Route::prefix('updater')->name('updater.')->group(function () {
+        Route::get('/', [\App\Http\Controllers\Admin\UpdaterController::class, 'check'])->name('check');
+        Route::post('/run', [\App\Http\Controllers\Admin\UpdaterController::class, 'run'])->name('run');
+    });
+
 });
 
 

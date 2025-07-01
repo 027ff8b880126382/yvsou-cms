@@ -28,6 +28,8 @@ use App\Http\Controllers\ProtectedFileController;
 use App\Http\Controllers\CaptchaController;
 use App\Http\Controllers\Lang\LangController;
 use App\Http\Controllers\HomeController;
+use App\Services\VersionCheckService;
+
  
 Route::get('/', [HomeController::class, 'home'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
@@ -85,6 +87,11 @@ Route::get('/protected/{filename}', [ProtectedFileController::class, 'show'])
 
 Route::get('/verify', [CaptchaController::class, 'show']);
 Route::post('/verify', [CaptchaController::class, 'verify']);
+ 
+Route::get('/check-version', function (VersionCheckService $versionCheck) {
+    return response()->json($versionCheck->isOutdated());
+});
+
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/domainview.php';

@@ -24,9 +24,12 @@
 
 @extends('layouts.app')
 
-
 @section('content')
+    @can('admin')
+        @include('version.version-banner')
+    @endcan
     <div class="min-h-screen flex items-center justify-center">
+
         <div class="w-64 p-6 bg-white shadow rounded text-center">
             <h2 class="text-xl font-bold mb-4">{{ __('dashboard.dashboard') }}</h2>
             <nav class="space-y-3">
@@ -35,10 +38,10 @@
                     <a href="/admin/plugins" class="block text-gray-800 hover:font-semibold">{{ __('dashboard.plugins') }}</a>
 
                     <a href="{{ route('admin.setmail.edit') }}" class="block text-gray-800 hover:font-semibold">
-                       {{ __('dashboard.mailsettings') }} 
+                        {{ __('dashboard.mailsettings') }}
                     </a>
                     <a href="{{ route('admin.setcustomconfig.edit') }}" class="block text-gray-800 hover:font-semibold">
-                       {{ __('dashboard.custompagesettings') }}  
+                        {{ __('dashboard.custompagesettings') }}
                     </a>
                 @endcan
             </nav>

@@ -137,12 +137,14 @@ class InstallController extends Controller
             'email' => 'required',
             'password' => 'required',
 
-            'is_adminsp' => 'required',
-            'is_blockbot' => 'required',
             'default_lang' => 'required',
             'lang_set' => 'required|array|min:1', // Make sure language_set is an array and has at least one value
 
         ]);
+
+        $isAdmin = $request->boolean('is_adminsp');
+        $isBlockBot = $request->boolean('is_blockbot');
+
         logger("requestafter", [$validated]);
 
 
@@ -159,13 +161,13 @@ class InstallController extends Controller
         $cusconfig = str_replace("'LANGUAGESET' => ['en','zh','ja']", "'LANGUAGESET' => $jsonLanguages ", $cusconfig);
 
         $adminstring = 'false';
-        if ($request->is_adminsp === 1)
+        if ($isAdmin)
             $adminstring = 'true';
 
         $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
 
         $blockbotstring = 'false';
-        if ($request->is_blockbot === 1)
+        if ($isBlockBot )
             $blockbotstring = 'true';
 
         $cusconfig = str_replace("'BLOCKBOT' => false", "'BLOCKBOT' =>   $blockbotstring ", $cusconfig);
