@@ -52,13 +52,20 @@ jobs:
       run: |
         set -eux 
         mkdir -p build_common
-        cp -r app bootstrap config database public resources routes plugins build_common/
+        cp -r app bootstrap config database public resources routes build_common/
         cp composer.json composer.lock artisan install.sql install57.sql build_common/
         cp env_install build_common/.env
         cp yvsou_install_config.php build_common/config/yvsou_config.php   
         cp *.* build_common/ || true
         rm -f build_common/*.sh || true
         cp composer.sh build_common/ || true
+
+        
+        if [ -d plugins ]; then    
+          cp -r plugins build_common/
+        else
+          mkdir -p build_common/plugins
+        fi
 
         mkdir -p build_common/storage/app/{private,public,protected-files}
         mkdir -p build_common/storage/framework/{cache,sessions,testing,views}
