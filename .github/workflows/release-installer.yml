@@ -1,140 +1,100 @@
+
 name: Build & Upload Installer Packages
 
 on:
   push:
     tags:
-      - 'v*'    # Runs when you push a tag like v1.0.0
-  workflow_dispatch:   # Allow manual run too
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      # ✅ 1. Checkout your repo
-      - name: Checkout
-        uses: actions/checkout@v4
+    # ✅ Official GitHub checkout action (verified)
+    - name: Checkout repository
+      uses: actions/checkout@v4
 
-      # ✅ 2. Setup PHP and Composer
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: '8.3'
-          extensions: mbstring, pdo, sqlite, mysql
+    # ✅ Use local steps for PHP setup instead of third-party
+    - name: Install PHP, Composer, Node.js
+      run: |
+        sudo add-apt-repository ppa:ondrej/php -y
+        sudo apt-get update
+        sudo apt-get install -y php8.3 php8.3-cli php8.3-mbstring php8.3-xml php8.3-mysql php8.3-sqlite3 unzip curl git
+        curl -sS https://getcomposer.org/installer | php
+        sudo mv composer.phar /usr/local/bin/composer
+        sudo apt-get install -y npm
+        npm install -g npm@latest
 
-      # ✅ 3. Install Composer dependencies
-      - name: Install Composer dependencies (prod)
-        run: composer install --no-dev --optimize-autoloader
+    # ✅ Install dependencies
+    - name: Install Composer dependencies
+      run: composer install --no-dev --optimize-autoloader
 
-      # ✅ 4. Build frontend if you have one
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
+    # ✅ Build frontend
+    - name: Install & build frontend
+      run: |
+        npm ci
+        npm run build
 
-      - name: Install and build frontend
-        run: |
-          npm ci
-          npm run build
+    # ✅ Create source archives
+    - name: Create source.zip and source.tar.gz
+      run: |
+        git archive --format zip --output source-${{ github.ref_name }}.zip HEAD
+        git archive --format tar.gz --output source-${{ github.ref_name }}.tar.gz HEAD
 
-      # Create source archive
-      - name: Create source.zip and source.tar.gz
-        run: |
-          mkdir -p release
-          git archive --format zip --output  source-${{ github.ref_name }}.zip HEAD
-          git archive --format tar.gz --output  source-${{ github.ref_name }}.tar.gz HEAD
+    # ✅ Prepare build structure once
+    - name: Prepare common build structure
+      run: |
+        mkdir -p build_common
+        cp -r app bootstrap config database public resources routes plugins build_common/
+        cp composer.json composer.lock artisan server.php install.sql install57.sql build_common/
+        cp env_install build_common/.env
+        cp yvsou_install_config.php build_common/config/yvsou_config.php   
+        cp *.* build_common/ || true
+        rm -f build_common/*.sh || true
+        cp composer.sh build_common/ || true
 
-      # ✅ 5. Prepare installer.zip (no vendor)
-      - name: Build installer.zip
-        run: |
-          mkdir build_installer
-          cp -r app bootstrap config database public resources routes plugins build_installer/
-          cp composer.json composer.lock artisan server.php install.sql install57.sql build_installer/
-          cp env_install build_installer/.env
-          cp yvsou_install_config.php build_installer/config/yvsou_config.php
-          cp *.* build_installer/ 
-          rm -f build_installer/*.sh
-          cp composer.sh build_installer/
+        mkdir -p build_common/storage/app/{private,public,protected-files}
+        mkdir -p build_common/storage/framework/{cache,sessions,testing,views}
+        mkdir -p build_common/storage/logs
+        cp storage/tmp-install.sqlite build_common/storage/tmp-install.sqlite || true
 
-          mkdir -p build_installer/storage
-          mkdir -p build_installer/storage/app
- 
-          mkdir -p build_installer/storage/app/private
-          mkdir -p build_installer/storage/app/public
-          mkdir -p build_installer/storage/app/protected-files
+    # ✅ Build installer.zip
+    - name: Build installer.zip
+      run: |
+        mkdir -p staging/yvsou-cms
+        cp -r build_common/* staging/yvsou-cms/
+        cd staging
+        zip -r ../installer-${{ github.ref_name }}.zip yvsou-cms \
+          --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
 
-          mkdir -p build_installer/storage/framework
-          mkdir -p build_installer/storage/framework/cache
-          mkdir -p build_installer/storage/framework/sessions
-          mkdir -p build_installer/storage/framework/testing
-          mkdir -p build_installer/storage/framework/views
-          mkdir -p build_installer/storage/logs
-   
-          cp storage/tmp-install.sqlite  build_installer/storage/tmp-install.sqlite  
-          
-          # ✅ STAGE under yvsou-cms/
-          mkdir -p staging/yvsou-cms
-          cp -r build_installer/* staging/yvsou-cms/
+    # ✅ Build installvendor.zip
+    - name: Build installvendor.zip
+      run: |
+        cd ..
+        cp -r vendor build_common/
+        mkdir -p staging_vendor/yvsou-cms
+        cp -r build_common/* staging_vendor/yvsou-cms/
+        cd staging_vendor
+        zip -r ../installvendor-${{ github.ref_name }}.zip yvsou-cms \
+          --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
 
-          # ✅ ZIP from yvsou-cms/
-          cd staging
-          zip -r ../installer-${{ github.ref_name }}.zip yvsou-cms \
-            --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
-          
-      # ✅ 6. Prepare installvendor.zip (with vendor)
-      - name: Build installvendor.zip
-        run: |
-          mkdir build_vendor
-          cp -r app bootstrap config database public resources routes plugins vendor build_vendor/
-          cp composer.json composer.lock artisan server.php install.sql install57.sql build_vendor/
-          cp env_install build_vendor/.env
-          cp yvsou_install_config.php build_vendor/config/yvsou_config.php
-          cp *.* build_vendor/ 
-          rm -f build_vendor/*.sh
-          cp composer.sh build_vendor/
+    # ✅ Generate SHA-256 checksums
+    - name: Generate SHA-256 checksums
+      run: |
+        sha256sum *.zip > checksums-sha256.txt
+        sha256sum *.tar.gz >> checksums-sha256.txt
+        cat checksums-sha256.txt
 
-          mkdir -p build_vendor/storage
-          mkdir -p build_vendor/storage/app
- 
-          mkdir -p build_vendor/storage/app/private
-          mkdir -p build_vendor/storage/app/public
-          mkdir -p build_vendor/storage/app/protected-files
-
-          mkdir -p build_vendor/storage/framework
-          mkdir -p build_vendor/storage/framework/cache
-          mkdir -p build_vendor/storage/framework/sessions
-          mkdir -p build_vendor/storage/framework/testing
-          mkdir -p build_vendor/storage/framework/views
-          mkdir -p build_vendor/storage/logs
-   
-          cp storage/tmp-install.sqlite  build_vendor/storage/tmp-install.sqlite  
-          
-          # ✅ STAGE under yvsou-cms/
-          mkdir -p staging_vendor/yvsou-cms
-          cp -r build_vendor/* staging_vendor/yvsou-cms/
-
-          # ✅ ZIP from yvsou-cms/
-          cd staging_vendor
-          zip -r ../installvendor-${{ github.ref_name }}.zip yvsou-cms \
-            --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
-          
-      # Generate SHA-256 checksums
-      - name: Generate checksums
-        run: |
-          sha256sum *.zip > checksums-sha256.txt
-          sha256sum *.tar.gz >> checksums-sha256.txt
-          cat checksums-sha256.txt
-
-      # ✅ 7. Upload both zips to the GitHub Release for this tag
-      - name: Upload release assets
-        uses: softprops/action-gh-release@v2
-        with:
-          tag_name: ${{ github.ref_name }}
-          files: |
-            installer-${{ github.ref_name }}.zip
-            installvendor-${{ github.ref_name }}.zip
-            source-${{ github.ref_name }}.zip
-            source-${{ github.ref_name }}.tar.gz
-            checksums-sha256.txt
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    # ✅ Use official GitHub CLI to upload releases
+    - name: Upload release assets
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        gh release upload ${{ github.ref_name }} \
+          installer-${{ github.ref_name }}.zip \
+          installvendor-${{ github.ref_name }}.zip \
+          source-${{ github.ref_name }}.zip \
+          source-${{ github.ref_name }}.tar.gz \
+          checksums-sha256.txt --clobber
