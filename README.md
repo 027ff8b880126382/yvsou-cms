@@ -51,6 +51,30 @@ yvsou-cms uses **dual licensing** to support both open-source and commercial use
 | Pay License Fee     | ❌ No                   | ✅ Yes (if not GPL)         |
 +---------------------+-------------------------+-----------------------------+
 
+## Dev guide
+
+# Clone your repository from GitHub
+git clone https://github.com/yvsoucom/yvsou-cms.git
+
+# Go into the project directory
+cd yvsou-cms
+copy env.example .env
+copy yvsou_example_config.php  config/yvsou_config.php
+run mysql install.sql or install57.sql
+edit .env for db setting
+
+# Install PHP dependencies
+composer install
+
+# Install Node.js dependencies
+npm install
+
+# run yvsou-cms app
+npm run dev
+
+
+## Installation
+  [INSTALL.MD](./INSTALL.MD) — Guide for installation 
  
  ## Live Metrics  
 
