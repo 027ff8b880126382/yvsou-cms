@@ -86,7 +86,6 @@ jobs:
     - name: Build installvendor.zip
       run: |
         set -eux 
-        cd ..
         cp -r vendor build_common/
         mkdir -p staging_vendor/yvsou-cms
         cp -r build_common/* staging_vendor/yvsou-cms/
