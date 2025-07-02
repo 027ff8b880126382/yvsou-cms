@@ -23,7 +23,7 @@
 */
 
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Message;
 
 use App\Models\User;
 use App\Services\RightsService;
@@ -31,8 +31,8 @@ use Illuminate\Http\Request;
 use App\Services\DomainService;
 use App\Models\DomainManager;
 use App\Models\DomainName;
-
-class message extends Controller
+use App\Http\Controllers\Controller;
+class Message extends Controller
 {
     
 }
