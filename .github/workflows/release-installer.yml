@@ -105,6 +105,7 @@ jobs:
         cat checksums-sha256.txt
 
     - name: Create GitHub Release if not exists  
+      if: github.ref_type == 'tag'
       run: |
         set -eux 
         git config --global user.email "ci@example.com"
