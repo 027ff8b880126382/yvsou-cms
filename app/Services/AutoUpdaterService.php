@@ -31,10 +31,13 @@ use Illuminate\Support\Facades\File;
 class AutoUpdaterService
 {
     protected string $repo;
+    protected string $app_version;
 
     public function __construct()
     {
-        $this->repo = config('version.github_repo'); // ✅ Now works!
+        $this->repo = config('version.github_repo');
+        $this->app_version = config('version.app_version');
+
     }
     public function checkLatestVersion(): ?array
     {
@@ -51,8 +54,7 @@ class AutoUpdaterService
     {
         $release = $this->checkLatestVersion();
         $latest = $release['tag_name'];
-        $composer = json_decode(file_get_contents(base_path('composer.json')), true);
-        $current = $composer['version'] ?? 'unknown';
+        $current = $this->app_version;
         logger($release);
         logger($current);
         if ($latest && version_compare($current, $latest, '<')) {

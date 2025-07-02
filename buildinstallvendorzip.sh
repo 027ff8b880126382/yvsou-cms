@@ -1,41 +1,69 @@
+#!/bin/bash
+
 ver="1.0.0-beta.2"
+
+echo "Cleaning up..."
 rm -rf vendor
-mv  .env  .env.bak
-cp env_install  .env     
-mv config/yvsou_config.php yvsou_config_bak.php
-cp yvsou_install_config.php config/yvsou_config.php
- 
+
+echo "Installing composer dependencies..."
 composer install --no-dev --optimize-autoloader
-npm run build    # or skip if no frontend
+
+echo "Building frontend..."
+npm ci && npm run build
+
+echo "Caching configs..."
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
-  
-npm install
-npm run build  
- 
- 
-# Optional: remove compiled files manually
-# rm -f bootstrap/cache/*.php
 
+echo "Preparing build directory..."
+rm -rf build
+mkdir -p build/yvsou-cms
+
+echo "Copying project files..."
+rsync -av \
+  --exclude="vendor" \
+  --exclude="node_modules" \
+  --exclude=".git" \
+  --exclude="*.log" \
+  --exclude="bootstrap/cache/*.php" \
+  --exclude="storage" \
+  --exclude="tests" \
+  --exclude="*.sh" \
+  ./ build/yvsou-cms/
+
+echo "Copying vendor folder..."
+cp -r vendor build/yvsou-cms/vendor
+
+echo "Using installer versions of config and env..."
+cp env_install build/yvsou-cms/.env
+cp yvsou_install_config.php build/yvsou-cms/config/yvsou_config.php
+
+echo "Zipping installer..."
+cd build
+
+mkdir -p yvsou-cms/storage
+mkdir -p yvsou-cms/storage/app
+ 
+mkdir -p yvsou-cms/storage/app/private
+mkdir -p yvsou-cms/storage/app/public
+mkdir -p yvsou-cms/storage/app/protected-files
+
+mkdir -p yvsou-cms/storage/framework
+mkdir -p yvsou-cms/storage/framework/cache
+mkdir -p yvsou-cms/storage/framework/sessions
+mkdir -p yvsou-cms/storage/framework/testing
+mkdir -p yvsou-cms/storage/framework/views
+mkdir -p yvsou-cms/storage/logs
    
+cp ../storage/tmp-install.sqlite  yvsou-cms/storage/tmp-install.sqlite  
+ 
+zip -r "../yvsou-cms-vendor-installer-${ver}.zip" yvsou-cms
 cd ..
-zip -r yvsou-cms/yvsou-cms-vendor-installer-${ver}.zip   \
-    yvsou-cms/app yvsou-cms/bootstrap yvsou-cms/config yvsou-cms/database yvsou-cms/public yvsou-cms/resources yvsou-cms/routes yvsou-cms/vendor \
-    yvsou-cms/composer.json yvsou-cms/composer.lock\
-    yvsou-cms/env.example yvsou-cms/yvsou_example_config.php \
-    yvsou-cms/.env   \
-    yvsou-cms/install.sql yvsou-cms/install57.sql yvsou-cms/server.php \
-    --exclude=yvsou-cms/*.log --exclude=yvsou-cms/node_modules/* \
-    --exclude=yvsou-cms/.git/*   \
-    --exclude=yvsou-cms/bootstrap/cache/*.php   
 
-cd ./yvsou-cms
+echo "Cleaning up temp build dir..."
+rm -rf build/yvsou-cms
+rm -rf build
 
-# finished move back
-#mv  .env.bak  .env  
-#mv  yvsou_config_bak.php config/yvsou_config.php    
- 
-
-   
+echo "✅ Done! Your installer is: yvsou-cms-vendor-installer-${ver}.zip"
  

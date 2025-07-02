@@ -29,7 +29,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 use Dotenv\Dotenv;
-
+use Illuminate\Support\Facades\Config;
 class InstallController extends Controller
 {
     function fixPermissions($dir)
@@ -76,7 +76,38 @@ class InstallController extends Controller
         return view('install.step1');
     }
 
-    public function createdbtables($newdb, $host, $user, $pass, $adminname, $adminemail, $adminpass)
+    public function is_mysql_8_or_higher($dbname, $host, $port, $user, $pass)
+    {
+        $config = [
+            'driver' => 'mysql',
+            'host' => $host,
+            'port' => $port,
+            'database' => $dbname,
+            'username' => $user,
+            'password' => $pass,
+        ];
+
+        // Test connection
+        Config::set('database.connections.installer_mysql', $config);
+        try {
+            $connection = DB::connection('installer_mysql');
+            $versionString = $connection->selectOne('SELECT VERSION() as version')->version;
+            if (preg_match('/^(\d+)\.(\d+)/', $versionString, $matches)) {
+                $major = (int) $matches[1];
+                $minor = (int) $matches[2];
+
+                // MySQL 8+ is major >= 8
+                return $major >= 8;
+            }
+
+            return false; // fallback
+        } catch (\Exception $e) {
+            return back()->withErrors(['Connection failed: ' . $e->getMessage()]);
+        }
+    }
+
+
+    public function createdbtables($newdb, $host, $port, $user, $pass, $adminname, $adminemail, $adminpass)
     {
         try {
             // Connect without specifying a database
@@ -90,7 +121,7 @@ class InstallController extends Controller
             $pdo->exec("USE `$newdb`"); // ✅ CORRECTED LINE
 
             // Read SQL from file
-            if (is_mysql_8_or_higher())
+            if ($this->is_mysql_8_or_higher($newdb, $host, $port, $user, $pass))
                 $sql = file_get_contents(base_path('install.sql'));
             else
                 $sql = file_get_contents(base_path('install57.sql'));
@@ -167,7 +198,7 @@ class InstallController extends Controller
         $cusconfig = str_replace("'ADMINHASRIGHTS' => true", "'ADMINHASRIGHTS' =>  $adminstring ", $cusconfig);
 
         $blockbotstring = 'false';
-        if ($isBlockBot )
+        if ($isBlockBot)
             $blockbotstring = 'true';
 
         $cusconfig = str_replace("'BLOCKBOT' => false", "'BLOCKBOT' =>   $blockbotstring ", $cusconfig);
@@ -192,7 +223,7 @@ class InstallController extends Controller
 
 
 
-        $this->createdbtables($request->db_name, $request->db_host, $request->db_user, $request->db_pass, $request->name, $request->email, bcrypt($request->password));
+        $this->createdbtables($request->db_name, $request->db_host, $request->db_port, $request->db_user, $request->db_pass, $request->name, $request->email, bcrypt($request->password));
 
         File::put(base_path('.env'), $env);
         #Artisan::call('config:clear');
