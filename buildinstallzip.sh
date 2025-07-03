@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ver="1.0.0-beta.2"
+ver="1.0.0-beta.4"
 
 echo "Preparing installer version ${ver}..."
 

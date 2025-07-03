@@ -25,7 +25,7 @@
 return [
 
   'github_repo' => 'yvsoucom/yvsou-cms',
-  'app_version' => '1.0.0-beta.3',
+  'app_version' => '1.0.0-beta.4',
   'env_version' => 'env-v1.0.0',
   'config_version' => 'config-v1.0.0',
   'sql_version' => 'sql-v1.0.0',
