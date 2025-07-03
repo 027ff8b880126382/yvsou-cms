@@ -45,12 +45,7 @@ jobs:
         npm ci
         npm run build
 
-    # ✅ Create source archives
-    - name: Create source.zip and source.tar.gz
-      run: |
-        git archive --format zip --output source-${{ github.ref_name }}.zip HEAD
-        git archive --format tar.gz --output source-${{ github.ref_name }}.tar.gz HEAD
-
+    
     # ✅ Prepare build structure once
     - name: Prepare common build structure
       run: |
@@ -97,6 +92,12 @@ jobs:
         zip -r ../installvendor-${{ github.ref_name }}.zip yvsou-cms \
           --exclude='**/*.log' --exclude='node_modules/*' --exclude='.git/*' --exclude='bootstrap/cache/*.php'
 
+     # ✅ Create source archives
+    - name: Create source.zip and source.tar.gz
+      run: |
+        git archive --format zip --output source-${{ github.ref_name }}.zip HEAD
+        git archive --format tar.gz --output source-${{ github.ref_name }}.tar.gz HEAD
+      
     # ✅ Generate SHA-256 checksums
     - name: Generate SHA-256 checksums
       run: |

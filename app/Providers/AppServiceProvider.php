@@ -78,7 +78,7 @@ class AppServiceProvider extends ServiceProvider
             logger()->error('Error loading mail settings: ' . $e->getMessage());
             // Optional: fallback config
         }
- 
+
 
         if (app()->runningInConsole() && basename($_SERVER['PHP_SELF']) === 'generate_migrations_from_models.php') {
             return; // prevent loading shortcodes
@@ -90,14 +90,20 @@ class AppServiceProvider extends ServiceProvider
             // $view->with('getlangSet', $localeService->getlangSet(config('yvsou_config.LANGUAGESET')));
             $view->with('getlangSet', $localeService->getlangSet(config('yvsou_config.LANGUAGESET')));
         });
-
-        if (Schema::hasTable('shortcodes')) {
-            $shortcodes = \App\Models\Shortcode::all();
-            $shortcodeManager = new \App\Services\ShortcodeManager();
-            $shortcodeManager->loadFromDatabase();
-            app()->instance('shortcode', $shortcodeManager);
+        try {
+            if (Schema::hasTable('shortcodes')) {
+                $shortcodes = \App\Models\Shortcode::all();
+                $shortcodeManager = new \App\Services\ShortcodeManager();
+                $shortcodeManager->loadFromDatabase();
+                app()->instance('shortcode', $shortcodeManager);
+            } else {
+                // Optional: log or use default mail config
+                logger('shortcodes table does not exist.');
+            }
+        } catch (\Throwable $e) {
+            logger()->error('Error shortcodes: ' . $e->getMessage());
+            // Optional: fallback config
         }
-
 
     }
 }
