@@ -72,7 +72,7 @@
         </div>
 
         <div class="mt-6">
-            <a href="{{ url('/') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm transition">
+            <a href="{{ route('home') }}" class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded shadow-sm transition">
                 {{ __('Cancel') }}
             </a>
         </div>

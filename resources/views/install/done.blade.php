@@ -47,8 +47,8 @@
         <p class="text-center">{{ __('installer.install_complete_message') }}</p>
 
         <div class="text-center mt-4">
-            <a href="{{ url('/') }}" class="btn btn-success">{{ __('installer.goto_home') }}</a>
-            <a href="{{ url('/login') }}" class="btn btn-primary">{{ __('installer.goto_admin') }}</a>
+            <a href="{{ route('home') }}" class="btn btn-success">{{ __('installer.goto_home') }}</a>
+            <a href="{{ route('login')  }}" class="btn btn-primary">{{ __('installer.goto_admin') }}</a>
         </div>
 
         <p class="mt-4 text-muted text-center small">{{ __('installer.security_note') }}</p>

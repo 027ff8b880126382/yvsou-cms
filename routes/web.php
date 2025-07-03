@@ -86,12 +86,9 @@ Route::get('/protected/{filename}', [ProtectedFileController::class, 'show'])
     ->where('filename', '.*');  // allow slashes in filename
 
 Route::get('/verify', [CaptchaController::class, 'show']);
-Route::post('/verify', [CaptchaController::class, 'verify']);
+Route::post('/verify', [CaptchaController::class, 'verify'])->name('verify');
  
-Route::get('/check-version', function (VersionCheckService $versionCheck) {
-    return response()->json($versionCheck->isOutdated());
-});
-
+ 
 
 require __DIR__ . '/auth.php';
 require __DIR__ . '/domainview.php';

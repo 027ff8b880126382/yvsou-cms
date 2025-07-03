@@ -54,8 +54,6 @@ class InstallController extends Controller
     }
 
 
-
-
     public function welcome()
     {
 

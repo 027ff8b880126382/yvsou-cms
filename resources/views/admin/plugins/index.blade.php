@@ -48,10 +48,10 @@
                     <pre>{{ json_encode($plugin['dependencies'], JSON_PRETTY_PRINT) }}</pre>
                 </td>
                 <td>
-                    <a href="{{ url('/admin/plugins/toggle/'.$plugin['name']) }}">
+                    <a href="{{ route('admin.plugins.toggle', $plugin['name']) }}">
                         {{ $plugin['enabled'] ? 'Disable' : 'Enable' }}
                     </a> |
-                    <a href="{{ url('/admin/plugins/delete/'.$plugin['name']) }}">Delete</a>
+                    <a href="{{ route('admin.plugins.delete' ,$plugin['name']) }}">Delete</a>
                 </td>
             </tr>
         @endforeach
@@ -59,7 +59,7 @@
     </table>
 
     <h2>Upload Plugin</h2>
-    <form action="{{ url('/admin/plugins/upload') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.plugins.upload') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="plugin_zip" required>
         <button type="submit">Upload ZIP</button>

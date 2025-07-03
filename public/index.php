@@ -42,7 +42,7 @@ if (!file_exists($installedFlag) && !$inInstaller) {
         // Create an empty file
         file_put_contents($filePath, '');
     }
-    $vendorfilePath = __DIR__ . '../vendor';
+    $vendorfilePath = __DIR__ . '/../vendor';
     $vendorExists = is_dir($vendorfilePath);
     if (!$vendorExists) {
         $composerAvailable = trim(shell_exec('which composer')) ? true : false;
@@ -63,7 +63,7 @@ if (!file_exists($installedFlag) && !$inInstaller) {
 
     }
 
-    header('Location: /install');
+    header('Location: install');
     exit;
 }
 
