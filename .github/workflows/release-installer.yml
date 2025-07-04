@@ -53,7 +53,8 @@ jobs:
         mkdir -p build_common
         cp -r app bootstrap config database public resources routes build_common/
         cp composer.json composer.lock artisan install.sql install57.sql build_common/
-        cp env_install build_common/.env
+        cp env_install build_common/env_install
+
         cp yvsou_install_config.php build_common/config/yvsou_config.php   
         cp *.* build_common/ || true
         rm -f build_common/*.sh || true

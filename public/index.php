@@ -47,7 +47,7 @@ if (!file_exists($installedFlag) && !$inInstaller) {
     if (!$vendorExists) {
         $composerAvailable = trim(shell_exec('which composer')) ? true : false;
         if ($composerAvailable) {
-            chdir(__DIR__ . '/../'); 
+            chdir(__DIR__ . '/../');
             exec('composer install --no-interaction --prefer-dist --optimize-autoloader 2>&1', $output, $returnCode);
             if ($returnCode === 0) {
                 echo "Composer install succeeded!\n";
@@ -62,6 +62,19 @@ if (!file_exists($installedFlag) && !$inInstaller) {
         }
 
     }
+
+
+
+    $envPath = __DIR__ . '/.env';
+    $installenvPath = __DIR__ . '/env_install';
+
+    if (file_exists($installenvPath)) {
+        copy($installenvPath, $envPath);
+        echo ".env file created from env_install.\n";
+    } else {
+        echo "env_install does not exist.\n";
+    }
+
 
     header('Location: install');
     exit;
