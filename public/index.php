@@ -63,10 +63,8 @@ if (!file_exists($installedFlag) && !$inInstaller) {
 
     }
 
-
-
-    $envPath = __DIR__ . '/.env';
-    $installenvPath = __DIR__ . '/env_install';
+    $envPath = __DIR__ . '/../.env';
+    $installenvPath = __DIR__ . '/../env_install';
 
     if (file_exists($installenvPath)) {
         copy($installenvPath, $envPath);
