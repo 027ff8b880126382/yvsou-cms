@@ -27,6 +27,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use SebastianBergmann\Type\TrueType;
 
 class AutoUpdaterService
 {
@@ -71,16 +72,28 @@ class AutoUpdaterService
             'current' => $current,
         ];
     }
+
     public function downloadLatestZip(): ?string
     {
         $release = $this->checkLatestVersion();
         if (!$release) {
             return null;
         }
+
         $outdated = $this->isOutdated();
-        if (!$outdated['outdated'])
+        if (!$outdated['outdated']) {
             return null;
-        $zipUrl = $release['zipball_url'];
+        }
+
+        // ✅ Find the specific asset
+        $asset = collect($release['assets'] ?? [])
+            ->firstWhere('name', 'installvendor-' . $release['tag_name'] . '.zip');
+
+        if (!$asset) {
+            return null; // Asset not found
+        }
+
+        $zipUrl = $asset['browser_download_url']; // This is the real download link
         $fileName = 'update-' . $release['tag_name'] . '.zip';
 
         $zipContent = Http::withHeaders([
@@ -95,6 +108,7 @@ class AutoUpdaterService
 
         return storage_path("app/{$fileName}");
     }
+
 
     public function backupCurrent(): ?string
     {
@@ -158,4 +172,12 @@ class AutoUpdaterService
 
         closedir($dir);
     }
+
+    public function checkconfigversion(): bool
+    {
+        
+        return false;
+
+    }
+
 }

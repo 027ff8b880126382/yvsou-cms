@@ -24,9 +24,6 @@
 
 namespace App\Services;
 
-use Illuminate\Contracts\Support\Arrayable;
-use Illuminate\Support\Facades\App;
-use Illuminate\Support\Facades\Cookie;
 use App\Models\DomainTree;
 use App\Models\DomainTreeChildId;
 use App\Models\DomainDict;

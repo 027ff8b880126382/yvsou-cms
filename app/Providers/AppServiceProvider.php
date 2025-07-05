@@ -17,36 +17,7 @@ use Illuminate\Support\Facades\Gate;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
-
-    /*
-   public function register(): void
-   {
-
-       $jsonPath = base_path('config/yvsou_config.php');
-
-       if (file_exists($jsonPath)) {
-           $json = file_get_contents($jsonPath);
-           $configData = json_decode($json, true);
-
-           if (json_last_error() === JSON_ERROR_NONE) {
-               foreach ($configData as $key => $value) {
-                   config()->set($key, $value);
-                   // putenv("$key=$value");
-                   // $_ENV[$key] = $_SERVER[$key] = $value;
-
-               }
-               config(['site' => $configData]);
-           } else {
-               logger()->error('Invalid JSON in customconfig.json: ' . json_last_error_msg());
-           }
-       }
-
-   }
-       */
-
+    
     /**
      * Bootstrap any application services.
      */

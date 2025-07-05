@@ -38,7 +38,7 @@ Route::prefix('group')->name('group.')->group(function () {
 
 Route::middleware(['auth'])->prefix('group')->name('group.')->group(function () {
 
-    Route::post('/setpub', [GroupController::class, 'setpub'])->name('setpub');
+    Route::post('/setpublic', [GroupController::class, 'setpublic'])->name('setpublic');
     Route::post('/setprivate', [GroupController::class, 'setprivate'])->name('setprivate');
 
     Route::patch('/{groupid}/joingroup', [GroupController::class, 'joingroup'])->name('joingroup');

@@ -35,6 +35,7 @@ use App\Services\ConstantService;
 use App\Services\DomainService;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 /**
  * Class User
  * 
@@ -53,7 +54,8 @@ use Illuminate\Notifications\Notifiable;
  */
 class User extends Authenticatable implements MustVerifyEmail
 {
-	use Notifiable;
+
+	use HasFactory, Notifiable;
 	protected $table = 'users';
 
 	protected $casts = [

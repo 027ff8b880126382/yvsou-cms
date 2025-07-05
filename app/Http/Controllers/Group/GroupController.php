@@ -87,7 +87,7 @@ class GroupController extends Controller
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
-    public function setpub(Request $request)
+    public function setpublic(Request $request)
     {
         $request->validate([
             'groupid' => 'required|String' // or string if your IDs are UUIDs
