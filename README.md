@@ -82,4 +82,6 @@ You can access the live Metrics here:
 
 [https://yvsoucom.github.io/metrics-dashboard/](https://yvsoucom.github.io/metrics-dashboard/)
 
- 
+[https://cms.yvsou.com/]  migration from dscloud platform  (https://cms.yvsou.com/)     
+[https://cms-test.yvsou.com/]   test yvsou-cms site  (https://cms-test.yvsou.com/)
+

@@ -25,7 +25,7 @@
 
 @section('content')
 
-    <div class="text-center mt-12">
+    <div class="text-left mt-12">
         <main class="prose mx-auto p-8">
             {!! Str::markdown($aboutMd) !!}
         </main>
