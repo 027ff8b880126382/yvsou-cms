@@ -7,8 +7,6 @@ use Illuminate\Support\Str;
 
 define('LARAVEL_START', microtime(true));
 
-
-
 $installedFlag = __DIR__ . '/../storage/installed.lock';
 #$installedconfigFlag = __DIR__ . '/../config/yvsou_config.php';
 $inInstaller = strpos($_SERVER['REQUEST_URI'], '/install') !== false;
@@ -71,6 +69,16 @@ if (!file_exists($installedFlag) && !$inInstaller) {
         echo ".env file created from env_install.\n";
     } else {
         echo "env_install does not exist.\n";
+    }
+
+    $config = __DIR__ . '/../config/yvsou_config.php';
+    $installconfig = __DIR__ . '/../yvsou_install_config.php';
+
+    if (file_exists($installenvPath)) {
+        copy($installenvPath, $config);
+        echo "config file created from env_install.\n";
+    } else {
+        echo "config_install does not exist.\n";
     }
 
 

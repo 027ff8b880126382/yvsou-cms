@@ -36,7 +36,6 @@
                 <a href="/admin/users" class="block text-gray-800 hover:font-semibold">{{ __('dashboard.usercenter') }}</a>
                 @can('admin')
                     <a href="/admin/plugins" class="block text-gray-800 hover:font-semibold">{{ __('dashboard.plugins') }}</a>
-
                     <a href="{{ route('admin.setmail.edit') }}" class="block text-gray-800 hover:font-semibold">
                         {{ __('dashboard.mailsettings') }}
                     </a>

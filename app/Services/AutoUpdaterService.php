@@ -28,6 +28,8 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use SebastianBergmann\Type\TrueType;
+use Illuminate\Support\Facades\Log;
+
 
 class AutoUpdaterService
 {
@@ -54,11 +56,20 @@ class AutoUpdaterService
     public function isOutdated()
     {
         $release = $this->checkLatestVersion();
+        logger(" release verion");
+
         $latest = $release['tag_name'];
+        logger($latest);
         $current = $this->app_version;
-        logger($release);
+
+        logger(" curent verion");
         logger($current);
+        Log::debug('Current version: [' . $current . ']');
+        Log::debug('Latest version: [' . $latest . ']');
+        Log::debug('Compare: ' . (version_compare($current, $latest, '<') ? 'true' : 'false'));
+
         if ($latest && version_compare($current, $latest, '<')) {
+            logger($latest);
             return [
                 'outdated' => true,
                 'latest' => $latest,
@@ -110,46 +121,123 @@ class AutoUpdaterService
     }
 
 
-    public function backupCurrent(): ?string
+    public function backupCurrentCopy(): ?string
     {
-        $backupName = 'backup-' . date('YmdHis') . '.zip';
-        $backupPath = storage_path("app/{$backupName}");
+        $backupDirName = 'backup-' . date('YmdHis');
+        $backupPath = storage_path("app/backups/{$backupDirName}");
 
-        $exclude = "--exclude=vendor --exclude=storage --exclude=.env";
+        // Create the backup directory
+        File::makeDirectory($backupPath, 0755, true);
 
-        $command = "cd " . base_path() . " && zip -r {$backupPath} . {$exclude}";
+        $sourcePath = base_path();
 
-        $result = null;
-        $output = null;
+        // Exclude these folders or files if needed
+        $exclude = ['storage', '.env', 'node_modules', '.git'];
 
-        exec($command, $output, $result);
+        $this->recursiveCopyWithExclude($sourcePath, $backupPath, $exclude);
 
-        return $result === 0 ? $backupPath : null;
+        Log::info("Backup copied to: {$backupPath}");
+
+        return $backupPath;
     }
 
-    public function applyUpdate(string $zipPath): bool
+    protected function recursiveCopyWithExclude($src, $dst, $exclude = [])
+    {
+        $dir = opendir($src);
+        @mkdir($dst, 0755, true);
+
+        while (false !== ($file = readdir($dir))) {
+            if ($file === '.' || $file === '..') {
+                continue;
+            }
+
+            if (in_array($file, $exclude)) {
+                continue;
+            }
+
+            $srcPath = "{$src}/{$file}";
+            $dstPath = "{$dst}/{$file}";
+
+            if (is_dir($srcPath)) {
+                $this->recursiveCopyWithExclude($srcPath, $dstPath, $exclude);
+            } else {
+                copy($srcPath, $dstPath);
+            }
+        }
+
+        closedir($dir);
+    }
+
+    public function extractZip(string $zipPath): ?string
     {
         $extractPath = base_path('update-temp');
 
-        if (!File::exists($extractPath)) {
-            File::makeDirectory($extractPath, 0755, true);
+        if (File::exists($extractPath)) {
+            File::deleteDirectory($extractPath);
         }
+
+        File::makeDirectory($extractPath, 0755, true);
 
         $zip = new \ZipArchive;
         if ($zip->open($zipPath) === true) {
             $zip->extractTo($extractPath);
             $zip->close();
 
-            // Merge extracted files with current app
-            $this->recursiveCopy($extractPath, base_path());
-
-            // Clean up
-            File::deleteDirectory($extractPath);
-
-            return true;
+            Log::info("Extracted ZIP to {$extractPath}");
+            return $extractPath;
         }
 
-        return false;
+        Log::error("Failed to open ZIP: {$zipPath}");
+        return null;
+    }
+
+    public function overwriteWithExtract(string $extractPath): bool
+    {
+        $this->recursiveCopy($extractPath, base_path());
+        File::deleteDirectory($extractPath);
+
+        Log::info("Overwrite complete.");
+        return true;
+    }
+
+
+    public function runPostUpdate(): void
+    {
+        // exec('composer install --no-dev --optimize-autoloader');
+        try {
+            \Artisan::call('config:cache');
+            \Artisan::call('route:cache');
+            \Artisan::call('view:cache');
+
+            Log::info("Post-update complete.");
+        } catch (\Exception $e) {
+            Log::error("❌ Post-update failed: " . $e->getMessage());
+        }
+
+    }
+
+    public function applyUpdate(): bool
+    {
+
+        $zipPath = $this->downloadLatestZip();
+        if (!$zipPath) {
+            return false;
+        }
+
+        $this->backupCurrentCopy();
+
+        $extractPath = $this->extractZip($zipPath);
+        if (!$extractPath) {
+            return false;
+        }
+
+        $this->overwriteWithExtract($extractPath);
+
+        $this->runPostUpdate();
+
+        return true;
+
+
     }
 
     protected function recursiveCopy($src, $dst)
@@ -169,15 +257,6 @@ class AutoUpdaterService
                 }
             }
         }
-
         closedir($dir);
     }
-
-    public function checkconfigversion(): bool
-    {
-        
-        return false;
-
-    }
-
 }
