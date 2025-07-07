@@ -172,24 +172,65 @@ class AutoUpdaterService
     {
         $extractPath = base_path('update-temp');
 
+        // Clean up any previous temp
+        if (\File::exists($extractPath)) {
+            \File::deleteDirectory($extractPath);
+        }
+        \File::makeDirectory($extractPath, 0755, true);
+
+        $extracted = false;
+
+        // ✅ Try ZipArchive if available
+        if (class_exists(\ZipArchive::class)) {
+            $zip = new \ZipArchive;
+            if ($zip->open($zipPath) === true) {
+                if ($zip->extractTo($extractPath)) {
+                    Log::info("Extracted ZIP using ZipArchive to {$extractPath}");
+                    $extracted = true;
+                } else {
+                    Log::warning("ZipArchive could not extract {$zipPath}");
+                }
+                $zip->close();
+            } else {
+                Log::warning("ZipArchive could not open {$zipPath}");
+            }
+        } else {
+            Log::info("ZipArchive class not available, trying shell unzip...");
+        }
+
+        // ✅ Fallback to shell unzip if needed
+        if (!$extracted) {
+            $this->fallbackShellUnzip( $zipPath,  $extractPath);
+        }
+
+        return $extracted ? $extractPath : null;
+    }
+
+    protected function fallbackShellUnzip(string $zipPath, string $extractPath): bool
+    {
         if (File::exists($extractPath)) {
             File::deleteDirectory($extractPath);
         }
 
         File::makeDirectory($extractPath, 0755, true);
 
-        $zip = new \ZipArchive;
-        if ($zip->open($zipPath) === true) {
-            $zip->extractTo($extractPath);
-            $zip->close();
+        $command = sprintf(
+            'unzip -o %s -d %s 2>&1',
+            escapeshellarg($zipPath),
+            escapeshellarg($extractPath)
+        );
 
-            Log::info("Extracted ZIP to {$extractPath}");
-            return $extractPath;
-        }
+        $output = [];
+        $result = null;
 
-        Log::error("Failed to open ZIP: {$zipPath}");
-        return null;
+        exec($command, $output, $result);
+
+        Log::debug("Shell unzip output: " . implode("\n", $output));
+        Log::debug("Shell unzip return code: {$result}");
+
+        return $result === 0;
     }
+
 
     public function overwriteWithExtract(string $extractPath): bool
     {
@@ -216,29 +257,44 @@ class AutoUpdaterService
 
     }
 
+
     public function applyUpdate(): bool
     {
+        Log::info('[Updater] Starting update process...');
 
         $zipPath = $this->downloadLatestZip();
         if (!$zipPath) {
+            Log::error('[Updater] No update zip was downloaded.');
             return false;
         }
+        Log::info("[Updater] Downloaded update zip to: {$zipPath}");
 
-        $this->backupCurrentCopy();
+        $backupResult = $this->backupCurrentCopy();
+        if (!$backupResult) {
+            Log::warning('[Updater] Backup failed or not created.');
+        } else {
+            Log::info("[Updater] Backup created at: {$backupResult}");
+        }
 
         $extractPath = $this->extractZip($zipPath);
         if (!$extractPath) {
+            Log::error('[Updater] Extraction failed.');
             return false;
         }
+        Log::info("[Updater] Extracted update to: {$extractPath}");
 
-        $this->overwriteWithExtract($extractPath);
+        $overwriteResult = $this->overwriteWithExtract($extractPath);
+        Log::info("[Updater] Overwrite result: " . ($overwriteResult ? 'success' : 'failed'));
 
         $this->runPostUpdate();
+        Log::info('[Updater] Post update commands executed.');
+
+        Log::info('[Updater] Update process completed successfully.');
 
         return true;
-
-
     }
+
+
 
     protected function recursiveCopy($src, $dst)
     {

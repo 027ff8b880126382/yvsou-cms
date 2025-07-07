@@ -41,18 +41,11 @@ class UpdaterController extends Controller
 
     public function run(Request $request)
     {
-        // Optional: create backup first
-        $backupPath = $this->updater->backupCurrent();
-
-        $zipPath = $this->updater->downloadLatestZip();
-        if (!$zipPath) {
-            return back()->with('error', 'Download failed!');
-        }
-
-        $success = $this->updater->applyUpdate($zipPath);
+ 
+        $success = $this->updater->applyUpdate();
 
         return back()->with('status', $success
-            ? "Update applied! Backup: {$backupPath}"
+            ? "Update applied! "
             : "Update failed."
         );
     }
