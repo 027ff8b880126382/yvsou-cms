@@ -35,7 +35,7 @@ use Illuminate\Database\Eloquent\Model;
  * 
  * @property string $userid
  * @property bool $checked
- * @property string $domainID
+ * @property string $domainid
  * @property bool $rights
  * @property string $name4group
  *
@@ -53,6 +53,8 @@ class DomainName extends Model
 	];
 
 	protected $fillable = [
+		'userid',
+		'domainid',
 		'checked',
 		'rights',
 		'name4group'
@@ -70,17 +72,17 @@ class DomainName extends Model
 
 	public static function countJoinGroup(string $groupid): int
 	{
-		return self::where('domainID', $groupid)->where('checked', 0)->count();
+		return self::where('domainid', $groupid)->where('checked', 0)->count();
 	}
 
 	public static function countRequestedGroup(string $groupid): int
 	{
-		return self::where('domainID', $groupid)->where('checked', 2)->count();
+		return self::where('domainid', $groupid)->where('checked', 2)->count();
 	}
 
 	public static function countBlockGroup(string $groupid): int
 	{
-		return self::where('domainID', $groupid)->where('checked', 1)->count();
+		return self::where('domainid', $groupid)->where('checked', 1)->count();
 	}
 
 
@@ -96,4 +98,44 @@ class DomainName extends Model
 
 		return $checked !== null ? (int) $checked : -1;
 	}
+
+
+	public static function joinGroup(string $groupid): bool
+	{
+		$userid = auth()->id();
+		if (!$userid) {
+			return false; // Not logged in
+		}
+		$bHide = DomainManager::where('domainid', $groupid)
+			->value('bHide');
+		if ($bHide ==1)
+			$check = 2;
+		else
+			$check = 0;
+		$membership = self::create([
+			'domainid' => $groupid,
+			'userid' => $userid,
+			'checked' => $check,
+			'name4group' => auth()->user()->alias_name,
+		]);
+
+		return true;
+	}
+
+	public static function quitGroup(string $groupid): bool
+	{
+		$userid = auth()->id();
+		if (!$userid) {
+			return false; // Not logged in
+		}
+		// Find membership(s) and delete
+		self::where('domainid', $groupid)
+			->where('userid', $userid)
+			->delete();
+
+		return true;
+	}
+
+
+
 }

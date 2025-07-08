@@ -110,6 +110,13 @@ class User extends Authenticatable implements MustVerifyEmail
 			->exists();
 	}
 
+	public function hasApplyJoinGroup($groupid): bool
+	{
+		return DomainName::where('userid', $this->id)
+			->where('domainid', trim($groupid))
+			->exists();
+	}
+
 	public function withingrantgroup($groupid)
 	{
 		$grantGroups = DomainGrantGroup::where('domainid', $groupid)->pluck('grant_domain');
@@ -154,6 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail
 		return -1;
 	}
 
+ 
 
 
 	public function getAliasNameByID($id)

@@ -24,6 +24,7 @@
 namespace App\Http\Controllers\Group;
 
 use App\Http\Controllers\Controller;
+use App\Models\DomainName;
 use App\Services\LocaleService;
 use Illuminate\Http\Request;
 use App\Services\PagelineService;
@@ -43,16 +44,16 @@ class GroupController extends Controller
 
     public function joingroup($groupid)
     {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
+        DomainName::joinGroup($groupid);
+
+        return back()->with('message', 'You have left the group.');
     }
 
     public function quitgroup($groupid)
     {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
+        DomainName::quitGroup($groupid);
+
+        return back()->with('message', 'You have left the group.');
     }
     public function approvegroup($groupid)
     {
@@ -89,31 +90,29 @@ class GroupController extends Controller
     }
     public function setpublic(Request $request)
     {
+        logger('setpublic');
         $request->validate([
             'groupid' => 'required|String' // or string if your IDs are UUIDs
         ]);
 
-        $groupid = $request->input('groupid');
-
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
-
+        $groupid = $request->groupid;
+        logger($groupid);
+        DomainManager::setPublic($groupid);
+        return back()->with('message', 'You have setpublic.');
     }
 
     public function setprivate(Request $request)
     {
+        logger('setprivate');
         $request->validate([
             'groupid' => 'required|String' // or string if your IDs are UUIDs
         ]);
 
-        $groupid = $request->input('groupid');
+        $groupid = $request->groupid;
+        logger($groupid);
+        DomainManager::setPrivate($groupid);
 
-
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
-
+        return back()->with('message', 'You have setprivate.');
     }
 }
 

@@ -21,245 +21,167 @@
 * GPL License: https://www.gnu.org/licenses/gpl-3.0.html
 */
 --}}
+<header class="w-full bg-white dark:bg-gray-900 border-b shadow-sm fixed top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex-shrink-0">
+        <a href="{{ route('home') }}">
+          <img class="h-8 w-auto" src="{{ asset('images/yvsoulogo.svg') }}" alt="Logo">
+        </a>
+      </div>
 
-<header class="w-full bg-white border-b shadow-sm fixed top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex justify-between items-center h-16">
-            <!-- Logo -->
-            <div class="flex-shrink-0">
-                <a href="{{ route('home') }}">
-                    <img class="h-8 w-auto" src="{{ asset('images/yvsoulogo.svg') }}" alt="Logo">
-                </a>
-            </div>
-
-            <!-- Hamburger Button (mobile) -->
-            <div class="md:hidden">
-                <button id="mobile-menu-button" class="text-gray-700 focus:outline-none">
-                    <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
-                        stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
-            </div>
-
-            <nav class="hidden md:flex items-center gap-4">
-                <!-- Right: Nav Links -->
-
-                <div class="flex items-center gap-4">
-                    <!-- Dropdown -->
-                    <div x-data="{ open: false }" class="relative">
-                        <!-- Trigger button -->
-                        <button @click="open = !open" class="px-4 py-2 bg-gray-200 rounded inline-flex items-center">
-                            🌐 <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M5.25 7L10 11.75 14.75 7z" />
-                            </svg>
-                        </button>
-
-                        <!-- Dropdown menu -->
-                        <div x-show="open" @click.away="open = false"
-                            class="absolute left-0 z-10 mt-2 w-32 bg-white border rounded shadow-md" x-transition>
-                            @foreach ($getlangSet as $code => $language)
-                                <a href="{{ route('lang.setLang',  $code) }}"
-                                    class="block px-4 py-2 hover:bg-gray-100 {{ app()->getLocale() === $code ? 'font-bold text-blue-600' : '' }}">
-                                    {{ $language }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-
-                        {{ __('header.rootdomaintool') }}
-                    </a>
-
-
-                    <div x-data="{ open: false }" class="relative">
-                        <!-- Trigger -->
-                        <button @click="open = !open" class="px-4 py-2 flex items-center">
-                            {{ __('header.help') }}
-                            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M5.25 7L10 11.75 14.75 7z" />
-                            </svg>
-                        </button>
-
-                        <!-- First dropdown menu -->
-                        <div x-show="open" @click.away="open = false"
-                            class="absolute left-0 z-10 mt-2 w-48 bg-white border rounded shadow-md p-2 space-y-1"
-                            x-transition>
-
-                            <!-- Single items -->
-                            <a href="{{ route('help.about') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                {{ __('help.about') }}
-                            </a>
-                            <a href="{{ route('help.menu') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                                {{ __('help.menu') }}
-                            </a>
- 
-                        </div>
-                    </div>
-
-
-
-                    @if (Route::has('login'))
-
-                        @auth
-
-                            <!-- Dropdown -->
-
-
-                            <x-dropdown align="right" width="48">
-                                <x-slot name="trigger">
-                                    <button
-                                        class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md">
-                                        <span class="mr-2">{{ Auth::user()->name }}</span>
-                                    </button>
-                                </x-slot>
-
-                                <x-slot name="content">
-                                    <!-- Profile -->
-                                    <a href="{{ route('admin.profile.edit') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('profile.title') }}
-                                    </a>
-                                    <!-- Dashboard -->
-                                    <a href="{{ route('dashboard') }}"
-                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                        {{ __('dashboard.dashboard') }}
-                                    </a>
-
-                                    <!-- Logout -->
-                                    <form method="POST" action="{{ route('logout') }}">
-                                        @csrf
-                                        <button type="submit"
-                                            class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                            {{ __('auth.logout') }}
-                                        </button>
-                                    </form>
-                                </x-slot>
-                            </x-dropdown>
-
-                        @else
-                            <a href="{{ route('login') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                                {{ __('auth.login') }}
-                            </a>
-
-                            @if (Route::has('register'))
-                                <a href="{{ route('register') }}"
-                                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                    {{ __('auth.register') }}
-                                </a>
-                            @endif
-                        @endauth
-
-                    @endif
-
-                    <a href="{{ route('message.index') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                        {{ __('message.message') }}
-                    </a>
-                </div>
-            </nav>
-        </div>
-    </div>
-    <!-- Mobile Menu (hidden by default) -->
-    <div id="mobile-menu" class="md:hidden hidden px-4 pt-2 pb-4 bg-white border-t">
-        <!-- Dropdown -->
-        <div class="absolute left-0 z-10 hidden mt-2 w-32 bg-white border rounded shadow-md group-hover:block">
+      <!-- Desktop Navigation -->
+      <nav class="hidden md:flex items-center gap-6">
+        <!-- Language Dropdown -->
+        <div x-data="{ open: false }" class="relative">
+          <button @click="open = !open"
+                  aria-haspopup="true"
+                  :aria-expanded="open"
+                  class="px-3 py-2 bg-gray-200 dark:bg-gray-800 rounded inline-flex items-center transition select-none">
+            🌐
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5.25 7L10 11.75 14.75 7z" />
+            </svg>
+          </button>
+          <div x-show="open"
+               @click.away="open = false"
+               x-transition:enter="transition ease-out duration-200"
+               x-transition:enter-start="opacity-0 transform scale-95"
+               x-transition:enter-end="opacity-100 transform scale-100"
+               x-transition:leave="transition ease-in duration-75"
+               x-transition:leave-start="opacity-100 transform scale-100"
+               x-transition:leave-end="opacity-0 transform scale-95"
+               class="absolute left-0 z-10 mt-2 w-32 bg-white dark:bg-gray-800 border rounded shadow-md">
             @foreach ($getlangSet as $code => $language)
-                <a href="{{ route('lang.setLang' , $code) }}"
-                    class="block px-4 py-2 hover:bg-gray-100 {{ app()->getLocale() === $code ? 'font-bold text-blue-600' : '' }}">
-                    {{ $language }}
-                </a>
+              <a href="{{ route('lang.setLang', $code) }}"
+                 class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ app()->getLocale() === $code ? 'font-bold text-blue-600' : '' }}">
+                {{ $language }}
+              </a>
             @endforeach
-
+          </div>
         </div>
-        <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
-            class="block py-2 text-sm text-gray-700 hover:text-black">
 
-            {{ __('header.rootdomaintool') }}
+        <!-- Root Domain Tool -->
+        <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
+           class="px-4 py-2 text-sm border border-transparent rounded hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-100 transition">
+          {{ __('header.rootdomaintool') }}
         </a>
 
+        <!-- Help Dropdown -->
         <div x-data="{ open: false }" class="relative">
-            <!-- Trigger -->
-            <button @click="open = !open" class="px-4 py-2 flex items-center">
-                {{ __('header.help') }}
-                <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="M5.25 7L10 11.75 14.75 7z" />
-                </svg>
-            </button>
-
-            <!-- First dropdown menu -->
-            <div x-show="open" @click.away="open = false"
-                class="absolute left-0 z-10 mt-2 w-48 bg-white border rounded shadow-md p-2 space-y-1" x-transition>
-
-                <!-- Single items -->
-                <a href="{{ route('help.about') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                    {{ __('help.about') }}
-                </a>
-                <a href="{{ route('help.menu') }}" class="block px-4 py-2 text-sm hover:bg-gray-100">
-                    {{ __('help.menu') }}
-                </a>
-
-
-            </div>
+          <button @click="open = !open"
+                  aria-haspopup="true"
+                  :aria-expanded="open"
+                  class="px-3 py-2 flex items-center select-none">
+            {{ __('header.help') }}
+            <svg class="w-4 h-4 ml-1" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M5.25 7L10 11.75 14.75 7z" />
+            </svg>
+          </button>
+          <div x-show="open"
+               @click.away="open = false"
+               x-transition
+               class="absolute left-0 z-10 mt-2 w-48 bg-white dark:bg-gray-800 border rounded shadow-md p-2 space-y-1">
+            <a href="{{ route('help.about') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('help.about') }}</a>
+            <a href="{{ route('help.menu') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('help.menu') }}</a>
+          </div>
         </div>
 
-        <a href="{{ route('message.index') }}" class="block py-2 text-sm text-gray-700 hover:text-black">
-            {{ __('message.message') }}</a>
+        <!-- Auth Links -->
+        @auth
+          <x-dropdown align="right" width="48">
+            <x-slot name="trigger">
+              <button class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-100 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md">
+                <span class="mr-2">{{ Auth::user()->name }}</span>
+              </button>
+            </x-slot>
+            <x-slot name="content">
+              <a href="{{ route('admin.profile.edit') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('profile.title') }}</a>
+              <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">{{ __('dashboard.dashboard') }}</a>
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="w-full text-left block px-4 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700">
+                  {{ __('auth.logout') }}
+                </button>
+              </form>
+            </x-slot>
+          </x-dropdown>
+        @else
+          <a href="{{ route('login') }}" class="px-4 py-2 text-sm border border-transparent rounded hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-100 transition">{{ __('auth.login') }}</a>
+          @if (Route::has('register'))
+            <a href="{{ route('register') }}" class="px-4 py-2 text-sm border border-transparent rounded hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-100 transition">{{ __('auth.register') }}</a>
+          @endif
+        @endauth
 
-        @if (Route::has('login'))
-            @auth
-                <!-- Dropdown -->
+        <a href="{{ route('message.index') }}"
+           class="px-4 py-2 text-sm border border-transparent rounded hover:border-gray-300 dark:hover:border-gray-600 dark:text-gray-100 transition">
+          {{ __('message.message') }}
+        </a>
+      </nav>
 
-
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button
-                            class="flex items-center text-sm font-medium text-gray-700 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md">
-                            <span class="mr-2">{{ Auth::user()->name }}</span>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <!-- Profile -->
-                        <a href="{{ route('admin.profile.edit') }}"
-                            class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            {{ __('profile.title') }}
-                        </a>
-                        <!-- Dashboard -->
-                        <a href="{{ route('dashboard') }}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                            {{ __('dashboard.dashboard') }}
-                        </a>
-
-                        <!-- Logout -->
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit"
-                                class="w-full text-left block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-                                {{ __('auth.logout') }}
-                            </button>
-                        </form>
-                    </x-slot>
-                </x-dropdown>
-
-
-            @else
-                <a href="{{ route('login') }}" class="block py-2 text-sm text-gray-700 hover:text-black">{{ __('auth.login') }}
-                </a>
-                @if (Route::has('register'))
-                    <a href="{{ route('register') }}"
-                        class="block py-2 text-sm text-gray-700 hover:text-black">{{ __('auth.register') }} </a>
-                @endif
-            @endauth
-        @endif
+      <!-- Mobile Hamburger -->
+      <div class="md:hidden">
+        <button id="mobile-menu-button"
+                aria-controls="mobile-menu"
+                aria-expanded="false"
+                class="text-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 rounded-md">
+          <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+               viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
     </div>
+  </div>
 
-    <script>
-        document.getElementById('mobile-menu-button').addEventListener('click', function () {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        });
-    </script>
+  <!-- Mobile Nav -->
+  <nav id="mobile-menu"
+       class="md:hidden hidden flex flex-col space-y-2 px-4 pt-2 pb-4 bg-white dark:bg-gray-900 border-t shadow-inner">
+    @foreach ($getlangSet as $code => $language)
+      <a href="{{ route('lang.setLang', $code) }}"
+         class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 {{ app()->getLocale() === $code ? 'font-bold text-blue-600' : '' }}"
+         @click="document.getElementById('mobile-menu').classList.add('hidden')">
+        {{ $language }}
+      </a>
+    @endforeach
+
+    <a href="{{ route('domainview.index', ['groupid' => '0']) }}"
+       class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition"
+       @click="document.getElementById('mobile-menu').classList.add('hidden')">
+      {{ __('header.rootdomaintool') }}
+    </a>
+
+    <a href="{{ route('help.about') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('help.about') }}</a>
+    <a href="{{ route('help.menu') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('help.menu') }}</a>
+
+    @auth
+      <a href="{{ route('admin.profile.edit') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('profile.title') }}</a>
+      <a href="{{ route('dashboard') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('dashboard.dashboard') }}</a>
+      <form method="POST" action="{{ route('logout') }}">
+        @csrf
+        <button type="submit" class="w-full text-left block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">
+          {{ __('auth.logout') }}
+        </button>
+      </form>
+    @else
+      <a href="{{ route('login') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('auth.login') }}</a>
+      @if (Route::has('register'))
+        <a href="{{ route('register') }}" class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('auth.register') }}</a>
+      @endif
+    @endauth
+
+    <a href="{{ route('message.index') }}"
+       class="block px-4 py-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700 transition">{{ __('message.message') }}</a>
+  </nav>
+
+  <script>
+    const button = document.getElementById('mobile-menu-button');
+    const menu = document.getElementById('mobile-menu');
+    button.addEventListener('click', function () {
+      const isOpen = !menu.classList.contains('hidden');
+      menu.classList.toggle('hidden');
+      this.setAttribute('aria-expanded', !isOpen);
+    });
+  </script>
 </header>

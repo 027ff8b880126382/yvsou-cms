@@ -26,8 +26,10 @@
 
 @extends('layouts.app')
 
+ 
+
 @section('content')
-    <div class="p-4 text-gray-900">
+    <div class="p-4 md:p-8 text-gray-900">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
 
             {{-- Left panel: scrollable on desktop --}}
@@ -38,12 +40,10 @@
                 </div>
 
                 {{-- Domain Tree --}}
-                <div class="bg-white shadow rounded-2xl p-4">
-                    <h2 class="text-xl font-semibold mb-4">{{__('domain.domaintree')}}</h2>
+                <div class="bg-white shadow rounded-2xl p-4 overflow-x-auto">
+                    <h2 class="text-lg md:text-xl font-semibold mb-4">{{__('domain.domaintree')}}</h2>
                     @livewire('show-domain-tree')
                 </div>
-
-
             </div>
 
             {{-- Right panel --}}

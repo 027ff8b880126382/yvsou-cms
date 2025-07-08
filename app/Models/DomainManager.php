@@ -35,9 +35,9 @@ use Illuminate\Database\Eloquent\Model;
 /**
  * Class DomainManager
  * 
- * @property string $username
+ * @property int $userid
  * @property string $m_type
- * @property string $domainID
+ * @property string $domainid
  * @property string $ownerrights
  * @property string $owngrouprights
  * @property string $grantgrouprights
@@ -63,7 +63,7 @@ class DomainManager extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-
+		'userid' => 'int',
 		'bChange' => 'bool',
 		'bAddchild' => 'bool',
 		'dDelchild' => 'bool',
@@ -75,7 +75,8 @@ class DomainManager extends Model
 
 
 	protected $fillable = [
-		'username',
+		'userid',
+		'domainid',
 		'm_type',
 		'ownerrights',
 		'owngrouprights',
@@ -96,6 +97,20 @@ class DomainManager extends Model
 	{
 		return self::query()->value('domainid');
 	}
- 
 
+	public static function setPublic(string $groupid): bool
+	{
+		$updated = self::where('domainid', $groupid)
+			->update(['bHide' => 0]);
+
+		return $updated > 0;
+	}
+
+	public static function setPrivate(string $groupid): bool
+	{
+		$updated = self::where('domainid', $groupid)
+			->update(['bHide' => 1]);
+
+		return $updated > 0;
+	}
 }

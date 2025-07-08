@@ -301,7 +301,7 @@ class DomainService
             return -1;
         }
         return DB::table('domain_managers')
-            ->where('domainID', $domainID)
+            ->where('domainid', $domainID)
             ->where('m_type', 'c')
             ->value('bHide');
     }
