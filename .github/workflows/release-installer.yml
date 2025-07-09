@@ -59,6 +59,8 @@ jobs:
         rm -f build_common/*.sh || true
         rm -f build_common/config/yvsou_config.php || true
         cp composer.sh build_common/ || true
+      
+        cp vite.config.js tailwind.config.js postcss.config.js build_common/ || true
 
         
         if [ -d plugins ]; then    
