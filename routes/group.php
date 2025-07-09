@@ -43,12 +43,28 @@ Route::middleware(['auth'])->prefix('group')->name('group.')->group(function () 
 
     Route::patch('/{groupid}/joingroup', [GroupController::class, 'joingroup'])->name('joingroup');
     Route::patch('/{groupid}/quitgroup', [GroupController::class, 'quitgroup'])->name('quitgroup');
-    Route::patch('/{groupid}/approvegroup', [GroupController::class, 'approvegroup'])->name('approvegroup');
+
     Route::patch('/{groupid}/invitegroup', [GroupController::class, 'invitegroup'])->name('invitegroup');
     Route::patch('/{groupid}/auditcheckgroup', [GroupController::class, 'auditcheckgroup'])->name('auditcheckgroup');
     Route::patch('/{groupid}/unauditcheckgroup', [GroupController::class, 'unauditcheckgroup'])->name('unauditcheckgroup');
-    Route::patch('/{groupid}/groupmessage', [GroupController::class, 'groupmessage'])->name('groupmessage');
 
+
+    Route::get('/groupmessage', [GroupController::class, 'groupmessage'])->name('groupmessage');
+
+    Route::get('/sendMessage2Users', [GroupController::class, 'sendMessage2Users'])->name('sendMessage2Users');
+
+    Route::post('/editcastmessage', [GroupController::class, 'editcastmessage'])->name('editcastmessage');
+
+    Route::get('/editmessage', [GroupController::class, 'editmessage'])->name('editmessage');
+
+
+    Route::post('/castmessagestore', [GroupController::class, 'castmessagestore'])->name('castmessagestore');
+
+    Route::post('/messagestore', [GroupController::class, 'messagestore'])->name('messagestore');
+
+    Route::get('/approvegroup', [GroupController::class, 'approvegroup'])->name('approvegroup');
+
+    Route::post('/storeapprove', [GroupController::class, 'storeapprove'])->name('storeapprove');
 
 });
 

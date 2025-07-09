@@ -48,6 +48,21 @@ class MessageController extends Controller
         if (Auth::check()) {
             $user = Auth::user();
 
+
+            $groupcastMessages = DB::table('domain_msg_centers as m')
+                ->join('users as u', 'm.from_userid', '=', 'u.id')
+                ->join('domain_names as dn', function ($join) use ($user) {
+                    $join->on('m.to_domainid', '=', 'dn.domainid')
+                        ->where('dn.userid', '=', $user->id)
+                        ->where('dn.checked', '=', 0);
+                })
+                ->where('m.msg_handled', 0)
+                ->where('m.cast_type', 1)
+                ->where('m.lang', $lang)
+                ->orderByDesc('m.dtime')
+                ->select('m.to_domainid', 'm.msg_content', 'm.dtime', 'u.name as from_username')
+                ->get();
+
             $userMessages = DB::table('domain_msg_centers as m')
                 ->join('users as u', 'm.from_userid', '=', 'u.id')
                 ->where('m.to_userid', $user->id)
@@ -56,18 +71,7 @@ class MessageController extends Controller
                 ->orderByDesc('m.dtime')
                 ->select('m.msg_content', 'm.dtime', 'u.name as from_username')
                 ->get();
-            /*
-                        $sql = $userMessages->toSql();
-                        $bindings = $userMessages->getBindings();
 
-                        $finalSql = vsprintf(
-                            str_replace('?', '%s', $sql),
-                            array_map(fn($v) => is_numeric($v) ? $v : "'" . addslashes($v) . "'", $bindings)
-                        );
-                        logger("message");
-
-                        logger($finalSql);
-            */
             $lastReadTime = DB::table('domain_msg_reads')
                 ->where('userid', $user->id)
                 ->where('lang', $lang)
@@ -82,6 +86,7 @@ class MessageController extends Controller
 
         return view('message.message', compact(
             'castMessages',
+            'groupcastMessages',
             'userMessages',
             'lastReadTime'
         ));

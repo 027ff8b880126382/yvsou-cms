@@ -31,6 +31,7 @@ use Illuminate\Http\Request;
 use App\Services\DomainService;
 use App\Models\DomainManager;
 use App\Models\DomainName;
+use App\Models\DomainTree;
 
 class DomainViewController extends Controller
 {
@@ -140,6 +141,12 @@ class DomainViewController extends Controller
 
     }
 
+    public function editdomain($groupid)
+    {
+        $domainproperty = DomainTree::getProperties($groupid);
+        return view('domainview.editsub', compact(['groupid', 'domainproperty']));
+    }
+
     public function editsub($groupid)
     {
         if (!config('app.pro')) {
@@ -150,12 +157,36 @@ class DomainViewController extends Controller
 
 
 
-    public function updatesub(Request $request)
+    public function updatedomain(Request $request)
     {
+
+        // Optional: validate the input
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'id' => 'required',
+            'lang' => 'required',
+            'title' => 'required|array',
+            'description' => 'required|array',
+        ]);
+
+        $user = auth()->user();
+
+        // Optionally check if user is allowed
+
+        if (!$user || !$user->canDomainRights($request->groupid, 'WRITE')) {
+
+            return abort(403, 'Unauthorized: only admin or editor can create domains.');
+        }
+
+
+        // Store each language version
+
+        $groupid = (new DomainService())->updateDomainTree($request->title, $request->description, $request->id, $request->lang);
+        return redirect()->route('domainview.index', compact(['groupid']));
 
     }
 
-    
+
 
     public function trash($groupid)
     {
@@ -196,16 +227,16 @@ class DomainViewController extends Controller
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
-   public function editrights($groupid)
+    public function editrights($groupid)
     {
         if (!config('app.pro')) {
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
- 
-   
-   
-    
+
+
+
+
 }
 
 

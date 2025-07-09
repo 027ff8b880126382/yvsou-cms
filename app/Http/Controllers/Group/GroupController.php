@@ -34,6 +34,7 @@ use App\Services\UserService;
 use App\Services\DomainService;
 use App\Models\DomainPostId;
 use App\Models\DomainManager;
+use App\Models\DomainMsgCenter;
 use App\Models\User;
 use App\Models\DomainPost;
 
@@ -55,11 +56,131 @@ class GroupController extends Controller
 
         return back()->with('message', 'You have left the group.');
     }
-    public function approvegroup($groupid)
+    public function approvegroup(Request $request)
     {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+
+        $validated = $request->validate([
+            'groupid' => 'required',
+
+        ]);
+        $groupid = $request->groupid;
+        $users = DomainName::getApplyUsers($request->groupid);
+        return view('group.approve', compact('groupid', 'users'));
+
+    }
+
+    public function storeapprove(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'selected_users' => 'required',
+        ]);
+        $groupid = $request->groupid;
+        $seleuserids = $request->selected_users;
+
+        foreach ($seleuserids as $userid) {
+
+            DomainName::approveGroup($groupid, $userid);
+
         }
+
+        return redirect()->route('domainview.index', $groupid);
+    }
+
+    public function sendMessage2Users(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+
+        ]);
+        $groupid = $request->groupid;
+        $users = DomainName::getJoinUsers($groupid);
+        return view('group.message', compact('groupid', 'users'));
+
+    }
+
+    public function groupmessage(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+
+        ]);
+        $groupid = $request->groupid;
+        $users = DomainName::getJoinUsers($groupid);
+        return view('group.editcastmessage', compact('groupid', 'users'));
+
+    }
+    public function editmessage(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'selected_users' => 'required',
+        ]);
+
+        $groupid = $request->groupid;
+        $userids = $request->selected_users;
+        return view('group.editmessage', compact('groupid', 'userids'));
+
+    }
+
+
+
+    public function castmessagestore(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'message' => 'required',
+        ]);
+
+        $groupid = $validated['groupid'];
+        $msg = $validated['message'];
+        $lang = (new LocaleService())->getcurlang();
+        // Create the message — adjust columns as needed
+        DomainMsgCenter::create([
+            'to_domainid' => $groupid,
+            'msg_content' => $msg,
+            'from_userid' => auth()->id(),
+            'to_userid' => 0,
+            'cast_type' => 1,
+            'lang' => $lang,
+            'dtime' => now(),
+        ]);
+
+        return redirect()->route('domainview.index', ['groupid' => $groupid])
+            ->with('message', 'Broadcast message sent!');
+    }
+
+
+    public function messagestore(Request $request)
+    {
+        $validated = $request->validate([
+            'groupid' => 'required',
+            'message' => 'required',
+            'userids' => 'required',
+        ]);
+
+        $userids = $request->userids;
+
+        $groupid = $validated['groupid'];
+        $msg = $validated['message'];
+        $lang = (new LocaleService())->getcurlang();
+
+        foreach ($userids as $userid) {
+            DomainMsgCenter::create([
+                'to_domainid' => $groupid,
+                'msg_content' => $msg,
+                'from_userid' => auth()->id(),
+                'to_userid' => $userid,
+                'cast_type' => 0,
+                'lang' => $lang,
+                'dtime' => now(),
+            ]);
+        }
+
+        return redirect()->route('domainview.index', ['groupid' => $groupid])
+            ->with('message', 'Broadcast message sent!');
+
+
     }
 
     public function invitegroup($groupid)
@@ -82,12 +203,7 @@ class GroupController extends Controller
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
-    public function groupmessage($groupid)
-    {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
-        }
-    }
+
     public function setpublic(Request $request)
     {
         logger('setpublic');

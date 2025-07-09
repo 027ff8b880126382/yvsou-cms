@@ -28,6 +28,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -69,6 +70,30 @@ class DomainName extends Model
 			->toArray();
 	}
 
+	public static function getJoinUsers(string $groupid): Collection
+	{
+		return self::join('users', 'domain_names.userid', '=', 'users.id')
+			->where('domain_names.checked', 0)
+			->where('domain_names.domainid', $groupid)
+			->select('users.*')
+			->get();
+	}
+	public static function getNeedApproveMembers(string $groupid): array
+	{
+		return self::where('checked', 2)
+			->where('domainid', $groupid)
+			->pluck('userid')
+			->toArray();
+	}
+
+	public static function getApplyUsers(string $groupid)
+	{
+		return self::join('users', 'domain_names.userid', '=', 'users.id')
+			->where('domain_names.checked', 2)
+			->where('domain_names.domainid', $groupid)
+			->select('users.*')
+			->get();
+	}
 
 	public static function countJoinGroup(string $groupid): int
 	{
@@ -108,7 +133,7 @@ class DomainName extends Model
 		}
 		$bHide = DomainManager::where('domainid', $groupid)
 			->value('bHide');
-		if ($bHide ==1)
+		if ($bHide == 1)
 			$check = 2;
 		else
 			$check = 0;
@@ -136,6 +161,20 @@ class DomainName extends Model
 		return true;
 	}
 
+
+	public static function approveGroup(string $groupid, int $userid): bool
+	{
+		$update = [
+			'checked' => 0,
+
+		];
+
+		self::where('domainid', $groupid)
+			->where('userid', $userid)
+			->update($update);
+
+		return true;
+	}
 
 
 }

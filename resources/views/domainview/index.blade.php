@@ -82,6 +82,7 @@
                         <button type="submit"
                             class="w-full text-left px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-100">🛡️{{ __('domain.editrights') }}</button>
                     </form>
+                    {{--
                     <form method="POST" action="{{ route('domainview.auditcheck', compact('groupid')) }}">
                         @csrf @method('PATCH')
                         <button type="submit"
@@ -112,6 +113,8 @@
                         <button type="submit" class="w-full text-left px-4 py-2 text-sm text-red-700 hover:bg-red-200">❌
                             {{ __('domain.deletedomain') }} </button>
                     </form>
+
+                    --}}
                 </div>
             </div>
         </div>
@@ -132,19 +135,24 @@
                 @php
                     $groupActions = [
                         ['route' => 'groupmessage', 'label' => __('domain.broadcastmsg')],
+                        ['route' => 'sendMessage2Users', 'label' => __('domain.sendMessage2Users')],
                         ['route' => 'approvegroup', 'label' => __("domain.approvegroup")],
+                        /*
                         ['route' => 'invitegroup', 'label' => __("domain.invitegroup")],
                         ['route' => 'auditcheckgroup', 'label' => __("domain.auditcheckgroup")],
                         ['route' => 'unauditcheckgroup', 'label' => __("domain.audituncheckgroup")],
+                        */
                     ];
+
+
                 @endphp
 
                 <div x-show="open" x-transition x-cloak
                     class="absolute right-0 z-50 mt-2 w-48 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg">
                     @foreach ($groupActions as $action)
-                        <form method="POST" action="{{ route('group.' . $action['route'], compact('groupid')) }}">
+                        <form method="GET" action="{{ route('group.' . $action['route']) }}">
                             @csrf
-                            @method('PATCH')
+                           <input type="hidden" name="groupid" value="{{$groupid}}">
                             <button type="submit" class="w-full text-left px-4 py-2 text-sm hover:bg-gray-100">
                                 {{ $action['label'] }}
                             </button>

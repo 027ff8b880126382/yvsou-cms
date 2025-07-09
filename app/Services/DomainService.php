@@ -295,6 +295,25 @@ class DomainService
         });
         return $newGroupId;
     }
+
+
+    
+    public function updateDomainTree(  $title, $description, $id, $lang)
+{
+    $update = [
+        'domain_dict_name' => $title,
+        'description'      => $description,
+    ];
+
+    DB::table('domain_trees')
+        ->where('id', $id)
+        ->where('lang', $lang)
+        ->update($update);
+
+    return true;
+}
+
+
     function checkDomainPublicStatus($domainID)
     {
         if (trim($domainID) === '') {

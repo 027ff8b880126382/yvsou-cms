@@ -39,7 +39,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $fromuser
  * @property string $touser
  * @property int $msghandled
- * @property string $todomainID
+ * @property string $to_domainid
  * @property int $casttype
  * @property int $lang
  * @property Carbon $dtime
@@ -71,4 +71,6 @@ class DomainMsgCenter extends Model
 		'lang',
 		'dtime'
 	];
+
+	
 }

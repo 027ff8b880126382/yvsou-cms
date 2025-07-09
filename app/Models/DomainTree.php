@@ -28,6 +28,8 @@
 
 namespace App\Models;
 
+use App\Services\DomainService;
+use App\Services\LocaleService;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -42,16 +44,31 @@ use Illuminate\Database\Eloquent\Model;
  */
 class DomainTree extends Model
 {
-	protected $table = 'domain_trees';
-	public $incrementing = false; 
+    protected $table = 'domain_trees';
+    public $incrementing = false;
     protected $primaryKey = ['id', 'lang'];
 
     protected $fillable = [
-        'id', 'domain_dict_name', 'lang', 'description',
+        'id',
+        'domain_dict_name',
+        'lang',
+        'description',
     ];
 
     public function dict()
     {
         return $this->belongsTo(DomainDict::class, 'id');
     }
+
+
+    public static function getProperties($groupid)
+    {
+        $id = (new DomainService())->get_id_from_groupid($groupid);
+        $lang = (new LocaleService())->getcurlang();
+
+        return self::where('id', $id)
+            ->where('lang', $lang)
+            ->get();
+    }
+
 }
