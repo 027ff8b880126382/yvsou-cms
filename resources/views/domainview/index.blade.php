@@ -77,8 +77,9 @@
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">✏️ {{ __('domain.createsub') }}</a>
                     <a href="{{ route('domainview.editdomain', ['groupid' => $groupid]) }}"
                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">✏️ {{ __('domain.editdomain') }}</a>
-                    <form method="POST" action="{{ route('domainview.editrights', compact('groupid')) }}">
-                        @csrf @method('PATCH')
+                    <form method="GET" action="{{ route('domainview.rights.show', compact('groupid')) }}">
+                        @csrf  
+                        <input type="hidden" name="groupid" value="{{ $groupid }}">
                         <button type="submit"
                             class="w-full text-left px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-100">🛡️{{ __('domain.editrights') }}</button>
                     </form>

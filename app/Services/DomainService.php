@@ -28,6 +28,7 @@ use App\Models\DomainTree;
 use App\Models\DomainTreeChildId;
 use App\Models\DomainDict;
 use Illuminate\Support\Facades\DB;
+use function PHPUnit\Framework\isNull;
 
 class DomainService
 {
@@ -60,6 +61,10 @@ class DomainService
         }
 
         // $record = DomainTree::find($id);
+        logger($id);
+        $domaindict = DomainDict::find($id);
+        if (isNull($domaindict))
+            return "";
         $record = DomainDict::find($id)->DomainTree;
 
         return $record ? $record->domain_dict_name : "";
@@ -297,21 +302,21 @@ class DomainService
     }
 
 
-    
-    public function updateDomainTree(  $title, $description, $id, $lang)
-{
-    $update = [
-        'domain_dict_name' => $title,
-        'description'      => $description,
-    ];
 
-    DB::table('domain_trees')
-        ->where('id', $id)
-        ->where('lang', $lang)
-        ->update($update);
+    public function updateDomainTree($title, $description, $id, $lang)
+    {
+        $update = [
+            'domain_dict_name' => $title,
+            'description' => $description,
+        ];
 
-    return true;
-}
+        DB::table('domain_trees')
+            ->where('id', $id)
+            ->where('lang', $lang)
+            ->update($update);
+
+        return true;
+    }
 
 
     function checkDomainPublicStatus($domainID)

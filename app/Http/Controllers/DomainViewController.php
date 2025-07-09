@@ -32,7 +32,7 @@ use App\Services\DomainService;
 use App\Models\DomainManager;
 use App\Models\DomainName;
 use App\Models\DomainTree;
-
+use Illuminate\Support\Facades\Auth;
 class DomainViewController extends Controller
 {
     // Public: accessible without login
@@ -227,17 +227,84 @@ class DomainViewController extends Controller
             return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
         }
     }
-    public function editrights($groupid)
+
+
+    public function rightsshow($groupid)
     {
-        if (!config('app.pro')) {
-            return redirect('/upgrade')->with('error', 'Your company does not have Pro access.');
+        $user = Auth::user();
+
+        if (!$user->canUpdateDomainRights($groupid)) {
+            abort(403, 'Unauthorized');
         }
+
+
+        $manager = DomainManager::where('domainid', $groupid)
+            ->where('m_type', 'c')
+            ->first();
+
+        return view('domainview.rights', [
+            'groupid' => $groupid,
+            'rights' => [
+                [
+                    'key' => 'owner_rights',
+                    'label' => 'Owner',
+                    'value' => $manager->owner_rights,
+                ],
+                [
+                    'key' => 'any_user_rights',
+                    'label' => 'Any User',
+                    'value' => $manager->any_user_rights,
+                ],
+                [
+                    'key' => 'own_group_rights',
+                    'label' => 'Own Group',
+                    'value' => $manager->own_group_rights,
+                ],
+                [
+                    'key' => 'grant_group_rights',
+                    'label' => 'Grant Group',
+                    'value' => $manager->grant_group_rights,
+                ],
+                [
+                    'key' => 'grant_user_rights',
+                    'label' => 'Grant User',
+                    'value' => $manager->grant_user_rights,
+                ],
+            ]
+        ]);
+
     }
 
+    public function rightsupdate(Request $request, $groupid)
+    {
+        $user = Auth::user();
 
+        if (!$user->canUpdateDomainRights($groupid)) {
+            abort(403, 'Unauthorized');
+        }
+        $roleField = $request->input('role_key'); // ownerrights, anyuserrights, owngrouprights, etc.
+        $endnum = 0;
 
+        if ($request->write ==1)
+            $endnum += 8;
+        if ($request->read == 1)
+            $endnum += 4;
+        if ($request->addchild == 1)
+            $endnum += 2;
+        if ($request->showdir == 1)
+            $endnum += 1;
 
+        $rights =  $endnum ;
+
+        DomainManager::whereRaw('TRIM(domainid) = ?', [$groupid])
+            ->where('m_type', 'c')
+            ->update([$roleField => $rights]);
+
+        return redirect()->route('domainview.rights.show', ['groupid' => $groupid])
+            ->with('success', 'Rights updated!');
+    }
 }
+
 
 
 

@@ -44,7 +44,7 @@ class RightsService
 
     public function getManageDomainOwner(string $domainID): ?string
     {
-        return DomainManager::where('domainID', $domainID)
+        return DomainManager::where('domainid', $domainID)
             ->where('m_type', 'c')
             ->value('userid');
     }
@@ -53,21 +53,21 @@ class RightsService
     function checkPermition($right, $type)
     {
         if ($type === 'ADDSUB') {
-            if ((hexdec($right) >> 1) & 1)
+            if (($right >> 1) & 1)
                 return true;
         }
         if ($type === 'READDIR') {
 
-            if ((hexdec($right) >> 2) & 1)
+            if (($right >> 2) & 1)
                 return true;
         }
         if ($type === 'WRITEDIR') {
 
-            if ((hexdec($right) >> 3) & 1)
+            if (($right >> 3) & 1)
                 return true;
         }
         if ($type === 'SHOWDIR') {
-            if ((hexdec($right) >> 0) & 1)
+            if (( $right >> 0) & 1)
                 return true;
         }
         return false;
@@ -77,7 +77,7 @@ class RightsService
 
     function checkRightPermission(string $groupId, string $type): bool
     {
-        $domain = DomainManager::selectRaw('HEX(owner_rights) as ownerrights, HEX(own_group_rights) as owngrouprights, HEX(grant_group_rights) as grantgrouprights, HEX(grant_user_rights) as grantuserrights, HEX(any_user_rights) as anyuserrights')
+        $domain = DomainManager::selectRaw(' owner_rights ,   own_group_rights ,  grant_group_rights ,  grant_user_rights ,  any_user_rights ')
             ->whereRaw('TRIM(domainid) = ?', [$groupId])
             ->where('m_type', 'c')
             ->first();
@@ -86,23 +86,23 @@ class RightsService
             return false;
         }
 
-        if ($this->checkAnyUser($domain->anyuserrights, $groupId, $type)) {
+        if ($this->checkAnyUser($domain->any_user_rights, $groupId, $type)) {
             return true;
         }
 
-        if ($this->checkOwnerRight($domain->ownerrights, $groupId, $type)) {
+        if ($this->checkOwnerRight($domain->owner_rights, $groupId, $type)) {
             return true;
         }
 
-        if ($this->checkOwnGroup($domain->owngrouprights, $groupId, $type)) {
+        if ($this->checkOwnGroup($domain->own_group_rights, $groupId, $type)) {
             return true;
         }
 
-        if ($this->checkGrantGroup($domain->grantgrouprights, $groupId, $type)) {
+        if ($this->checkGrantGroup($domain->grant_group_rights, $groupId, $type)) {
             return true;
         }
 
-        if ($this->checkGrantUser($domain->grantuserrights, $groupId, $type)) {
+        if ($this->checkGrantUser($domain->grant_user_rights, $groupId, $type)) {
             return true;
         }
 

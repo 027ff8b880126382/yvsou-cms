@@ -47,5 +47,9 @@ Route::middleware(['auth'])->prefix('domainview')->name('domainview.')->group(fu
   Route::patch('/{groupid}/untrash', [DomainViewController::class, 'untrash'])->name('untrash');
   Route::patch('/{groupid}/auditcheck', [DomainViewController::class, 'auditcheck'])->name('auditcheck');
   Route::patch('/{groupid}/audituncheck', [DomainViewController::class, 'audituncheck'])->name('audituncheck');
-  Route::patch('/{groupid}/editrights', [DomainViewController::class, 'editrights'])->name('editrights');
+
+  
+  Route::get('/{groupid}/rights', [DomainViewController::class, 'rightsshow'])->name('rights.show');    
+  Route::post('/{groupid}/rights', [DomainViewController::class, 'rightsupdate'])->name('rights.update');
+
 });

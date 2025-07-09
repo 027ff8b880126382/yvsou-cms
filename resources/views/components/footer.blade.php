@@ -28,7 +28,7 @@
         <!-- Left: Copyright -->
         <div class="mb-2 sm:mb-0">
             &copy; {{ date('Y') }} {{ __('footer.copyright', ['app' => config('app.name')]) }} &nbsp;&nbsp;
-           
+           Powered by <a href="https://github.com/yvsoucom/yvsou-cms" target="_blank" class="underline">yvsou-cms</a>
         </div>
 
         <!-- Right: Links -->

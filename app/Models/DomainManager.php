@@ -30,7 +30,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-
+use Illuminate\Support\Facades\Auth;
 
 /**
  * Class DomainManager
@@ -38,11 +38,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $userid
  * @property string $m_type
  * @property string $domainid
- * @property string $ownerrights
- * @property string $owngrouprights
- * @property string $grantgrouprights
- * @property string $grantuserrights
- * @property string $anyuserrights
+ * @property string $owner_rights
+ * @property string $own_group_rights
+ * @property string $grant_group_rights
+ * @property string $grant_user_rights
+ * @property string $any_user_rights
  * @property bool $bChange
  * @property bool $bAddchild
  * @property bool $dDelchild
@@ -78,11 +78,11 @@ class DomainManager extends Model
 		'userid',
 		'domainid',
 		'm_type',
-		'ownerrights',
-		'owngrouprights',
-		'grantgrouprights',
-		'grantuserrights',
-		'anyuserrights',
+		'owner_rights',
+		'own_group_rights',
+		'grant_group_rights',
+		'grant_user_rights',
+		'any_user_rights',
 		'bChange',
 		'bAddchild',
 		'dDelchild',
@@ -113,4 +113,26 @@ class DomainManager extends Model
 
 		return $updated > 0;
 	}
+
+
+	public static function updateRight(string $groupid, $rights, string $fieldname): bool
+	{
+		$user = Auth::user();
+
+		if (!$user) {
+			return false;
+		}
+
+		// Implement your domain ownership check
+		if (!$user->canUpdateDomainRights($groupid)) {
+			return false;
+		}
+
+		return self::whereRaw('TRIM(domainid) = ?', [$groupid])
+			->where('m_type', '=', 'c')
+			->update([
+				$fieldname => $rights,
+			]) > 0;
+	}
+
 }

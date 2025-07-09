@@ -161,7 +161,7 @@ class User extends Authenticatable implements MustVerifyEmail
 		return -1;
 	}
 
- 
+
 
 
 	public function getAliasNameByID($id)
@@ -193,4 +193,14 @@ class User extends Authenticatable implements MustVerifyEmail
 		return (new RightsService())->checkRightPermission($groupId, $type);
 	}
 
+	public function canUpdateDomainRights($groupId )
+	{
+
+		if (ConstantService::$adminHasAllRights)
+
+			if ($this->isAdmin())
+				return true;
+
+		return $this->isManageDomainOwner($groupId);
+	}
 }
