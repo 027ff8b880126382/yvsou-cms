@@ -1,5 +1,5 @@
--- SQL Version: sql-v1.0.0
--- Generated on: Tue Jul  1 18:16:52 UTC 2025-- MySQL dump 10.13  Distrib 8.4.5, for macos15.2 (arm64)
+-- SQL Version: sql-v1.0.1
+-- Generated on: Wed Jul  9 22:46:49 UTC 2025-- MySQL dump 10.13  Distrib 8.4.5, for macos15.2 (arm64)
 --
 -- Host: localhost    Database: yvsou
 -- ------------------------------------------------------
@@ -112,7 +112,7 @@ CREATE TABLE IF NOT EXISTS `domain_comments` (
 CREATE TABLE IF NOT EXISTS `domain_dicts` (
   `id` bigint unsigned NOT NULL AUTO_INCREMENT,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=86708 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=86709 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -182,11 +182,11 @@ CREATE TABLE IF NOT EXISTS `domain_managers` (
   `userid` int DEFAULT NULL,
   `m_type` enum('c','m','s') CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
   `domainid` varchar(600) CHARACTER SET ascii COLLATE ascii_general_ci NOT NULL,
-  `owner_rights` binary(1) NOT NULL DEFAULT 0xFF,
-  `own_group_rights` binary(1) NOT NULL DEFAULT 0xFF,
-  `grant_group_rights` binary(1) NOT NULL DEFAULT 0xFF,
-  `grant_user_rights` binary(1) NOT NULL DEFAULT 0xFF,
-  `any_user_rights` binary(1) NOT NULL DEFAULT 0xFF,
+  `owner_rights` tinyint unsigned NOT NULL DEFAULT '255',
+  `own_group_rights` tinyint unsigned NOT NULL DEFAULT '255',
+  `grant_group_rights` tinyint unsigned NOT NULL DEFAULT '255',
+  `grant_user_rights` tinyint unsigned NOT NULL DEFAULT '255',
+  `any_user_rights` tinyint unsigned NOT NULL DEFAULT '255',
   `bChange` tinyint(1) NOT NULL DEFAULT '1',
   `bAddchild` tinyint(1) NOT NULL DEFAULT '1',
   `dDelchild` tinyint(1) NOT NULL DEFAULT '1',
@@ -235,7 +235,7 @@ CREATE TABLE IF NOT EXISTS `domain_msg_centers` (
   PRIMARY KEY (`msgid`),
   KEY `touser` (`to_userid`),
   KEY `todomainID` (`to_domainid`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=33 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -300,7 +300,7 @@ CREATE TABLE IF NOT EXISTS `domain_post_ids` (
   KEY `lastgroup` (`groupid`,`gDate`),
   KEY `gDate` (`gDate`),
   KEY `groupblogdate` (`groupid`,`gDate`)
-) ENGINE=InnoDB AUTO_INCREMENT=635367 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=635368 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -326,7 +326,7 @@ CREATE TABLE IF NOT EXISTS `domain_posts` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `md5code` (`md5code`),
   UNIQUE KEY `ID` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1351794 DEFAULT CHARSET=utf8mb3;
+) ENGINE=InnoDB AUTO_INCREMENT=1351795 DEFAULT CHARSET=utf8mb3;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -818,4 +818,4 @@ CREATE TABLE IF NOT EXISTS `users` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-07-02  2:16:55
+-- Dump completed on 2025-07-10  6:46:50
