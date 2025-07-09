@@ -45,7 +45,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $ip
  * @property string $md5code
  * @property string $rights
- * @property string $commentrights
+ * @property string $comment_rights
  * @property bool $canzip
  *
  * @package App\Models

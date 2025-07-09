@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Post\PostController;
 use App\Http\Controllers\Post\UploadController;
 use App\Http\Controllers\Post\FileLibraryController;
+use App\Http\Controllers\Post\FileRightsController;
+use App\Http\Controllers\Post\CommentRightsController;
+
 use App\Http\Livewire\PostreversionDiff;
 
 // Public
@@ -79,7 +82,7 @@ Route::middleware(['auth'])->prefix('post')->name('post.')->group(function () {
   #Route::post('movelangupdate', [PostController::class, 'movelangupdate'])
   #  ->name('movelangupdate');
 
- 
+
   Route::patch('/{groupid}/{pid}/movelangupdate', [PostController::class, 'movelangupdate'])->name('movelangupdate');
 
 
@@ -100,8 +103,8 @@ Route::middleware(['auth'])->prefix('post')->name('post.')->group(function () {
 
 
 
- // Route::post('destroy', [PostController::class, 'destroy'])
- //   ->name('destroy');
+  // Route::post('destroy', [PostController::class, 'destroy'])
+  //   ->name('destroy');
 
   Route::delete('/{groupid}/{pid}', [PostController::class, 'destroy'])->name('destroy');
 
@@ -132,6 +135,13 @@ Route::middleware(['auth'])->prefix('post')->name('post.')->group(function () {
   //  ->name('audituncheck');
 
   Route::patch('/{groupid}/{pid}/audituncheck', [PostController::class, 'audituncheck'])->name('audituncheck');
+
+
+  Route::get('/file-rights/{groupid}/{pid}', [FileRightsController::class, 'show'])->name('file-rights.show');
+  Route::post('/file-rights/{id}', [FileRightsController::class, 'update'])->name('file-rights.update');
+
+  Route::get('/comment-rights/{groupid}/{pid}', [CommentRightsController::class, 'edit'])->name('comment-rights.show');
+  Route::post('/comment-rights/{id}', [CommentRightsController::class, 'update'])->name('comment-rights.update');
 
 
 });

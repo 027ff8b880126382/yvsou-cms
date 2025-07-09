@@ -49,6 +49,11 @@
                             <ul class="text-sm text-gray-700">
                                 <li><a href="{{ route('post.edit', ['groupid' => $groupid, 'pid' => $pid]) }}"
                                         class="block px-4 py-2 hover:bg-gray-100">{{ __('post.edit') }} </a></li>
+                                <li><a href="{{ route('post.file-rights.show', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.showrights') }} </a></li>
+                                <li><a href="{{ route('post.comment-rights.show', ['groupid' => $groupid, 'pid' => $pid]) }}"
+                                        class="block px-4 py-2 hover:bg-gray-100">{{ __('post.showcommentrights') }} </a></li>
+
                                 <li><a href="{{ route('post.movegroup', ['groupid' => $groupid, 'pid' => $pid]) }}"
                                         class="block px-4 py-2 hover:bg-gray-100">{{ __('post.move2group') }}</a></li>
                                 <li><a href="{{ route('post.copygroup', ['groupid' => $groupid, 'pid' => $pid]) }}"
