@@ -63,7 +63,7 @@ class DomainService
         // $record = DomainTree::find($id);
         logger($id);
         $domaindict = DomainDict::find($id);
-        if (isNull($domaindict))
+        if (is_null($domaindict))
             return "";
         $record = DomainDict::find($id)->DomainTree;
 
